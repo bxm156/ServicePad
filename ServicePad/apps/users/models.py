@@ -1,7 +1,6 @@
 from django.db import models
 
-
-class Volunteer(models.Model):
+class User(models.Model):
     GENDER = (
               ('m','Male'),
               ('f','Female'),
@@ -18,9 +17,17 @@ class Volunteer(models.Model):
     address = models.CharField(max_length=60,blank=True,null=True)
     join_date = models.DateTimeField(auto_now_add=True)
     authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION)
+    
+    class Meta:
+        abstract = True
+        
+    
+class Volunteer(User):
+    pass
       
-class Host(models.Model):
-    name = models.CharField(max_length=60,blank=False)
+class Host(User):
+    business_name = models.CharField(max_length=60,blank=False)
+    business_address = models.CharField(max_length=60,blank=True,null=True)
 
 class Team(models.Model):
     name = models.CharField(max_length=30,blank=False)
