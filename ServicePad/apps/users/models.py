@@ -1,6 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class User(models.Model):
+class UserProfile(models.Model):
     GENDER = (
               ('m','Male'),
               ('f','Female'),
@@ -9,23 +10,18 @@ class User(models.Model):
                       (1,'Manual'),
                       (2, 'CAS'),
     )
-    first_name = models.CharField(max_length=30,blank=False)
-    last_name = models.CharField(max_length=30,blank=False)
-    email = models.EmailField(max_length=75,unique=True)
-    password = models.CharField(max_length=32)
     gender = models.CharField(max_length=2, choices=GENDER)
     address = models.CharField(max_length=60,blank=True,null=True)
-    join_date = models.DateTimeField(auto_now_add=True)
     authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION)
-    
+    user = models.ForeignKey(User, unique=True)
     class Meta:
         abstract = True
         
     
-class Volunteer(User):
+class Volunteer(UserProfile):
     pass
       
-class Host(User):
+class Host(UserProfile):
     business_name = models.CharField(max_length=60,blank=False)
     business_address = models.CharField(max_length=60,blank=True,null=True)
 
@@ -40,3 +36,6 @@ class TeamMembership(models.Model):
     group = models.ForeignKey(Team)
     join_date = models.DateTimeField(auto_now_add=True)
     invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
+    
+
+    
