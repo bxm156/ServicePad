@@ -1,5 +1,8 @@
 # Create your views here.
+import hashlib, random, datetime
 from forms import RegistrationForm
+from models import Volunteer
+
 from django.shortcuts import render_to_response, RequestContext
 
 def register(request):    
@@ -9,7 +12,18 @@ def register(request):
         registration = RegistrationForm(new_data)
         if registration.is_valid():
             #Create user
-            print registration.cleaned_data.get('first_name')
+            new_user = registration.save();
+            
+            #Email confirmation
+            salt = str(random.random())
+            hash_salt = hashlib.sha224(salt).hexdigest()
+            activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
+            key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
+            new_profile = Volunteer(user=new_user,
+                                    activation_key=activation_key,
+                                    key_expires=key_expires
+                        )
+            new_profile.save()
         else:
             print registration.errors
     registration = RegistrationForm()
