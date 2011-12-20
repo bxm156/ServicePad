@@ -7,7 +7,6 @@ from django.shortcuts import render_to_response, RequestContext
 
 def register(request):    
     if request.POST:
-        print "DATA FOUND"
         new_data = request.POST.copy()
         registration = RegistrationForm(new_data)
         if registration.is_valid():
@@ -25,10 +24,13 @@ def register(request):
                         )
             new_profile.save()
         else:
-            print registration.errors
+            context = RequestContext(request,
+                                     {'errors':registration.errors,
+                                     'form':registration})
+            return render_to_response('users/register.html',context)
+
     registration = RegistrationForm()
     context = RequestContext(request,
            {'form':registration}
     )
-    return render_to_response('users/register.html',context)
-        
+    return render_to_response('users/register.html', context)
