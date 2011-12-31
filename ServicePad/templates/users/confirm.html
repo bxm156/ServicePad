@@ -1,0 +1,15 @@
+<html>
+	<head>
+	<title>Confirm</title>
+	</head>
+	<body>
+		{% if expired %}
+			Confirm Expired, please check your email for a new login
+		{% endif %}
+		{% if success %}
+			User confirmed!
+		{% else %}
+			Error
+		{% endif %}
+	</body>
+</html>
