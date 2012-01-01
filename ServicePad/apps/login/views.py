@@ -28,4 +28,4 @@ def login(request):
                              {'form':loginForm,
                               'errors':loginForm.errors
                               })
-    return render_to_response('login/login.html',context)
+    return render_to_response('login.html',context)

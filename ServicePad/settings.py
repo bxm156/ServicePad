@@ -88,8 +88,9 @@ SECRET_KEY = 'zqkuccgt15r=ou7@pper2gvgzp=q^c_u_yw(#4f#t6sdz2^hl)'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.filesystem.Loader',
+
 #     'django.template.loaders.eggs.Loader',
 )
 
@@ -121,6 +122,7 @@ INSTALLED_APPS = (
     'ServicePad.apps.registration',
     'ServicePad.apps.events',
     'ServicePad.apps.service',
+    'ServicePad.apps.login',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
