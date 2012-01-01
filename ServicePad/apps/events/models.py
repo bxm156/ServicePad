@@ -1,5 +1,5 @@
 from django.db import models
-from ServicePad.apps.users.models import Host
+from ServicePad.apps.registration.models import Host
 
 class Event(models.Model):
     CATEGORY = (

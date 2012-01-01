@@ -118,7 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
-    'ServicePad.apps.users',
+    'ServicePad.apps.registration',
     'ServicePad.apps.events',
     'ServicePad.apps.service',
     # Uncomment the next line to enable the admin:

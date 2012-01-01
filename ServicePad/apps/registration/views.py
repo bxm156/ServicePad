@@ -25,18 +25,18 @@ def register(request):
                         )
             new_profile.save()
             url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,activation_key)
-            return render_to_response('users/register_thankyou.html',{'url':url})
+            return render_to_response('registration/register_thankyou.html',{'url':url})
         else:
             context = RequestContext(request,
                                      {'errors':registration.errors,
                                      'form':registration})
-            return render_to_response('users/register.html', context)
+            return render_to_response('registration/register.html', context)
 
     registration = RegistrationForm()
     context = RequestContext(request,
            {'form':registration}
     )
-    return render_to_response('users/register.html', context)
+    return render_to_response('registration/register.html', context)
 
 def confirm(request, user, key):
     if request.user.is_authenticated():
@@ -46,11 +46,11 @@ def confirm(request, user, key):
     try:
         user_profile = get_object_or_404(Volunteer, id=user, activation_key=key)
     except MultipleObjectsReturned:
-        return render_to_response('users/confirm.html', {'success':False})
+        return render_to_response('registration/confirm.html', {'success':False})
         
     if user_profile.key_expires < datetime.datetime.today():
         #Resend the confirmation email with a new confirmation challenge
-        return render_to_response('users/confirm.html', {'expired':True})
+        return render_to_response('registration/confirm.html', {'expired':True})
     #If valid
     user_account = user_profile.user
     if user_account.is_active:
@@ -59,4 +59,4 @@ def confirm(request, user, key):
     #Activate User
     user_account.is_active = True
     user_account.save()
-    return render_to_response('users/confirm.html', {'success':True})
+    return render_to_response('registration/confirm.html', {'success':True})
