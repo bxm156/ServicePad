@@ -15,7 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     #Catch all
-    (r'^register/',include('ServicePad.apps.registration.urls')),
-    (r'^login/',include('ServicePad.apps.login.urls')),
+    (r'^account/', include('ServicePad.apps.account.urls')),
+    (r'^register/', include('ServicePad.apps.registration.urls')),
+    (r'^login/', include('ServicePad.apps.login.urls')),
     (r'', include('django.contrib.flatpages.urls')),
 )
