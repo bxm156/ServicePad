@@ -1,5 +1,5 @@
 from django.db import models
-from ServicePad.apps.registration.models import Volunteer, Host
+from ServicePad.apps.account.models import Volunteer, Host
 # Create your models here.
 
 class ServiceRecord(models.Model):

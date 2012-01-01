@@ -1,7 +1,7 @@
 # Create your views here.
 import hashlib, random, datetime
 from forms import RegistrationForm
-from models import Volunteer
+from ServicePad.apps.account.models import Volunteer
 
 from django.shortcuts import render_to_response, RequestContext, redirect, get_object_or_404
 from django.core.exceptions import MultipleObjectsReturned

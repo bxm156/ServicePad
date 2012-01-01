@@ -1,6 +1,6 @@
 # Create your views here.
 import django.contrib.auth
-from django.shortcuts import render_to_response, RequestContext, redirect, get_object_or_404
+from django.shortcuts import render_to_response, RequestContext, redirect
 from forms import LoginForm
 
 def login(request):

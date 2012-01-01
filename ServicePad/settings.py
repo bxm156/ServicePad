@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'ServicePad.apps.events',
     'ServicePad.apps.service',
     'ServicePad.apps.login',
+    'ServicePad.apps.account',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -152,4 +153,4 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'users.UserProfile'
+AUTH_PROFILE_MODULE = 'registration.UserProfile'
