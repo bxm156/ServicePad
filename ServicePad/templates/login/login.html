@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Login</title>
+	</head>
+	<body>
+		<h1>Login</h1>
+		{% if errors %}
+			{{ errors }}
+		{% endif %}
+		<form action="/login/" method="post">{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Login" />
+		</form
+	</body>
+</html>
