@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION, default=AUTH_MANUAL)
     activation_key = models.CharField(max_length=32)
     key_expires = models.DateTimeField()
-    user = models.ForeignKey(User, unique=True)
+    user = models.OneToOneField(User)
     class Meta:
         abstract = True
         

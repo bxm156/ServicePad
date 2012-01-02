@@ -1,10 +1,11 @@
 # Create your views here.
-from django.shortcuts import render_to_response, redirect
-from django import template
+from django.shortcuts import render_to_response, redirect, RequestContext
+
 
 def index(request):
     if request.user.is_authenticated():
-        return render_to_response('index.html')
+        return render_to_response('account_index.html',{},
+                                  context_instance=RequestContext(request))
     return redirect("/")
 
 
