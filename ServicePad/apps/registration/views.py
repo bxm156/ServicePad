@@ -51,7 +51,7 @@ def confirm(request, user, key):
     
     user_profile = user.get_profile()
     
-    if user_profile.authentication_key != key:
+    if user_profile.authentication != key:
         render_to_response('confirm.html', {'success':False})
     
     if user_profile.key_expires < datetime.datetime.today():
