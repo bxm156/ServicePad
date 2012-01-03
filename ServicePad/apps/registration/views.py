@@ -1,10 +1,11 @@
 # Create your views here.
 import hashlib, random, datetime
 from forms import RegistrationForm
-from ServicePad.apps.account.models import Volunteer
+from ServicePad.apps.account.models import UserProfile
 
 from django.shortcuts import render_to_response, RequestContext, redirect, get_object_or_404
 from django.core.exceptions import MultipleObjectsReturned
+from django.contrib.auth.models import User
 
 def register(request):    
     if request.POST:
@@ -19,7 +20,7 @@ def register(request):
             hash_salt = hashlib.sha224(salt).hexdigest()
             activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
             key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
-            new_profile = Volunteer(user=new_user,
+            new_profile = UserProfile(user=new_user,
                                     activation_key=activation_key,
                                     key_expires=key_expires
                         )
@@ -44,10 +45,15 @@ def confirm(request, user, key):
         return redirect("/account")
     #Verify the confirmation request
     try:
-        user_profile = get_object_or_404(Volunteer, id=user, activation_key=key)
+        user = get_object_or_404(User, id=user)
     except MultipleObjectsReturned:
         return render_to_response('confirm.html', {'success':False})
-        
+    
+    user_profile = user.get_profile()
+    
+    if user_profile.authentication_key != key:
+        render_to_response('confirm.html', {'success':False})
+    
     if user_profile.key_expires < datetime.datetime.today():
         #Resend the confirmation email with a new confirmation challenge
         return render_to_response('confirm.html', {'expired':True})

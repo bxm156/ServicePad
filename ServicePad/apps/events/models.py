@@ -1,5 +1,5 @@
 from django.db import models
-from ServicePad.apps.account.models import Host
+from ServicePad.apps.account.models import UserProfile
 
 class Event(models.Model):
     CATEGORY = (
@@ -12,7 +12,7 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     list_date = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(Host)
+    owner = models.ForeignKey(UserProfile)
     rating = models.PositiveSmallIntegerField()
     
     
