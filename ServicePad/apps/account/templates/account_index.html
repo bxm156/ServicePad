@@ -1,9 +1,8 @@
+{% extends "base.html" %}
 {% load account_tags %}
-<html>
-	<head>
-		<title>My account</title>
-	</head>
-	<body>
-		{% account_sidebar %}
-	</body>
-</html>
+{% block left_column %}
+	{% account_sidebar %}
+{% endblock left_column %}
+{% block center_column %}
+{% endblock center_column %}
+

@@ -1,0 +1,13 @@
+.header {
+	text-align: center;
+	background-color: #4e9dec;
+	padding-top: 10px;
+	height:90px;
+}
+
+.footer {
+	text-align: center;
+	background-color:#71b7cb;
+	padding-top: 10px;
+	height: 30px
+}

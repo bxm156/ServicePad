@@ -1,8 +1,5 @@
-<html>
-	<head>
-	<title>Confirm</title>
-	</head>
-	<body>
+{% extends "base.html" %}
+{% block center_column %}
 		{% if expired %}
 			Confirm Expired, please check your email for a new login
 		{% endif %}
@@ -11,5 +8,4 @@
 		{% else %}
 			Error
 		{% endif %}
-	</body>
-</html>
+{% endblock center_column %}

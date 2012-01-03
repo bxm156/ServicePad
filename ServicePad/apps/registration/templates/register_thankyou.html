@@ -1,9 +1,5 @@
-<html>
-	<head>
-		<title>Thank you</title>
-	</head>
-	<body>
-		Thank you for signing up. Click on the link in your email to activate your account!
+{% extends "base.html" %}
+{% block center_column %}
+		Thank you for signing up. Click on the link in your email to activate your account! <br/>
 		{{ url }}
-	</body>
-</html>
+{% endblock center_column %}
