@@ -17,10 +17,10 @@ class UserProfile(models.Model):
                       (AUTH_CAS, 'CAS'),
     )
     ACCOUNT_VOLUNTEER = 0
-    ACCOUNT_HOST = 1
+    ACCOUNT_ORGANIZATION = 1
     ACCOUNT_TYPE = (
                     (ACCOUNT_VOLUNTEER,'Volunteer'),
-                    (ACCOUNT_HOST,'Host'),
+                    (ACCOUNT_ORGANIZATION,'Organization'),
                     )
     account_type = models.PositiveSmallIntegerField(choices=ACCOUNT_TYPE, default=ACCOUNT_VOLUNTEER)
     gender = models.CharField(max_length=2, choices=GENDER, default=GENDER_NOT_SPECIFIED)
@@ -29,8 +29,11 @@ class UserProfile(models.Model):
     activation_key = models.CharField(max_length=32)
     key_expires = models.DateTimeField()
     user = models.OneToOneField(User, primary_key=True, parent_link=True)
+    
+    #Business Only fields
     business_name = models.CharField(max_length=60, blank=True, null=True)
     business_address = models.CharField(max_length=60, blank=True, null=True)
+    business_phone = models.CharField(max_length=30, blank=True, null=True)
 
 class Team(models.Model):
     name = models.CharField(max_length=30, blank=False)
