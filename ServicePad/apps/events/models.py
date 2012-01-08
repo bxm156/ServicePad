@@ -21,12 +21,17 @@ class EventCategory(models.Model):
     
 class Event(models.Model):
     event_name = models.CharField(max_length=255)
-    description = models.TextField()
+    short_description = models.CharField(max_length=255)
+    long_description = models.TextField()
     public = models.BooleanField(default=True)
     category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     list_date = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(UserProfile)
-    rating = models.PositiveSmallIntegerField()
+    #rating = models.PositiveSmallIntegerField()
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('ServicePad.apps.events.views.view', [str(self.id)])
     

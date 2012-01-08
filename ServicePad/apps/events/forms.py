@@ -1,5 +1,5 @@
 from django import forms
-from models import CATEGORY_CHOICES, CATEGORY_NONE
+from models import Event, CATEGORY_CHOICES, CATEGORY_NONE
 
 class CreateEventForm(forms.Form):
     name = forms.CharField(required=True,max_length=30)
@@ -13,9 +13,29 @@ class CreateEventForm(forms.Form):
     
     
     def clean(self):
-        pass
+        
+        cleaned_data = self.cleaned_data
+        
+        category_sum = sum(
+                (int(cleaned_data['category1']),
+                int(cleaned_data['category2']),
+                int(cleaned_data['category3'])
+                ))
+        if category_sum == 0:
+            raise forms.ValidationError("Please select atleast 1 category")
+ 
+        return cleaned_data
     
-    def save(self):
-        pass
+    def save(self,user):
+        
+        cleaned_data = self.cleaned_data
+        new_event = Event.objects.create(event_name=cleaned_data['name'],
+                         short_description=cleaned_data['short_description'],
+                         long_description=cleaned_data['long_description'],
+                         category=cleaned_data['category1'],
+                         start_time=cleaned_data['start_time'],
+                         end_time=cleaned_data['end_time'],
+                         owner=user)
+        return new_event
         
         

@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('ServicePad.apps.events.views',
-    (r'^$', 'login'),
-    (r'^create/$','create')
+    (r'^(?P<id>[0-9]+)/?$', 'view'),
+    (r'^create/?$','create')
 )
