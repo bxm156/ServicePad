@@ -1,5 +1,5 @@
 from django.db import models
-from ServicePad.apps.account.models import UserProfile
+from django.contrib.auth.models import User
 
 CATEGORY_NONE = 0
 CATEGORY_INDOOR = 1
@@ -28,8 +28,9 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     list_date = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(UserProfile)
+    owner = models.ForeignKey(User)
     #rating = models.PositiveSmallIntegerField()
+    #TODO: Support event pictures
     
     @models.permalink
     def get_absolute_url(self):

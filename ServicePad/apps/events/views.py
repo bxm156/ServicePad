@@ -3,9 +3,6 @@ from django.shortcuts import render_to_response, RequestContext, redirect
 from forms import CreateEventForm
 from django.contrib.auth.decorators import login_required
 
-def list_my_events(request):
-    pass
-    
 @login_required
 def create(request):
     if request.POST:

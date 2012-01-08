@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+{% load account_tags %}
+{% block left_column %}
+	{% account_sidebar %}
+{% endblock left_column %}
 {% block center_column %}
 	{% if errors %}
 		{{ errors }}
