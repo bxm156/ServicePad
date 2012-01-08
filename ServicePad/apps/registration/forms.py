@@ -66,7 +66,7 @@ class OrganizationRegistrationForm(forms.Form):
     primary_contact_first_name = forms.CharField(required=True,max_length=30)
     primary_contact_last_name = forms.CharField(required=True,max_length=30)
     primary_contact_phone = forms.CharField(required=True,max_length=30)
-    primary_contact_email = forms.CharField(required=True,max_length=30)
+    primary_contact_email = forms.EmailField(required=True,max_length=30)
     password = forms.CharField(widget=forms.PasswordInput,min_length=MIN_PASSWORD_LENGTH,max_length=MAX_PASSWORD_LENGTH)
     confirm_password = forms.CharField(widget=forms.PasswordInput,min_length=MIN_PASSWORD_LENGTH,max_length=MAX_PASSWORD_LENGTH)
     form_type = forms.CharField(widget=forms.HiddenInput(),initial=UserProfile.ACCOUNT_ORGANIZATION)

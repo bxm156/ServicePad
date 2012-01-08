@@ -1,14 +1,29 @@
 from django.db import models
 from ServicePad.apps.account.models import UserProfile
 
+CATEGORY_NONE = 0
+CATEGORY_INDOOR = 1
+CATEGORY_OUTDOOR = 2
+CATEGORY_FOOD = 3
+CATEGORY_ANIMAL = 4
+
+CATEGORY_CHOICES = (
+                    (CATEGORY_NONE,"None"),
+                    (CATEGORY_INDOOR,"Indoor"),
+                    (CATEGORY_OUTDOOR,"Outdoor"),
+                    (CATEGORY_FOOD,"Food"),
+                    (CATEGORY_ANIMAL,"Animal"),
+                    )
+
+
 class EventCategory(models.Model):
     name = models.CharField(max_length=30)
     
 class Event(models.Model):
-    title = models.CharField(max_length=255)
+    event_name = models.CharField(max_length=255)
     description = models.TextField()
     public = models.BooleanField(default=True)
-    category = models.ManyToManyField(EventCategory)
+    category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     list_date = models.DateTimeField(auto_now_add=True)
