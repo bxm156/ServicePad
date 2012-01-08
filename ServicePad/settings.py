@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'ServicePad.apps.login',
     'ServicePad.apps.account',
     'ServicePad.apps.pages',
+    'haystack',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -154,6 +155,15 @@ LOGGING = {
     }
 }
 
+#Profile for users
 AUTH_PROFILE_MODULE = 'account.UserProfile'
+
+#The URL to redirect to when a user login is required
 LOGIN_URL = '/login/'
+
+#The URL to redirect to when the user logs in
 LOGIN_REDIRECT_URL = '/account/'
+
+#Haystack searching
+HAYSTACK_SITECONF='ServicePad.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'simple'
