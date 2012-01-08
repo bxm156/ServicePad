@@ -3,6 +3,7 @@ import django.contrib.auth
 from django.shortcuts import render_to_response, RequestContext, redirect
 from forms import LoginForm
 
+# Currently not used
 def login(request):
     loginForm = LoginForm()
     if request.POST:
@@ -15,7 +16,6 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     django.contrib.auth.login(request,user)
-                    django.contrib.auth
                     return redirect("/account")
                 else:
                     #Account not active

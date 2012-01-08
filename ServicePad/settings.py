@@ -155,3 +155,5 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'account.UserProfile'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/account/'
