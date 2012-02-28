@@ -6,5 +6,6 @@ urlpatterns = patterns('ServicePad.apps.account.views',
     (r'^teams/$','teams'),
     (r'^profile/$','profile'),
     (r'^track/$','track'),
-    (r'^events/$','events')
+    (r'^events/$','events'),
+    (r'^logout/$','logout')
 )

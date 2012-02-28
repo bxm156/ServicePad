@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response, redirect, RequestContext
 from ServicePad.apps.events.models import Event
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as djangoLogout
 
 @login_required
 def index(request):
@@ -26,3 +27,9 @@ def events(request):
     return render_to_response('account_events.html',
                                {'events':events},
                                RequestContext(request))
+    
+def logout(request):
+    if request.user.is_authenticated():
+        djangoLogout(request)
+    return redirect("/")
+    
