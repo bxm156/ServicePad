@@ -16,11 +16,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     (r'', include('ServicePad.apps.pages.urls')),
-    #(r'^search/', include('haystack.urls')),
     (r'^events/', include('ServicePad.apps.events.urls')),
     (r'^account/', include('ServicePad.apps.account.urls')),
     (r'^register/', include('ServicePad.apps.registration.urls')),
     (r'^login/', include('ServicePad.apps.login.urls')),
-    #Catch all
-    #(r'', include('django.contrib.flatpages.urls')),
 )

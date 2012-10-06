@@ -2,8 +2,8 @@
 import common
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 APPEND_SLASH = True
+TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -132,7 +132,6 @@ INSTALLED_APPS = (
     'ServicePad.apps.pages',
     'ServicePad.apps.messages',
     'ServicePad.apps.bookmarks',
-    #'haystack',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -166,7 +165,3 @@ LOGIN_URL = '/login/'
 
 #The URL to redirect to when the user logs in
 LOGIN_REDIRECT_URL = '/account/'
-
-#Haystack searching
-#HAYSTACK_SITECONF='ServicePad.search_sites'
-#HAYSTACK_SEARCH_ENGINE = 'simple'
