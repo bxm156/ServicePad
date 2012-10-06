@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from ServicePad.apps.account.models import Skill
 
 CATEGORY_NONE = 0
 CATEGORY_INDOOR = 1
@@ -23,6 +24,10 @@ class Event(models.Model):
     event_name = models.CharField(max_length=255)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField()
+    address = models.CharField(max_length=60)
+    city = models.CharField(max_length=60)
+    state = models.CharField(max_length=2)
+    postalzip = models.CharField(max_length=11)
     public = models.BooleanField(default=True)
     category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
     start_time = models.DateTimeField()
@@ -36,3 +41,7 @@ class Event(models.Model):
     def get_absolute_url(self):
         return ('ServicePad.apps.events.views.view', [str(self.id)])
     
+class NeedsSkill(models.Model):
+    event = models.ForeignKey(Event)
+    skill = models.ForeignKey(Skill)
+    min_proficiency_level = models.PositiveSmallIntegerField()

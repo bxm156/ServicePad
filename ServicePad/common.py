@@ -7,7 +7,7 @@ Created on Dec 3, 2011
 import sys
 import os
 
-PROJECT_ROOT = "/Users/Bryan/DjangoWorkspace/ServicePad/ServicePad"
+PROJECT_ROOT = "/Users/Bryan/Desktop/ServicePad/ServicePad"
 SITE_ROOT = os.path.dirname(PROJECT_ROOT)
 
 sys.path.append(SITE_ROOT)
