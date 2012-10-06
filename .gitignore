@@ -4,3 +4,11 @@
 *.pyc
 
 *.swp
+
+.project
+
+.DS_Store
+
+.pydevproject
+
+resources/psd/mock1.psd
