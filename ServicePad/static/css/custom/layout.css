@@ -1,8 +1,5 @@
 .header {
-	text-align: center;
-	background-color: #4e9dec;
-	padding-top: 10px;
-	height:90px;
+
 }
 
 .footer {
@@ -10,4 +7,14 @@
 	background-color:#71b7cb;
 	padding-top: 10px;
 	height: 30px
+}
+.header #htop {
+	background-color: #6e5c49;
+	height:60px;
+	padding-left:20px;
+	padding-top:20px;
+}
+.header #hmid {
+	background-image: -webkit-linear-gradient(top, #578d99, #4d828d);
+	height:120px; 
 }

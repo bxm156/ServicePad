@@ -4,6 +4,7 @@
 	<head>
 		<title>{% block title %}ServicePad {% endblock title %}</title>
 		{% block css %}
+		<link type="text/css" href="{% get_static_prefix %}css/custom/text.css" rel="stylesheet" />
 		<link type="text/css" href="{% get_static_prefix %}css/custom/layout.css" rel="stylesheet" />
 		<link type="text/css" href="{% get_static_prefix %}css/ui/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/screen.css" type="text/css" media="screen, projection">
@@ -22,9 +23,7 @@
 		<div class="container">
 			{% block blueprint_container %}
 			<div class="span-24 header">
-  				{% block header %}
-  				<h1>ServicePad</h1>
-  				{% endblock header %}
+  				{% include "header.html" %}
   			</div>
 	  		<div class="span-4">
 	  			{% block left_column %}
