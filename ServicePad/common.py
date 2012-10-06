@@ -10,8 +10,8 @@ import sys
 import os
 
 #Modify these to set defaults for your local development
-PROJECT_ROOT = "/Users/Bryan/DjangoWorkspace/ServicePad"
-APP_DIR = "ServicePad"
+PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+APP_DIR = os.path.abspath(os.path.dirname(__file__))
 
 #In Production, we will use environmental variables to overide any local settings
 
