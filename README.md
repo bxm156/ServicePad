@@ -34,5 +34,9 @@ The "<b>Bangs</b>" offered to community partners are:
 <li>Obtain a list of individuals, with contact information, who have committed themselves to the service opportunities offered by the partner
 </ul>
 
+<h2> Using the Damn thing</h2>
+
+The super basic stuff: to start the server just run "python ServicePad/manage.py runserver"
+
 <h2> The current state of the composer for this symphony of ASCII</h2>
 Getting his Jolly on via multiple "Jolly Stouts".... Be Jolly!
