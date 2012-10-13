@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, RequestContext, redirect, get_o
 from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth.models import User
 from ServicePad.exceptions import InvalidRegistrationRequest
-from ServicePad.email import send_email
+from ServicePad.emailer import send_email
 
 def register(request,**kwargs):    
     if request.POST:
