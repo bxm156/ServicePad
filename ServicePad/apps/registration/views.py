@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, RequestContext, redirect, get_o
 from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth.models import User
 from ServicePad.exceptions import InvalidRegistrationRequest
+from ServicePad.email import send_email
 
 def register(request,**kwargs):    
     if request.POST:
@@ -38,6 +39,7 @@ def register(request,**kwargs):
             
             #new_profile.save()
             url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,new_user.get_profile().activation_key)
+            send_email(new_user.username,"Activation Email",url)
             return render_to_response('register_thankyou.html',{'url':url})
         else:
             context = RequestContext(request,
