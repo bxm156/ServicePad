@@ -26,19 +26,9 @@ def register(request,**kwargs):
             #Create user
             new_user = registration.save()
             
-            #Email confirmation
-            #salt = str(random.random())
-            #hash_salt = hashlib.sha224(salt).hexdigest()
-            #activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
-            #key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
-            #new_profile = UserProfile(user=new_user,
-            #                        activation_key=activation_key,
-            #                        key_expires=key_expires,
-            #                        account_type=account_type
-            #            )
-            
-            #new_profile.save()
+            #Activation URL
             url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,new_user.get_profile().activation_key)
+            #Send email
             send_email(new_user.username,"Activation Email",url)
             return render_to_response('register_thankyou.html',{'url':url})
         else:

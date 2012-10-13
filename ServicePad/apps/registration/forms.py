@@ -47,10 +47,13 @@ class UserRegistrationForm(forms.Form):
         new_user.is_active = False
         new_user.save()
         
+        #create the activation key
         salt = str(random.random())
         hash_salt = hashlib.sha224(salt).hexdigest()
         activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
         key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
+        
+        
         new_profile = UserProfile(user=new_user,
                                   activation_key=activation_key,
                                   key_expires=key_expires,

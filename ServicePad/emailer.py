@@ -13,7 +13,7 @@ USERNAME = os.getenv("MAILGUN_SMTP_LOGIN",None)
 PASSWORD = os.getenv("MAILGUN_SMTP_PASSWORD",None)
 DOMAIN = "servicepad.heroku.com"
 
-FROM = "admin@servicepad.heroku.com"
+FROM = "admin@servicepad.org"
 TEXT_SUBTYPE = 'plain'
 
 def send_email(To,Subject,Content):
