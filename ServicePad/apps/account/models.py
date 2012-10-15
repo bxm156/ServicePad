@@ -45,6 +45,9 @@ class UserProfile(models.Model):
     #Business Only fields
     organization_name = models.CharField(max_length=60, blank=True, null=True)
     organization_address = models.CharField(max_length=60, blank=True, null=True)
+    organization_city = models.CharField(max_length=60)
+    organization_state = models.CharField(max_length=2)
+    organization_postalzip = models.CharField(max_length=11)
     organization_phone = models.CharField(max_length=30, blank=True, null=True)
     
 class ActivationKey(models.Model):
