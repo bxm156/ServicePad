@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns('',
-   (r'^cas/$','django_cas.views.login'),
+   (r'^cas/$','django_cas.views.login',{'next_page':None}),
    (r'^$', 'django.contrib.auth.views.login',{'template_name':'login.html'}),
    #(r'^$', 'login'),
 )

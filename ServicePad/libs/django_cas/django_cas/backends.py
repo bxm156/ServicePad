@@ -91,7 +91,6 @@ def verify_proxy_ticket(ticket, service):
 
     url = (urljoin(settings.CAS_SERVER_URL, 'proxyValidate') + '?' +
            urlencode(params))
-
     page = urlopen(url)
 
     try:
