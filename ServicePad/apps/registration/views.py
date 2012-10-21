@@ -8,6 +8,10 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth.models import User
 from ServicePad.exceptions import InvalidRegistrationRequest
 from ServicePad.emailer import send_email
+from ServicePad.libs import pycas
+
+CAS_SERVER = "https://login.case.edu"
+SERVER_URL = "http://www.servicepad.org/register/cas/"
 
 def register(request,**kwargs):    
     if request.POST:
@@ -41,7 +45,7 @@ def register(request,**kwargs):
             context = RequestContext(request,
                                      {'errors':registration.errors,
                                      'form':registration})
-            return render_to_response('register.html', context)
+            return render_to_response('register_manual.html', context)
     
     #Show new form
     if kwargs['type'] == UserProfile.ACCOUNT_VOLUNTEER:
@@ -53,7 +57,7 @@ def register(request,**kwargs):
     context = RequestContext(request,
            {'form':registration}
     )
-    return render_to_response('register.html', context)
+    return render_to_response('register_manual.html', context)
 
 def confirm(request, user, key):
     if request.user.is_authenticated():
@@ -86,3 +90,6 @@ def confirm(request, user, key):
     user.is_active = True
     user.save()
     return render_to_response('confirm.html', {'success':True})
+
+def register_cas(request):
+    status, id, cookie = login(CAS_SERVER, SERVICE_URL)
