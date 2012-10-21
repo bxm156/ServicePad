@@ -11,7 +11,7 @@ from ServicePad.emailer import send_email
 from ServicePad.libs import pycas
 
 CAS_SERVER = "https://login.case.edu"
-SERVER_URL = "http://www.servicepad.org/register/cas/"
+SERVICE_URL = "http://www.servicepad.org/register/cas/"
 
 def register(request,**kwargs):    
     if request.POST:
