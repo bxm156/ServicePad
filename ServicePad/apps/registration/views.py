@@ -8,10 +8,6 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth.models import User
 from ServicePad.exceptions import InvalidRegistrationRequest
 from ServicePad.emailer import send_email
-from ServicePad.libs import pycas
-
-CAS_SERVER = "https://login.case.edu"
-SERVICE_URL = "http://www.servicepad.org/register/cas/"
 
 def register(request,**kwargs):    
     if request.POST:
@@ -90,6 +86,3 @@ def confirm(request, user, key):
     user.is_active = True
     user.save()
     return render_to_response('confirm.html', {'success':True})
-
-def register_cas(request):
-    status, id, cookie = login(CAS_SERVER, SERVICE_URL)

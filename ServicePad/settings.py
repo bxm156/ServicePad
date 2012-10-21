@@ -106,8 +106,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware'
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django_cas.middleware.CASMiddleware'
 )
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'ServicePad.apps.login.backends.PopulatedCASBackend',
+)
+
+CAS_SERVER_URL = "https://login.case.edu/cas/"
 
 ROOT_URLCONF = 'ServicePad.urls'
 

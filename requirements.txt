@@ -9,3 +9,4 @@ ssh==1.7.14
 virtualenv==1.7.1.2
 wsgiref==0.1.2
 psycopg2==2.4.5
+django-cas==2.0.3
