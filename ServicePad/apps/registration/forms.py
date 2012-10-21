@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from ServicePad.apps.account.models import UserProfile
 import hashlib, random, datetime
+from ServicePad.apps.registration.models import ActivationKey
 
 MIN_PASSWORD_LENGTH=8
 MAX_PASSWORD_LENGTH=30
@@ -53,12 +54,10 @@ class UserRegistrationForm(forms.Form):
         activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
         key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
         
+        key_obj = ActivationKey(user=new_user,activation_key=activation_key,key_expires=key_expires)
+        key_obj.save()
         
-        new_profile = UserProfile(user=new_user,
-                                  activation_key=activation_key,
-                                  key_expires=key_expires,
-                                  account_type=UserProfile.ACCOUNT_VOLUNTEER
-                        )
+        new_profile = UserProfile(user=new_user,account_type=UserProfile.ACCOUNT_VOLUNTEER)
             
         new_profile.save()
         
@@ -108,8 +107,6 @@ class OrganizationRegistrationForm(forms.Form):
         activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
         key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
         new_profile = UserProfile(user=new_user,
-                                  activation_key=activation_key,
-                                  key_expires=key_expires,
                                   account_type=UserProfile.ACCOUNT_ORGANIZATION,
                                   business_name=self.cleaned_data['business_name']
                         )

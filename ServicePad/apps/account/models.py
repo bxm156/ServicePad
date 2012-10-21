@@ -38,8 +38,6 @@ class UserProfile(models.Model):
     state = models.CharField(max_length=2)
     postalzip = models.CharField(max_length=11)
     authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION, default=AUTH_MANUAL)
-    activation_key = models.CharField(max_length=32)
-    key_expires = models.DateTimeField()
     user = models.OneToOneField(User, primary_key=True, parent_link=True)
     
     #Business Only fields
@@ -49,11 +47,6 @@ class UserProfile(models.Model):
     organization_state = models.CharField(max_length=2)
     organization_postalzip = models.CharField(max_length=11)
     organization_phone = models.CharField(max_length=30, blank=True, null=True)
-    
-class ActivationKey(models.Model):
-    user = models.OneToOneField(User, primary_key=True)
-    activation_key = models.CharField(max_length=32)
-    date_sent = models.DateTimeField(auto_now = True, auto_now_add=True)
 
 class Team(models.Model):
     name = models.CharField(max_length=30, blank=False)

@@ -2,6 +2,7 @@
 import datetime
 from forms import UserRegistrationForm, OrganizationRegistrationForm
 from ServicePad.apps.account.models import UserProfile
+from ServicePad.apps.registration.models import ActivationKey
 from django.shortcuts import render_to_response, RequestContext, redirect, get_object_or_404
 from django.core.exceptions import MultipleObjectsReturned
 from django.contrib.auth.models import User
@@ -26,8 +27,13 @@ def register(request,**kwargs):
             #Create user
             new_user = registration.save()
             
+            try:
+                activation_key = get_object_or_404(ActivationKey,user=new_user)
+            except MultipleObjectsReturned:
+                return render_to_response('confirm.html',{'success':False})
+            
             #Activation URL
-            url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,new_user.get_profile().activation_key)
+            url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,activation_key.activation_key)
             #Send email
             send_email(new_user.username,"Activation Email",url)
             return render_to_response('register_thankyou.html',{'url':url})
@@ -59,20 +65,24 @@ def confirm(request, user, key):
     except MultipleObjectsReturned:
         return render_to_response('confirm.html', {'success':False})
     
-    user_profile = user.get_profile()
-    
-    if user_profile.authentication != key:
-        render_to_response('confirm.html', {'success':False})
-    
-    if user_profile.key_expires < datetime.datetime.today():
-        #Resend the confirmation email with a new confirmation challenge
-        return render_to_response('confirm.html', {'expired':True})
     #If valid
-    user_account = user_profile.user
-    if user_account.is_active:
+    if user.is_active:
         #User was already activated
         return redirect("/")
+    
+    try:
+        activation_key = get_object_or_404(ActivationKey,user=user)
+    except MultipleObjectsReturned:
+        return render_to_response('confirm.html',{'success':False})
+    
+    if activation_key.activation_key != key:
+        render_to_response('confirm.html', {'success':False})
+    
+    if activation_key.key_expires < datetime.datetime.today():
+        #Resend the confirmation email with a new confirmation challenge
+        return render_to_response('confirm.html', {'expired':True})
+    
     #Activate User
-    user_account.is_active = True
-    user_account.save()
+    user.is_active = True
+    user.save()
     return render_to_response('confirm.html', {'success':True})
