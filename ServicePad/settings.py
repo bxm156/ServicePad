@@ -112,7 +112,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'ServicePad.apps.login.backends.PopulatedCASBackend',
+    'ServicePad.apps.login.backend.backends.PopulatedCASBackend',
 )
 
 CAS_SERVER_URL = "https://login.case.edu/cas/"

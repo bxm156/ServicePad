@@ -1,4 +1,4 @@
-from django_cas.blackends import CASBackend
+from django_cas.backends import CASBackend
 
 class PopulatedCASBackend(CASBackend):
     
