@@ -75,3 +75,8 @@ class HasInterest(models.Model):
     user = models.ForeignKey(User)
     interest = models.ForeignKey(Interest)
     level = models.PositiveSmallIntegerField()
+
+class Availability(models.Model):
+    user = models.ForeignKey(User)
+    start = models.DateTimeField()
+    end = models.DateTimeField()

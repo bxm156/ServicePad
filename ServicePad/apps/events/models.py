@@ -21,7 +21,7 @@ class EventCategory(models.Model):
     name = models.CharField(max_length=30)
     
 class Event(models.Model):
-    event_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     short_description = models.CharField(max_length=255)
     long_description = models.TextField()
     address = models.CharField(max_length=60)
