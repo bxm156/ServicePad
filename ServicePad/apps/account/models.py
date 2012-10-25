@@ -61,12 +61,17 @@ class TeamMembership(models.Model):
     invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
     
 class Skill(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=30)
 
 class HasSkill(models.Model):
     user = models.ForeignKey(User)
     skill = models.ForeignKey(Skill)
     proficiency_level = models.PositiveSmallIntegerField()
 
-class Interests(models.Model):
+class Interest(models.Model):
+    name = models.CharField(max_length=30)
+    
+class HasInterest(models.Model):
     user = models.ForeignKey(User)
+    interest = models.ForeignKey(Interest)
+    level = models.PositiveSmallIntegerField()
