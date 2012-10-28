@@ -1,12 +1,27 @@
 from django.db import models
-from ServicePad.apps.account.models import UserProfile
+from django.contrib.auth.models import User
+from ServicePad.apps.account.models import Team
+from ServicePad.apps.events.models import Event
+
 # Create your models here.
 
 class ServiceRecord(models.Model):
-    user = models.ForeignKey(UserProfile, related_name='volunteer')
-    host = models.ForeignKey(UserProfile, related_name='host')
+    user = models.ForeignKey(User, related_name='volunteer', null = True, blank = True)
+    team = models.ForeignKey(Team, related_name='team', null=True, blank=True)
+    event = models.ForeignKey(Event, null=False,blank=False)
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
     hours = models.DecimalField(max_digits = 5, decimal_places=2)
-
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    attended = models.BooleanField()
     
+class ServicUserEnrollment(models.Model):
+    user = models.ForeignKey(User)
+    event = models.ForeignKey(Event)
+    enrollment_time = models.DateTimeField()
+    
+class ServiceTeamEnrollment(models.Model):
+    team = models.ForeignKey(User)
+    event = models.ForeignKey(Event)
+    enrollment_time = models.DateTimeField()
