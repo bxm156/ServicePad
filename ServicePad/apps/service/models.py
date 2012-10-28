@@ -13,7 +13,7 @@ class ServiceRecord(models.Model):
     endTime = models.DateTimeField()
     hours = models.DecimalField(max_digits = 5, decimal_places=2)
     rating = models.PositiveIntegerField()
-    comment = models.TextField()
+    review = models.TextField()
     attended = models.BooleanField()
     
 class ServicEnrollment(models.Model):
@@ -21,3 +21,4 @@ class ServicEnrollment(models.Model):
     team = models.ForeignKey(Team, null=True,blank=True)
     event = models.ForeignKey(Event)
     enrollment_time = models.DateTimeField()
+    approved = models.BooleanField()
