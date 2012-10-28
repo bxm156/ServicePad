@@ -16,12 +16,8 @@ class ServiceRecord(models.Model):
     comment = models.TextField()
     attended = models.BooleanField()
     
-class ServicUserEnrollment(models.Model):
+class ServicEnrollment(models.Model):
     user = models.ForeignKey(User)
-    event = models.ForeignKey(Event)
-    enrollment_time = models.DateTimeField()
-    
-class ServiceTeamEnrollment(models.Model):
-    team = models.ForeignKey(User)
+    team = models.ForeignKey(Team, null=True,blank=True)
     event = models.ForeignKey(Event)
     enrollment_time = models.DateTimeField()
