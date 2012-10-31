@@ -43,9 +43,9 @@ class UserProfile(models.Model):
     #Business Only fields
     organization_name = models.CharField(max_length=60, blank=True, null=True)
     organization_address = models.CharField(max_length=60, blank=True, null=True)
-    organization_city = models.CharField(max_length=60)
-    organization_state = models.CharField(max_length=2)
-    organization_postalzip = models.CharField(max_length=11)
+    organization_city = models.CharField(max_length=60, blank=True, null=True)
+    organization_state = models.CharField(max_length=2, blank=True, null=True)
+    organization_postalzip = models.CharField(max_length=11, blank=True, null=True)
     organization_phone = models.CharField(max_length=30, blank=True, null=True)
 
 class Team(models.Model):
@@ -56,7 +56,7 @@ class Team(models.Model):
     
 class TeamMembership(models.Model):
     member = models.ForeignKey(User)
-    group = models.ForeignKey(Team)
+    team = models.ForeignKey(Team)
     join_date = models.DateTimeField(auto_now_add=True)
     invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
     

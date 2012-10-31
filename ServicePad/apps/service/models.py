@@ -16,7 +16,7 @@ class ServiceRecord(models.Model):
     review = models.TextField()
     attended = models.BooleanField()
     
-class ServicEnrollment(models.Model):
+class ServiceEnrollment(models.Model):
     user = models.ForeignKey(User)
     team = models.ForeignKey(Team, null=True,blank=True)
     event = models.ForeignKey(Event)
