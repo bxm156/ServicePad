@@ -56,7 +56,7 @@ class Team(models.Model):
     
 class TeamMembership(models.Model):
     member = models.ForeignKey(User)
-    group = models.ForeignKey(Team)
+    team = models.ForeignKey(Team)
     join_date = models.DateTimeField(auto_now_add=True)
     invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
     
