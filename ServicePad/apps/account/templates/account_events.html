@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "master_left_sidebar.djhtml" %}
 {% load account_tags %}
-{% block left_column %}
+{% block left %}
 	{% account_sidebar %}
-{% endblock left_column %}
-{% block center_column %}
+{% endblock left %}
+{% block center %}
 	{% if events %}
 		{% for event in events %}
 			{{ event.event_name }} {{event.get_absolute_url }}<br />
@@ -11,4 +11,4 @@
 	{% else %}
 		No events yet :(
 	{% endif %}
-{% endblock center_column %}
+{% endblock center %}

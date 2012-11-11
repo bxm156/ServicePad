@@ -1,0 +1,13 @@
+{% extends "master.djhtml" %}
+{% block content %}
+<div id="left" class="column span-8">
+	{% block left %}
+	Left
+	{% endblock left %}
+</div>
+<div id="center" class="column precolborder span-15 last">
+	{% block center %}
+	
+	{% endblock center %}
+</div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}ServicePad {% endblock title %}</title>
+		{% block css %}
+		<link type="text/css" href="{% get_static_prefix %}css/custom/text.css" rel="stylesheet" />
+		<link type="text/css" href="{% get_static_prefix %}css/custom/layout.css" rel="stylesheet" />
+		<link type="text/css" href="{% get_static_prefix %}css/ui/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+		<!-- Liquid Blueprint CSS -->
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/src/reset.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/src/liquid.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/src/typography.css" type="text/css" media="screen, projection">
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/src/forms.css" type="text/css" media="screen, projection">
+		<!--<link rel="stylesheet" href="{% get_static_prefix %}blueprint/screen.css" type="text/css" media="screen, projection">-->
+		<!--<link rel="stylesheet" href="{% get_static_prefix %}blueprint/print.css" type="text/css" media="print">-->
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/plugins/fancy-type/fancy-type.css" type="text/css" media="screen, projection">
+		<!--[if lt IE 8]>
+			<link rel="stylesheet" href="{% get_static_prefix %}blueprint/ie.css" type="text/css" media="screen, projection">
+		<![endif]-->
+		{% endblock css %}
+		{% block javascript %}
+		<script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.7.1.js"></script>
+		<script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui-1.8.16.custom.min.js"></script>
+		{% endblock javascript %}
+	</head>
+	<body>
+		{% block body %}
+		<div class="container">
+			<div id="header" class="block">
+				<hr class="space"/>
+				<div class="span-24 last">
+					<h1>ServicePad</h1>
+					<hr/>
+					<h2><span class="alt">Connecting the Greater Community</span></h2>
+					<hr/>
+				</div>
+			</div>
+			<div id="content" class="block">
+				{% block content %}
+				test
+				{% endblock content %}
+			</div>
+			<div id="footer" class="block">
+				<div class="span-24 last">
+					<span class="quiet">EECS 341 Project</span>
+				</div>
+			</div>
+		</div>
+		{% endblock body %}
+	</body>
+</html>
