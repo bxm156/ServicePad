@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render_to_response, redirect, RequestContext, render
+from django.shortcuts import redirect, render
 from ServicePad.apps.events.models import Event
 from ServicePad.apps.account.models import UserProfile
 from django.contrib.auth.decorators import login_required
@@ -9,8 +9,7 @@ from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProf
 @login_required
 def index(request):
     if request.user.is_authenticated():
-        return render_to_response('account_index.html',{},
-                                  context_instance=RequestContext(request))
+        return render(request,'account_index.djhtml')
     return redirect("/")
 
 
@@ -41,9 +40,8 @@ def track(request):
 @login_required    
 def events(request):
     events = Event.objects.filter(owner__exact=request.user)
-    return render_to_response('account_events.html',
-                               {'events':events},
-                               RequestContext(request))
+    return render(request,'account_events.djhtml',
+                               {'events':events})
     
 def logout(request):
     if request.user.is_authenticated():
