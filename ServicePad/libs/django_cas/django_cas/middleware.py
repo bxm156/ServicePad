@@ -31,11 +31,15 @@ class CASMiddleware(object):
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Forwards unauthenticated requests to the admin page to the CAS
-        login URL, as well as calls to django.contrib.auth.views.login and
-        logout.
+        login URL, and logout.
         """
-
+        
+        #Ignore calls for django.contrib.auth
         if view_func == login:
+            return None
+        
+        #Only process for CAS related login requests
+        if view_func == cas_login:
             return cas_login(request, *view_args, **view_kwargs)
         elif view_func == logout:
             return cas_logout(request, *view_args, **view_kwargs)
