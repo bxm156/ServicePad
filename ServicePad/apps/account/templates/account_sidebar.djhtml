@@ -1,3 +1,3 @@
 <h3><span class="alt">{{ first_name }} {{ last_name }}</span><br/></h3>
 <a href="/account/profile">User Profile</a><br/>
-<a href="logout/">Logout</a>
+<a href="/account/logout/">Logout</a>

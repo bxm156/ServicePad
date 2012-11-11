@@ -9,7 +9,6 @@ CATEGORY_FOOD = 3
 CATEGORY_ANIMAL = 4
 
 CATEGORY_CHOICES = (
-                    (CATEGORY_NONE,"None"),
                     (CATEGORY_INDOOR,"Indoor"),
                     (CATEGORY_OUTDOOR,"Outdoor"),
                     (CATEGORY_FOOD,"Food"),
@@ -32,8 +31,8 @@ class Event(models.Model):
     category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    list_date = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(User)
+    list_date = models.DateTimeField(auto_now_add=True,editable=False)
+    owner = models.ForeignKey(User,editable=False)
     #rating = models.PositiveSmallIntegerField()
     #TODO: Support event pictures
     

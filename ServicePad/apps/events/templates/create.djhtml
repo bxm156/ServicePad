@@ -1,0 +1,20 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% block subhead %}
+<!-- Start -->
+	{{ form.media }}
+	<!-- End -->
+{% endblock subhead %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+	{% if errors %}
+		{{ errors }}
+	{% endif %}
+	<form action="/events/create/" method="post">{% csrf_token %}
+		{{ form.media }}
+		{{ form.as_p }}
+		<input type="submit" value="Submit" />
+	</form>
+{% endblock center %}

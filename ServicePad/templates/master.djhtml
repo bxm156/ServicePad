@@ -19,9 +19,12 @@
 			<link rel="stylesheet" href="{% get_static_prefix %}blueprint/ie.css" type="text/css" media="screen, projection">
 		<![endif]-->
 		{% endblock css %}
+		{% block subhead %}
+		{% endblock subhead %}
 		{% block javascript %}
 		<script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.7.1.js"></script>
 		<script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript" src="{% get_static_prefix %}js/jqsplitdatetime.js"></script>
 		{% endblock javascript %}
 	</head>
 	<body>

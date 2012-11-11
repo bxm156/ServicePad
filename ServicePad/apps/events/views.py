@@ -1,7 +1,8 @@
 # Create your views here.
-from django.shortcuts import render_to_response, RequestContext, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from forms import CreateEventForm
 from django.contrib.auth.decorators import login_required
+from models import Event
 
 @login_required
 def create(request):
@@ -12,18 +13,15 @@ def create(request):
             new_event = event_form.save(request.user)
             return redirect(new_event)
         else:
-            return render_to_response('create_event.html',
+            return render(request,'create.djhtml',
                        {'form':event_form,
-                        'errors':event_form.errors},
-                       RequestContext(request))
+                        'errors':event_form.errors})
     event_form = CreateEventForm()
-    return render_to_response('create_event.html',
-                       {'form':event_form},
-                       RequestContext(request))
+    return render(request,'create.djhtml',
+                       {'form':event_form})
     
 def view(request,id):
-    event_form = CreateEventForm()
-    return render_to_response('create_event.html',
-                       {'form':event_form},
-                       RequestContext(request))
+    event = get_object_or_404(Event, pk=id)
+    return render(request,'view.djhtml',
+                       {'event':event})
     
