@@ -1,8 +1,10 @@
 # Create your views here.
-from django.shortcuts import render_to_response, redirect, RequestContext
+from django.shortcuts import render_to_response, redirect, RequestContext, render
 from ServicePad.apps.events.models import Event
+from ServicePad.apps.account.models import UserProfile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
+from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm
 
 @login_required
 def index(request):
@@ -15,8 +17,23 @@ def index(request):
 def teams(request):
     pass
 
+@login_required
 def profile(request):
-    pass
+    profile = request.user.get_profile()
+    if request.method == 'POST':
+        if profile.account_type == UserProfile.ACCOUNT_VOLUNTEER:
+            profile_form = VolunteerProfileForm(request.POST,instance=profile)
+        if profile.account_type == UserProfile.ACCOUNT_ORGANIZATION:
+            profile_form = OrganizationProfileForm(request.POST,instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+        return render(request,'profile.djhtml', {'profile_form':profile_form})
+    else:
+        if profile.account_type == UserProfile.ACCOUNT_VOLUNTEER:
+            profile_form = VolunteerProfileForm(instance=profile)
+        if profile.account_type == UserProfile.ACCOUNT_ORGANIZATION:
+            profile_form = OrganizationProfileForm(instance=profile)
+        return render(request, 'profile.djhtml', {'profile_form':profile_form})
 
 def track(request):
     pass

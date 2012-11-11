@@ -28,7 +28,7 @@ class UserProfile(models.Model):
 			(ETHNICITY_WHITE, 'White'),
 			(ETHNICITY_OTHER, 'Other'),
 			)
-    account_type = models.PositiveSmallIntegerField(choices=ACCOUNT_TYPE, default=ACCOUNT_VOLUNTEER)
+    account_type = models.PositiveSmallIntegerField(choices=ACCOUNT_TYPE, default=ACCOUNT_VOLUNTEER,editable=False)
     gender = models.CharField(max_length=2, choices=GENDER, default=GENDER_NOT_SPECIFIED)
     ethnicity = models.CharField(max_length=3, choices=ETHNICITY, default=ETHNICITY_WHITE)
     major = models.CharField(max_length=20, blank=True, null=True)
@@ -37,8 +37,8 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=2)
     postalzip = models.CharField(max_length=11)
-    authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION, default=AUTH_MANUAL)
-    user = models.OneToOneField(User, primary_key=True, parent_link=True)
+    authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION, default=AUTH_MANUAL,editable=False)
+    user = models.OneToOneField(User, primary_key=True, parent_link=True,editable=False)
     
     #Business Only fields
     organization_name = models.CharField(max_length=60, blank=True, null=True)
