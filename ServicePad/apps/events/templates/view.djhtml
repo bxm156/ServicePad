@@ -1,0 +1,7 @@
+{% extends "master.djhtml" %}
+{% block title %} ServicePad - {{ event.name }} {% endblock title %}
+{% block content %}
+<h1>{{ event.name}}</h1>
+<h2><span class="queit">{{ event.short_description}}</span></h2>
+{{ event.long_description }}
+{% endblock content %}
