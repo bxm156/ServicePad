@@ -10,7 +10,10 @@ def create(request):
         new_data = request.POST.copy()
         event_form = CreateEventForm(new_data)
         if event_form.is_valid():
-            new_event = event_form.save(request.user)
+            #Create the event and save the values to it
+            event = Event(owner=request.user)
+            new_event_form = CreateEventForm(new_data,instance=event)
+            new_event = new_event_form.save()
             return redirect(new_event)
         else:
             return render(request,'create.djhtml',

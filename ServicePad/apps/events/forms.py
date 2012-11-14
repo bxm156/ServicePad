@@ -7,8 +7,8 @@ class CreateEventForm(forms.ModelForm):
     class Meta:
         model = Event
         widgets = {
-            'start_time': JqSplitDateTimeWidget(attrs={'date_class':'datepicker','time_class':'timepicker'}),
-             'end_time': JqSplitDateTimeWidget(attrs={'date_class':'datepicker','time_class':'timepicker'}),
+            #'start_time': JqSplitDateTimeWidget(attrs={'date_class':'datepicker','time_class':'timepicker'}),
+           #  'end_time': JqSplitDateTimeWidget(attrs={'date_class':'datepicker','time_class':'timepicker'}),
         }
     class Media:
         css = {
