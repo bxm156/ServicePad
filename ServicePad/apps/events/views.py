@@ -16,15 +16,15 @@ def create(request):
             new_event = new_event_form.save()
             return redirect(new_event)
         else:
-            return render(request,'create.djhtml',
+            return render(request,'create_event.djhtml',
                        {'form':event_form,
                         'errors':event_form.errors})
     event_form = CreateEventForm()
-    return render(request,'create.djhtml',
+    return render(request,'create_event.djhtml',
                        {'form':event_form})
     
 def view(request,id):
     event = get_object_or_404(Event, pk=id)
-    return render(request,'view.djhtml',
+    return render(request,'view_event.djhtml',
                        {'event':event})
     

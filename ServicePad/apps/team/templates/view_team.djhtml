@@ -1,0 +1,8 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+{{ team.name }}
+{% endblock center %}

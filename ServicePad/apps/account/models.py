@@ -47,18 +47,6 @@ class UserProfile(models.Model):
     organization_state = models.CharField(max_length=2, blank=True, null=True)
     organization_postalzip = models.CharField(max_length=11, blank=True, null=True)
     organization_phone = models.CharField(max_length=30, blank=True, null=True)
-
-class Team(models.Model):
-    name = models.CharField(max_length=30, blank=False)
-    members = models.ManyToManyField(User, through='TeamMembership')
-    join_date = models.DateTimeField(auto_now_add=True)
-    admin = models.ForeignKey(UserProfile, related_name='admin')
-    
-class TeamMembership(models.Model):
-    member = models.ForeignKey(User)
-    team = models.ForeignKey(Team)
-    join_date = models.DateTimeField(auto_now_add=True)
-    invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
     
 class Skill(models.Model):
     name = models.CharField(max_length=30)

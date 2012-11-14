@@ -1,0 +1,13 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<p>
+<input type="submit" value="Create" />
+</p>
+</form>
+{% endblock center %}

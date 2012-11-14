@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'ServicePad.apps.pages',
     'ServicePad.apps.messages',
     'ServicePad.apps.bookmarks',
+    'ServicePad.apps.team',
 )
 
 # A sample logging configuration. The only tangible logging

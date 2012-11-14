@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from ServicePad.apps.account.models import Team
+from ServicePad.apps.team.models import Team
 from ServicePad.apps.events.models import Event
 
 # Create your models here.

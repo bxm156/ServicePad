@@ -5,11 +5,17 @@ from ServicePad.apps.account.models import UserProfile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
 from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm
-
+from ServicePad.apps.team.models import Team, TeamMembership
 @login_required
 def index(request):
     if request.user.is_authenticated():
-        return render(request,'account_index.djhtml')
+        
+        #Get a list of stuff to show on the page
+        
+        teams = Team.objects.filter(members=request.user) or None
+        context = { 'teams' : teams }
+        print context
+        return render(request,'account_index.djhtml',context)
     return redirect("/")
 
 
