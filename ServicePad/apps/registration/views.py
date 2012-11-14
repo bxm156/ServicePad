@@ -30,18 +30,18 @@ def register(request,**kwargs):
             try:
                 activation_key = get_object_or_404(ActivationKey,user=new_user)
             except MultipleObjectsReturned:
-                return render_to_response('confirm.html',{'success':False})
+                return render_to_response('confirm.djhtml',{'success':False})
             
             #Activation URL
             url = request.get_host() + "/register/confirm/%u/%s" % (new_user.id,activation_key.activation_key)
             #Send email
             send_email(new_user.username,"Activation Email",url)
-            return render_to_response('register_thankyou.html',{'url':url})
+            return render_to_response('register_thankyou.djhtml',{'url':url})
         else:
             context = RequestContext(request,
                                      {'errors':registration.errors,
                                      'form':registration})
-            return render_to_response('register_manual.html', context)
+            return render_to_response('register_manual.djhtml', context)
     
     #Show new form
     if kwargs['type'] == UserProfile.ACCOUNT_VOLUNTEER:
@@ -53,7 +53,7 @@ def register(request,**kwargs):
     context = RequestContext(request,
            {'form':registration}
     )
-    return render_to_response('register_manual.html', context)
+    return render_to_response('register_manual.djhtml', context)
 
 def confirm(request, user, key):
     if request.user.is_authenticated():
@@ -63,7 +63,7 @@ def confirm(request, user, key):
     try:
         user = get_object_or_404(User, id=user)
     except MultipleObjectsReturned:
-        return render_to_response('confirm.html', {'success':False})
+        return render_to_response('confirm.djhtml', {'success':False})
     
     #If valid
     if user.is_active:
@@ -73,16 +73,16 @@ def confirm(request, user, key):
     try:
         activation_key = get_object_or_404(ActivationKey,user=user)
     except MultipleObjectsReturned:
-        return render_to_response('confirm.html',{'success':False})
+        return render_to_response('confirm.djhtml',{'success':False})
     
     if activation_key.activation_key != key:
-        render_to_response('confirm.html', {'success':False})
+        render_to_response('confirm.djhtml', {'success':False})
     
     if activation_key.key_expires < datetime.datetime.today():
         #Resend the confirmation email with a new confirmation challenge
-        return render_to_response('confirm.html', {'expired':True})
+        return render_to_response('confirm.djhtml', {'expired':True})
     
     #Activate User
     user.is_active = True
     user.save()
-    return render_to_response('confirm.html', {'success':True})
+    return render_to_response('confirm.djhtml', {'success':True})

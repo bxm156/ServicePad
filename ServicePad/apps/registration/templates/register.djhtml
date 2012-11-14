@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block center_column %}
+{% extends "master.djhtml" %}
+{% block content %}
 	{% if errors %}
 		{{ errors }}
 	{% endif %}
@@ -7,4 +7,4 @@
 		{{ form.as_p }}
 		<input type="submit" value="Submit" />
 	</form>
-{% endblock center_column %}
+{% endblock content %}

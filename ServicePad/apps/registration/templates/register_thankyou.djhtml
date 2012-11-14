@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block center_column %}
+{% extends "master.djhtml" %}
+{% block content %}
 		Thank you for signing up. Click on the link in your email to activate your account! <br/>
 		{{ url }}
-{% endblock center_column %}
+{% endblock content %}

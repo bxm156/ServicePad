@@ -1,0 +1,11 @@
+{% extends "master.djhtml" %}
+{% block content %}
+		{% if expired %}
+			Confirmation Expired, please check your email for a new login
+		{% endif %}
+		{% if success %}
+			User confirmed!
+		{% else %}
+			Error
+		{% endif %}
+{% endblock content %}

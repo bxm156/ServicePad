@@ -4,12 +4,12 @@
 	Data
 </div>
 <div id="left" class="column span-8">
-	Left
+	{% block left %} Left {% endblock left %}
 </div>
 <div id="center" class="column precolborder span-7">
-	Content
+	{% block center %}Content{% endblock center %}
 </div>
 <div id="right" class="column precolborder span-7 last">
-	Right
+	{% block right %}Right{% endblock right %}
 </div>
 {% endblock content %}
