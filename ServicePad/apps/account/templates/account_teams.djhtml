@@ -1,0 +1,17 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<ul>
+	<h3>Teams</h3>
+	{% if teams %}
+		{% for team in teams %}
+		<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
+		{% endfor %}
+	{% else %}
+		You have not joined any teams!
+	{% endif %}
+</ul>
+{% endblock center %}

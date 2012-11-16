@@ -6,7 +6,7 @@
 {% block center %}
 	{% if events %}
 		{% for event in events %}
-			{{ event.event_name }} {{event.get_absolute_url }}<br />
+			{{ event.name }} {{event.get_absolute_url }}<br />
 		{% endfor %}
 	{% else %}
 		No events yet :(

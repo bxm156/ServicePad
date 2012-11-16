@@ -25,3 +25,7 @@ def view(request,id):
     return render(request,'view_team.djhtml',
                        {'team':team})
     
+def list(request):
+    teams = Team.objects.all()
+    return render(request,'list_teams.djhtml',
+                       {'teams':teams})

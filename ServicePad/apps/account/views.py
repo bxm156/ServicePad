@@ -11,16 +11,14 @@ def index(request):
     if request.user.is_authenticated():
         
         #Get a list of stuff to show on the page
-        
-        teams = Team.objects.filter(members=request.user) or None
-        context = { 'teams' : teams }
-        print context
-        return render(request,'account_index.djhtml',context)
+        return render(request,'account_index.djhtml')
     return redirect("/")
 
 
 def teams(request):
-    pass
+    teams = Team.objects.filter(members=request.user) or None
+    context = { 'teams' : teams }
+    return render(request,'account_teams.djhtml',context)
 
 @login_required
 def profile(request):
