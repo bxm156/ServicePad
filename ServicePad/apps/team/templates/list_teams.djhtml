@@ -5,7 +5,7 @@
 {% endblock left %}
 {% block center %}
 <ul>
-	<h3>Teams</h3>
+	<h3><span class="alt">All Teams</span></h3>
 	{% for team in teams %}
 	<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
 	{% endfor %}

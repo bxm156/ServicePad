@@ -1,5 +1,8 @@
 <h3><span class="alt">{{ first_name }} {{ last_name }}</span><br/></h3>
-<a href="/account/profile/">Profile</a><br/>
-<a href="/account/events/">Events</a><br/>
-<a href="/account/teams/">Teams</a><br/>
-<a href="/account/logout/">Logout</a>
+<ul>
+<li><a href="/account/">Overview</a></li>
+<li><a href="/account/profile/">Profile</a></li>
+<li><a href="/account/events/">Events</a></li>
+<li><a href="/account/teams/">Teams</a></li>
+<li><a href="/account/logout/">Logout</a></li>
+</ul>

@@ -5,13 +5,14 @@
 {% endblock left %}
 {% block center %}
 <ul>
-	<h3>Teams</h3>
+	<h3><span class="alt">Teams</span></h3>
 	{% if teams %}
 		{% for team in teams %}
 		<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
 		{% endfor %}
 	{% else %}
-		You have not joined any teams!
+		You have not joined any teams! <br/>
+		<a href="/teams/">Checkout at list of teams here!</a>
 	{% endif %}
 </ul>
 {% endblock center %}

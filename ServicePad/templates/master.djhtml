@@ -44,6 +44,7 @@
 				test
 				{% endblock content %}
 			</div>
+			<hr class="space">
 			<div id="footer" class="block">
 				<div class="span-24 last">
 					<span class="quiet">EECS 341 Project</span>
