@@ -16,8 +16,13 @@ def index(request):
 
 
 def teams(request):
+    #Teams the user is a member in
     teams = Team.objects.filter(members=request.user) or None
-    context = { 'teams' : teams }
+    
+    #Teams the user is an admin
+    admin_of_teams = Team.objects.filter(admin=request.user) or None
+    context = { 'teams' : teams,
+                'admin_of_teams' : admin_of_teams }
     return render(request,'account_teams.djhtml',context)
 
 @login_required

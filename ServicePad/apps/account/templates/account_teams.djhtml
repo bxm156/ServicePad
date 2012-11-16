@@ -5,14 +5,32 @@
 {% endblock left %}
 {% block center %}
 <ul>
-	<h3><span class="alt">Teams</span></h3>
-	{% if teams %}
-		{% for team in teams %}
-		<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
-		{% endfor %}
-	{% else %}
-		You have not joined any teams! <br/>
-		<a href="/teams/">Checkout at list of teams here!</a>
-	{% endif %}
+
+	<div class="column span-10">
+		<h3><span class="alt">Teams</span></h3>
+			{% if teams %}
+			<ul>
+				{% for team in teams %}
+					<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
+				{% endfor %}
+			</ul>
+			{% else %}
+				You have not joined any teams! <br/>
+				<a href="/teams/">Checkout at list of teams here!</a>
+			{% endif %}
+	</div>
+	<div class="column precolborder span-9 last">
+		<h3><span class="alt">Admin</span></h3>
+			{% if admin_of_teams %}
+				<ul>
+				{% for team in admin_of_teams %}
+					<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
+				{% endfor %}
+				</ul>
+			{% else %}
+				You are not the admin of any teams! <br/>
+				<a href="/teams/create/">Create your own team!</a>
+			{% endif %}
+	</div>
 </ul>
 {% endblock center %}
