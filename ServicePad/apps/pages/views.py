@@ -2,4 +2,8 @@
 from django.shortcuts import render
 
 def index(request):
-    return render(request,'index.djhtml')
+    show_account_link = False
+    if request.user.is_authenticated():
+        show_account_link = True
+    context = {'user_loggedin': show_account_link}
+    return render(request,'index.djhtml',context)

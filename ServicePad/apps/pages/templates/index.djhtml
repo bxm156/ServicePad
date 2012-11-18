@@ -1,12 +1,16 @@
 {% extends "master_3_columns.djhtml" %}
 {% block right %}
-	<a href="/login/cas">
-		<img src="{{ STATIC_URL }}images/cas.jpg" width="300px" height="125px" border="0">
-	</a>
-	<hr/>
-	<p>Don't have an account?<br/>
-	<a href="/register">Register</a></p>
-	<br/>
-	<p>Already have an account? <br/>
-	<a href="/login">Login</a></p>
+	{% if user_loggedin %}
+		<a href="/account/">My Account</a>
+	{% else %}
+		<a href="/login/cas">
+			<img src="{{ STATIC_URL }}images/cas.jpg" width="300px" height="125px" border="0">
+		</a>
+		<hr/>
+		<p>Don't have an account?<br/>
+		<a href="/register">Register</a></p>
+		<br/>
+		<p>Already have an account? <br/>
+		<a href="/login">Login</a></p>
+	{% endif %}
 {% endblock right %}
