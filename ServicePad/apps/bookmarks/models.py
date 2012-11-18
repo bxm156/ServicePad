@@ -6,3 +6,6 @@ class Bookmark(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('ServicePad.apps.events.views.view', [str(self.event.id)])

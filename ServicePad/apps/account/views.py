@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
 from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm
 from ServicePad.apps.team.models import Team, TeamMembership
+from ServicePad.apps.bookmarks.models import Bookmark
 @login_required
 def index(request):
     if request.user.is_authenticated():
@@ -43,14 +44,12 @@ def profile(request):
             profile_form = OrganizationProfileForm(instance=profile)
         return render(request, 'profile.djhtml', {'profile_form':profile_form})
 
-def track(request):
-    pass
-
 @login_required    
 def events(request):
     events = Event.objects.filter(owner__exact=request.user)
+    bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
-                               {'events':events})
+                               {'events':events, 'bookmarks':bookmarks})
     
 def logout(request):
     if request.user.is_authenticated():

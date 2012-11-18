@@ -4,7 +4,16 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
+{% if bookmarks %}
+	<h3>Bookmarks</h3>
+	<ul>
+		{% for bookmark in bookmarks %}
+			<li>{{ bookmark.event.name }} {{bookmark.get_absolute_url }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 	{% if events %}
+		<h3>My Events</h3>
 		{% for event in events %}
 			{{ event.name }} {{event.get_absolute_url }}<br />
 		{% endfor %}
