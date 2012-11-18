@@ -1,4 +1,4 @@
-<h3><span class="alt">{{ first_name }} {{ last_name }}</span><br/></h3>
+<h3><span class="alt">{{ name }}</span><br/></h3>
 <ul>
 <li><a href="/account/">Overview</a></li>
 <li><a href="/account/profile/">Profile</a></li>

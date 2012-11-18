@@ -4,5 +4,18 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
-{{ team.name }}
+<h3>{{ team.name }}</h3>
+{% if not in_team %}
+	Join Team
+{% endif %}
+<h4>Members</h4>
+{% if members %}
+	<ul>
+		{% for user in members %}
+		<li>{{ user.get_full_name }}</li>
+		{% endfor %}
+	</ul>
+{% else %}
+	No Members
+{% endif %}
 {% endblock center %}

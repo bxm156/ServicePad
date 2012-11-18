@@ -2,10 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from forms import NewTeamForm
 from models import Team
-def index(request):
-    pass
+from ServicePad.apps.team.decorators import team_admin_required
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def create(request):
     if request.method == 'POST':
         new_data = request.POST.copy()
@@ -22,10 +22,22 @@ def create(request):
     
 def view(request,id):
     team = get_object_or_404(Team, pk=id)
-    return render(request,'view_team.djhtml',
-                       {'team':team})
+    members = team.members.all()
+    in_team = False
+    if request.user in members:
+        in_team = True
+    context = {
+        'team':team,
+        'members':members,
+        'in_team':in_team
+    }
+    return render(request,'view_team.djhtml',context)
     
 def list(request):
     teams = Team.objects.all()
     return render(request,'list_teams.djhtml',
                        {'teams':teams})
+
+@team_admin_required
+def admin(request,team_id):
+    return redirect("/good/")
