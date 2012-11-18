@@ -24,7 +24,7 @@
 			{% if admin_of_teams %}
 				<ul>
 				{% for team in admin_of_teams %}
-					<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></li>
+					<li><a href="{{ team.get_admin_url }}">{{ team.name }}</a></li>
 				{% endfor %}
 				</ul>
 			{% else %}

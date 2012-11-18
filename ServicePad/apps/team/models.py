@@ -12,6 +12,10 @@ class Team(models.Model):
     def get_absolute_url(self):
         return ('ServicePad.apps.team.views.view', [str(self.id)])
     
+    @models.permalink
+    def get_admin_url(self):
+        return ('ServicePad.apps.team.views.admin', [str(self.id)])
+    
 class TeamMembership(models.Model):
     member = models.ForeignKey(User)
     team = models.ForeignKey(Team)

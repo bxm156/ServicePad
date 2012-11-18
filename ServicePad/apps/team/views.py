@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from forms import NewTeamForm
-from models import Team
+from ServicePad.apps.team.forms import NewTeamForm
+from ServicePad.apps.team.models import Team
 from ServicePad.apps.team.decorators import team_admin_required
 from django.contrib.auth.decorators import login_required
 
@@ -40,4 +40,5 @@ def list(request):
 
 @team_admin_required
 def admin(request,team_id):
-    return redirect("/good/")
+    context = {}
+    return render(request,'admin_team.djhtml',context)
