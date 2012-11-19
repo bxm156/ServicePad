@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from ServicePad.apps.team.forms import NewTeamForm
-from ServicePad.apps.team.models import Team
+from ServicePad.apps.team.forms import NewTeamForm, InviteMember
+from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.team.decorators import team_admin_required
 from django.contrib.auth.decorators import login_required
 
@@ -37,8 +37,42 @@ def list(request):
     teams = Team.objects.all()
     return render(request,'list_teams.djhtml',
                        {'teams':teams})
-
-@team_admin_required
+    
+def accept(request,team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    membership = TeamMembership.objects.get(member=request.user, team=team)
+    if membership.invite == True:
+        membership.invite = False
+        membership.save()
+    return redirect("/account/teams/")
+    
+def decline(request,team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    membership = TeamMembership.objects.get(member=request.user, team=team)
+    membership.delete()
+    return redirect("/account/teams/")
+    
+#@team_admin_required
 def admin(request,team_id):
     context = {}
+    team = get_object_or_404(Team, pk=team_id)
+    if request.method == 'POST':
+        data = request.POST.copy()
+        try:
+            m = TeamMembership.objects.get(team=team,member=request.user)
+            if m.invite == True:
+                context.update({'pending_invite':request.user.username})
+            else:
+                context.update({'already_member':request.user.username})
+        except TeamMembership.DoesNotExist:
+            membership = TeamMembership(team=team)
+            invite_form = InviteMember(data,instance=membership)
+            if invite_form.is_valid():
+                invite_form.save()
+                context.update({'invited':invite_form.cleaned_data['member']})
+    invite_form = InviteMember() 
+    context.update({
+                    'team': team,
+                    'invite_form': invite_form
+    })
     return render(request,'admin_team.djhtml',context)

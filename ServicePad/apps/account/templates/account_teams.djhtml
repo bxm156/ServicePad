@@ -7,6 +7,15 @@
 <ul>
 
 	<div class="column span-10">
+		{% if invites %}
+		<h3><span class="alt">Pending Invites</span></h3>
+			<ul>
+				{% for team in invites %}
+					<li><a href="{{ team.get_absolute_url }}">{{ team.name }}</a>
+						(<a href="{{ team.get_accept_url }}">Accept</a>, <a href="{{ team.get_decline_url }}">Decline</a>)</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
 		<h3><span class="alt">Teams</span></h3>
 			{% if teams %}
 			<ul>
@@ -29,8 +38,8 @@
 				</ul>
 			{% else %}
 				You are not the admin of any teams! <br/>
-				<a href="/teams/create/">Create your own team!</a>
 			{% endif %}
+			<a href="/teams/create/">Create your own team!</a>
 	</div>
 </ul>
 {% endblock center %}

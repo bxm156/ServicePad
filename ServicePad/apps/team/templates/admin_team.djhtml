@@ -3,3 +3,22 @@
 {% block left %}
 	{% account_sidebar %}
 {% endblock left %}
+{% block center %}
+<h3>{{ team.name }} - Administration</h3>
+{% if invited %}
+<div class="success">An invitation has been sent to {{ invited }}!</div>
+{% endif %}
+{% if pending_invite %}
+<div class="notice">An invitation is already pending for {{ pending_invite }}!</div>
+{% endif %}
+{% if already_member %}
+<div class="success">{{ already_member }} is already a member!</div>
+{% endif %}
+List of Members:
+<hr />
+<h4>Invite Members</h4>
+<form action="" method="post">{% csrf_token %}
+	{{ invite_form.as_p }}
+	<input type="submit" value="Invite" />
+</form>
+{% endblock center %}

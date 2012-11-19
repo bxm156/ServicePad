@@ -18,11 +18,17 @@ def index(request):
 
 def teams(request):
     #Teams the user is a member in
-    teams = Team.objects.filter(members=request.user) or None
+    #Invites are teams the user has been invited to
+    teams = TeamMembership.objects.filter(member=request.user,invite=False).select_related('team')
+    invites = TeamMembership.objects.filter(member=request.user,invite=True).select_related('team')
+    teams = [ m.team for m in teams ]
+    invites = [m.team for m in invites ]
+    
     
     #Teams the user is an admin
     admin_of_teams = Team.objects.filter(admin=request.user) or None
     context = { 'teams' : teams,
+               'invites': invites,
                 'admin_of_teams' : admin_of_teams }
     return render(request,'account_teams.djhtml',context)
 
