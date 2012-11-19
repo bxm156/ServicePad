@@ -5,6 +5,7 @@
 {% endblock left %}
 {% block center %}
 <h3>{{ team.name }} - Administration</h3>
+<hr class="space" />
 {% if invited %}
 <div class="success">An invitation has been sent to {{ invited }}!</div>
 {% endif %}
@@ -14,7 +15,17 @@
 {% if already_member %}
 <div class="success">{{ already_member }} is already a member!</div>
 {% endif %}
-List of Members:
+<h4>Member List</h4>
+{% if members %}
+	<ul>
+		{% for u in members %}
+			<li>{{ u.username }} ({{ u.get_full_name }})</li>
+		{% endfor %}
+	</ul>
+{% else %}
+None
+<hr class="space" />
+{% endif %}
 <hr />
 <h4>Invite Members</h4>
 <form action="" method="post">{% csrf_token %}

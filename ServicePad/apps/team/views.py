@@ -4,6 +4,7 @@ from ServicePad.apps.team.forms import NewTeamForm, InviteMember
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.team.decorators import team_admin_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 @login_required
 def create(request):
@@ -70,9 +71,12 @@ def admin(request,team_id):
             if invite_form.is_valid():
                 invite_form.save()
                 context.update({'invited':invite_form.cleaned_data['member']})
+    #Get Members
+    members = User.objects.filter(team=team)
     invite_form = InviteMember() 
     context.update({
                     'team': team,
-                    'invite_form': invite_form
+                    'invite_form': invite_form,
+                    'members': members
     })
     return render(request,'admin_team.djhtml',context)
