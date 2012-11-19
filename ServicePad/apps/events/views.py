@@ -27,4 +27,8 @@ def view(request,id):
     event = get_object_or_404(Event, pk=id)
     return render(request,'view_event.djhtml',
                        {'event':event})
-    
+
+def list(request):
+	events = Event.objects.all()
+	return render(request, 'list_events.djhtml',
+					{'events': events})
