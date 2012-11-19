@@ -1,0 +1,11 @@
+{% extends "master.djhtml" %}
+{% block content %}
+{% for event in events %}
+	<div>
+		<h2>{{ event.name}}</h2>
+		{{ event.short_description}}
+		<hr class="space">
+		<hr>
+	</div>
+{% endfor %}
+{% endblock content %}
