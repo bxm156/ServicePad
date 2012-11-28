@@ -1,11 +1,21 @@
 {% extends "master.djhtml" %}
 {% block content %}
+<form action="/events/" method="post">
+    {% csrf_token %}
+    <select name="category">
+        <option value="0">all</option>
+    {% for event in events %}
+        <option value="{{event.category}}">{{event.category}}</option>
+    {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
 {% for event in events %}
-	<div>
-		<h2>{{ event.name}}</h2>
-		{{ event.short_description}}
-		<hr class="space">
-		<hr>
-	</div>
+    <div>
+        <h2><a href="{{event.get_absolute_url}}">{{ event.name}}</a></h2>
+        {{ event.short_description}}
+        <hr class="space">
+        <hr>
+    </div>
 {% endfor %}
 {% endblock content %}

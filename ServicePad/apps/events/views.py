@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from forms import CreateEventForm
 from django.contrib.auth.decorators import login_required
 from models import Event
+from models import EventCategory
 
 @login_required
 def create(request):
@@ -29,6 +30,17 @@ def view(request,id):
                        {'event':event})
 
 def list(request):
-	events = Event.objects.all()
-	return render(request, 'list_events.djhtml',
-					{'events': events})
+    if request.POST:
+        data = request.POST.copy()
+        category = int(data['category'])
+        if category > 0:
+            events = Event.objects.filter(category__exact = category)
+        else:
+            print 'test?'
+            events = Event.objects.all()
+        return render(request, 'list_events.djhtml',
+                        {'events': events})
+    #this will only run if the if statement was not tripped
+    events = Event.objects.all()
+    return render(request, 'list_events.djhtml',
+                    {'events': events})
