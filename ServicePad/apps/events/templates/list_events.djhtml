@@ -4,8 +4,8 @@
     {% csrf_token %}
     <select name="category">
         <option value="0">all</option>
-    {% for event in events %}
-        <option value="{{event.category}}">{{event.category}}</option>
+    {% for cat in event_cat %}
+        <option value="{{cat.name}}">{{cat.name}}</option>
     {% endfor %}
     </select>
     <input type="submit" value="Submit">

@@ -42,5 +42,7 @@ def list(request):
                         {'events': events})
     #this will only run if the if statement was not tripped
     events = Event.objects.all()
+    event_cat = EventCategory.objects.all()
     return render(request, 'list_events.djhtml',
-                    {'events': events})
+                    {'events': events,
+                    'event_cat': event_cat})
