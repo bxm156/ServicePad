@@ -1,5 +1,5 @@
 from django import forms
-from ServicePad.apps.account.models import UserProfile
+from ServicePad.apps.account.models import UserProfile, Availability
 
 class VolunteerProfileForm(forms.ModelForm):
     
@@ -14,3 +14,9 @@ class OrganizationProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('major','graduating_class',)
+        
+class AvailabilityForm(forms.ModelForm):
+    
+    class Meta:
+        model = Availability
+        exclude = ('user')

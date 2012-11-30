@@ -1,0 +1,30 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<div class="column span-20">
+
+<h3><span class="alt">Availability</span></h3>
+<p>
+	{% if my_availability %}
+	<ul>
+		{% for avail in my_availability %}
+			{{ avail.start }} {{avail.end }}
+		{% endfor %}
+	</ul>
+	{% else %}
+		You have no availabilities.
+	{% endif %}
+</p>
+<hr/>
+<h3><span class="alt">Add Availability</span></h3>
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<p>
+<input type="submit" value="Add" />
+</p>
+</form>
+</div>
+{% endblock center %}

@@ -1,12 +1,13 @@
 # Create your views here.
 from django.shortcuts import redirect, render
 from ServicePad.apps.events.models import Event
-from ServicePad.apps.account.models import UserProfile
+from ServicePad.apps.account.models import UserProfile, Availability
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
-from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm
+from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.bookmarks.models import Bookmark
+
 @login_required
 def index(request):
     if request.user.is_authenticated():
@@ -56,6 +57,16 @@ def events(request):
     bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
                                {'events':events, 'bookmarks':bookmarks})
+    
+@login_required
+def availability(request):
+    if request.method == 'POST':
+        pass
+    else:
+        form = AvailabilityForm()
+    my_avail = Availability.objects.filter(user__exact=request.user)
+    return render(request, 'account_availability.djhtml',
+                  {'availability': my_avail, 'form': form})    
     
 def logout(request):
     if request.user.is_authenticated():
