@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from ServicePad.apps.events.models import Event
 from ServicePad.apps.account.models import UserProfile, Availability
 from django.contrib.auth.decorators import login_required
@@ -60,13 +60,24 @@ def events(request):
     
 @login_required
 def availability(request):
+    context = {}
     if request.method == 'POST':
-        pass
+        form = AvailabilityForm(request.POST.copy(),instance=Availability(user=request.user))
+        if form.is_valid():
+            form.save()
+            context.update({'added':True})
+        else:
+            context.update({'error':True})        
     else:
         form = AvailabilityForm()
-    my_avail = Availability.objects.filter(user__exact=request.user)
-    return render(request, 'account_availability.djhtml',
-                  {'availability': my_avail, 'form': form})    
+    my_avail = Availability.objects.filter(user=request.user)
+    context.update({'availability': my_avail,'form': form})
+    return render(request, 'account_availability.djhtml', context)
+
+def availability_remove(request,a_id):
+    avail = get_object_or_404(Availability,pk=a_id,user=request.user)
+    avail.delete()
+    return availability(request)
     
 def logout(request):
     if request.user.is_authenticated():

@@ -66,5 +66,5 @@ class HasInterest(models.Model):
 
 class Availability(models.Model):
     user = models.ForeignKey(User)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.TimeField()
+    end = models.TimeField()

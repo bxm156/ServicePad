@@ -1,17 +1,23 @@
 {% extends "master_left_sidebar.djhtml" %}
+{% load static %}
 {% load account_tags %}
 {% block left %}
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
 <div class="column span-20">
-
 <h3><span class="alt">Availability</span></h3>
+{% if added %}
+<div class="success">Availability Added Successfully!</div>
+{% endif %}
+{% if error %}
+<div class="error">There was an error with your availability!</div>
+{% endif %}
 <p>
-	{% if my_availability %}
+	{% if availability %}
 	<ul>
-		{% for avail in my_availability %}
-			{{ avail.start }} {{avail.end }}
+		{% for avail in availability %}
+			<li>{{ avail.start }} to {{avail.end }} <a href="/account/availability/remove/{{ avail.id }}"><img src="{% get_static_prefix %}css/blueprint/plugins/buttons/icons/cross.png" width="10px" height="10px"></a></li>
 		{% endfor %}
 	</ul>
 	{% else %}
