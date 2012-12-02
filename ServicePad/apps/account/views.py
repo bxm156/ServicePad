@@ -13,9 +13,10 @@ from datetime import datetime
 @login_required
 def index(request):
     if request.user.is_authenticated():
-        
+        upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description')
+        context = {'upcoming_enrollments':upcoming_enrolled}
         #Get a list of stuff to show on the page
-        return render(request,'account_index.djhtml')
+        return render(request,'account_index.djhtml',context)
     return redirect("/")
 
 @login_required

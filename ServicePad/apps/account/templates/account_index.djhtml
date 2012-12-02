@@ -4,5 +4,15 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
-Hi
+<h3><span class="alt">Upcoming Enrolled Events</span></h3>
+	{% if upcoming_enrollments %}
+			{% for entry in upcoming_enrollments %}
+				<h4>{{entry.event__name }}</h4>
+				{{ entry.event__short_description }}
+				<p>Date/Time: {{ entry.start }} - {{ entry.end}}
+				</p>
+			{% endfor %}
+	{% else %}
+		No upcoming events
+	{% endif %}
 {% endblock center %}
