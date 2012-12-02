@@ -2,6 +2,7 @@
 <ul>
 <li><a href="/account/">Overview</a></li>
 <li><a href="/account/profile/">Profile</a></li>
+<li><a href="/account/availability/">Availability</a></li>
 <li><a href="/account/events/">Events</a></li>
 <li><a href="/account/teams/">Teams</a></li>
 <li><a href="/account/logout/">Logout</a></li>

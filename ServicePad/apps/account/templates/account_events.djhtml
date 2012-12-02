@@ -9,7 +9,7 @@
 		<h3><span class="alt">Bookmarked Events</span></h3>
 		{% if bookmarks %}
 			{% for bookmark in bookmarks %}
-				<li>{{ bookmark.event.name }} {{bookmark.get_absolute_url }}</li>
+				<li><a href="{{ bookmark.event.get_absolute_url }}">{{ bookmark.event.name }}</a></li>
 			{% endfor %}
 		{% else %}
 			You have no bookmarked events
@@ -18,11 +18,40 @@
 	<div class="column precolborder span-9 last">
 		<h3><span class="alt">My Events</span></h3>
 		{% if events %}
+			<ul>
 			{% for event in events %}
-				{{ event.name }} {{event.get_absolute_url }}<br />
+				<li><a href="{{event.get_absolute_url }}">{{ event.name }}</a></li>
 			{% endfor %}
+			</ul>
 		{% else %}
-			You haven't signed up for any events
+			You haven't created any events
+		{% endif %}
+	</div>
+	<hr class="space" />
+	<hr />
+	<div class="column span-20 last">
+		<h3><span class="alt">Upcoming Enrolled Events</span></h3>
+		{% if upcoming_enrollments %}
+		
+				{% for entry in upcoming_enrollments %}
+					<h4>{{entry.event__name }}</h4>
+					{{ entry.event__short_description }}
+					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
+					</p>
+				{% endfor %}
+			
+		{% else %}
+			No upcoming events
+		{% endif %}
+		{% if past_enrollments %}
+			<div class="column span-20 last">
+			<h3><span class="alt">Past Events</span></h3>
+				{% for entry in past_enrollments %}
+					<h4>{{entry.event__name }}</h4>
+					{{ entry.event__short_description }}
+					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
+					</p>
+				{% endfor %}
 		{% endif %}
 	</div>
 </ul>

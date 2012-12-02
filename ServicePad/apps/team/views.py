@@ -53,7 +53,7 @@ def decline(request,team_id):
     membership.delete()
     return redirect("/account/teams/")
     
-#@team_admin_required
+@team_admin_required
 def admin(request,team_id):
     context = {}
     team = get_object_or_404(Team, pk=team_id)

@@ -1,0 +1,51 @@
+{% extends "master.djhtml" %}
+{% block subhead %}
+<script type="text/javascript">
+<!--
+function go(){
+	window.location.href=document.select_team.team_select.options[document.select_team.team_select.selectedIndex].value;
+}
+//-->
+</script>
+{% endblock subhead %}
+{% block content %}
+<h2>Signup For: {{ event.name }}</h2>
+<h3>User Information</h3>
+<p>
+First Name: {{ user.first_name }} <br />
+Last Name: {{ user.last_name }} <br/>
+{% if is_team_admin %}
+<a href="team">Want to register a Team instead? Click Here</a>
+{% endif %}
+</p>
+{% if team_select or team_form %}
+<h3>Team {{ tname }}</h3>
+{% if team_select %}
+<form name="select_team">
+    Change Team: <select name="team_select" onchange="go()" size="1">
+    {% for team in team_select %}
+        <option value="/events/{{ event.id }}/join/team/{{team.id}}/" onclick="go()" {% if tid == team.id %} selected="selected" {% endif %}>{{team.name}}</option>
+    {% endfor %}
+    </select>
+</form>
+{% endif %}
+<form action="" method="post">{% csrf_token %}
+{% if team_form %}
+<h4>Members</h4>
+{{ team_form.as_p }}
+{% endif %}
+{% endif %}
+<h3>Event Information</h3>
+<p>
+Name: {{ event.name }} <br/>
+Address: {{ event.address }} {{ event.city }}, {{ event.state }} {{ event.postalzip }} <br />
+Date: {{ event.start_time }} to {{ event.end_time }} <br />
+</p>
+<h3>Complete Enrollment</h3>
+
+{{ form.as_p }}
+<p>
+<input type="submit" value="Enroll" />
+</p>
+</form>
+{% endblock content %}
