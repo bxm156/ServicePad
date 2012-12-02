@@ -20,5 +20,7 @@ class ServiceEnrollment(models.Model):
     user = models.ForeignKey(User)
     team = models.ForeignKey(Team, null=True,blank=True)
     event = models.ForeignKey(Event)
-    enrollment_time = models.DateTimeField()
+    start = models.DateTimeField(null=False,blank=False)
+    end = models.DateTimeField(null=False,blank=False)
+    enrollment_time = models.DateTimeField(auto_now=True)
     approved = models.BooleanField()

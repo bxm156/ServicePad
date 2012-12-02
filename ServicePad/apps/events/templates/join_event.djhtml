@@ -1,0 +1,22 @@
+{% extends "master.djhtml" %}
+{% block content %}
+<h2>Signup For: {{ event.name }}</h2>
+<h3>User Information</h3>
+<p>
+First Name: {{ user.first_name }} <br />
+Last Name: {{ user.last_name }} <br/>
+</p>
+<h3>Event Information</h3>
+<p>
+Name: {{ event.name }} <br/>
+Address: {{ event.address }} {{ event.city }}, {{ event.state }} {{ event.postalzip }} <br />
+Date: {{ event.start_time }} to {{ event.end_time }} <br />
+</p>
+<h3>Complete Enrollment</h3>
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<p>
+<input type="submit" value="Enroll" />
+</p>
+</form>
+{% endblock content %}

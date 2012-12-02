@@ -4,7 +4,8 @@ from forms import CreateEventForm
 from django.contrib.auth.decorators import login_required
 from models import Event
 from models import EventCategory
-
+from ServicePad.apps.service.forms import ServiceEnrollmentForm
+from ServicePad.apps.service.models import ServiceEnrollment
 @login_required
 def create(request):
     if request.POST:
@@ -23,6 +24,21 @@ def create(request):
     event_form = CreateEventForm()
     return render(request,'create_event.djhtml',
                        {'form':event_form})
+
+@login_required 
+def join(request,event_id):
+    event = get_object_or_404(Event,pk=event_id)
+    user = request.user
+    if request.method == "POST":
+        se = ServiceEnrollment(user=user,event=event)
+        form = ServiceEnrollmentForm(request.POST.copy(),instance=se)
+        if form.is_valid():
+            form.save()
+            return redirect("/account/events/")
+    else:
+        form = ServiceEnrollmentForm()
+    context = {'event':event, 'user':user, 'form':form}
+    return render(request,'join_event.djhtml',context)
     
 def view(request,id):
     event = get_object_or_404(Event, pk=id)

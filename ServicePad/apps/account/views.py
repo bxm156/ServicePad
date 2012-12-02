@@ -7,6 +7,8 @@ from django.contrib.auth import logout as djangoLogout
 from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.bookmarks.models import Bookmark
+from ServicePad.apps.service.models import ServiceEnrollment
+from datetime import datetime
 
 @login_required
 def index(request):
@@ -16,7 +18,7 @@ def index(request):
         return render(request,'account_index.djhtml')
     return redirect("/")
 
-
+@login_required
 def teams(request):
     #Teams the user is a member in
     #Invites are teams the user has been invited to
@@ -53,10 +55,11 @@ def profile(request):
 
 @login_required    
 def events(request):
+    upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,event__end_time__gt=datetime.today()).order_by('start').values('start','end','event','event__name','event__short_description')
     events = Event.objects.filter(owner__exact=request.user)
     bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
-                               {'events':events, 'bookmarks':bookmarks})
+                               {'events':events, 'bookmarks':bookmarks, 'upcoming_enrollments':upcoming_enrolled})
     
 @login_required
 def availability(request):
@@ -74,6 +77,7 @@ def availability(request):
     context.update({'availability': my_avail,'form': form})
     return render(request, 'account_availability.djhtml', context)
 
+@login_required
 def availability_remove(request,a_id):
     avail = get_object_or_404(Availability,pk=a_id,user=request.user)
     avail.delete()
