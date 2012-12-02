@@ -55,11 +55,16 @@ def profile(request):
 
 @login_required    
 def events(request):
-    upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,event__end_time__gt=datetime.today()).order_by('start').values('start','end','event','event__name','event__short_description')
+    print datetime.now()
+    upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description')
+    print upcoming_enrolled.query.__str__()
+    past_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__lte=datetime.now()).order_by('-start').values('start','end','event','event__name','event__short_description')
     events = Event.objects.filter(owner__exact=request.user)
     bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
-                               {'events':events, 'bookmarks':bookmarks, 'upcoming_enrollments':upcoming_enrolled})
+                               {'events':events, 'bookmarks':bookmarks,
+                                'upcoming_enrollments':upcoming_enrolled,
+                                'past_enrollments':past_enrolled})
     
 @login_required
 def availability(request):

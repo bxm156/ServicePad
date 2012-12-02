@@ -24,9 +24,11 @@
 			{% endfor %}
 			</ul>
 		{% else %}
-			You haven't signed up for any events
+			You haven't created any events
 		{% endif %}
 	</div>
+	<hr class="space" />
+	<hr />
 	<div class="column span-20 last">
 		<h3><span class="alt">Upcoming Enrolled Events</span></h3>
 		{% if upcoming_enrollments %}
@@ -40,6 +42,16 @@
 			
 		{% else %}
 			No upcoming events
+		{% endif %}
+		{% if past_enrollments %}
+			<div class="column span-20 last">
+			<h3><span class="alt">Past Events</span></h3>
+				{% for entry in past_enrollments %}
+					<h4>{{entry.event__name }}</h4>
+					{{ entry.event__short_description }}
+					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
+					</p>
+				{% endfor %}
 		{% endif %}
 	</div>
 </ul>

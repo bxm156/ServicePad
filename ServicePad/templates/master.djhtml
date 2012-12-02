@@ -47,7 +47,7 @@
 			<hr class="space">
 			<div id="footer" class="block">
 				<div class="span-24 last">
-					<span class="quiet">EECS 341 Project</span>
+					<span class="quiet">EECS 341 Project {% now "jS F Y H:i" %}</span>
 				</div>
 			</div>
 		</div>
