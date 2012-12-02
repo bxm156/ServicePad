@@ -1,8 +1,11 @@
 from django import forms
 from models import Event
-from ServicePad.widgets.widgets import JqSplitDateTimeWidget
+from ServicePad.apps.events.models import EventCategory
 
 class CreateEventForm(forms.ModelForm):
+    
+    #Overide category selection to not include an empty_label option
+    category = forms.ModelChoiceField(queryset = EventCategory.objects.all(), empty_label=None)
 
     class Meta:
         model = Event

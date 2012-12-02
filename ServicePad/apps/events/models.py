@@ -19,6 +19,9 @@ CATEGORY_CHOICES = (
 class EventCategory(models.Model):
     name = models.CharField(max_length=30)
     
+    def __unicode__(self):
+        return self.name
+    
 class Event(models.Model):
     name = models.CharField(max_length=255)
     short_description = models.CharField(max_length=255)
@@ -28,7 +31,7 @@ class Event(models.Model):
     state = models.CharField(max_length=2)
     postalzip = models.CharField(max_length=11)
     public = models.BooleanField(default=True)
-    category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
+    category = models.ForeignKey(EventCategory)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     list_date = models.DateTimeField(auto_now_add=True,editable=False)
