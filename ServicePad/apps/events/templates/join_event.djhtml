@@ -20,6 +20,7 @@ Last Name: {{ user.last_name }} <br/>
 </p>
 {% if team_select or team_form %}
 <h3>Team {{ tname }}</h3>
+{% endif %}
 {% if team_select %}
 <form name="select_team">
     Change Team: <select name="team_select" onchange="go()" size="1">
@@ -33,7 +34,6 @@ Last Name: {{ user.last_name }} <br/>
 {% if team_form %}
 <h4>Members</h4>
 {{ team_form.as_p }}
-{% endif %}
 {% endif %}
 <h3>Event Information</h3>
 <p>

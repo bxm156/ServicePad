@@ -35,7 +35,8 @@
 		
 				{% for entry in upcoming_enrollments %}
 					<h4>{{entry.event__name }}</h4>
-					{{ entry.event__short_description }}
+					{{ entry.event__short_description }}<br />
+					{% if entry.team__name %} Team: {{ entry.team__name }} {% endif %}
 					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
 					</p>
 				{% endfor %}
@@ -48,7 +49,8 @@
 			<h3><span class="alt">Past Events</span></h3>
 				{% for entry in past_enrollments %}
 					<h4>{{entry.event__name }}</h4>
-					{{ entry.event__short_description }}
+					{{ entry.event__short_description }}<br />
+					{% if entry.team__name %} Team: {{ entry.team__name }} {% endif %}
 					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
 					</p>
 				{% endfor %}

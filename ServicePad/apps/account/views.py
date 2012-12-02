@@ -13,7 +13,7 @@ from datetime import datetime
 @login_required
 def index(request):
     if request.user.is_authenticated():
-        upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description')
+        upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
         context = {'upcoming_enrollments':upcoming_enrolled}
         #Get a list of stuff to show on the page
         return render(request,'account_index.djhtml',context)
@@ -57,9 +57,9 @@ def profile(request):
 @login_required    
 def events(request):
     print datetime.now()
-    upcoming_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description')
+    upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
     print upcoming_enrolled.query.__str__()
-    past_enrolled = ServiceEnrollment.objects.select_related('event').filter(user=request.user,end__lte=datetime.now()).order_by('-start').values('start','end','event','event__name','event__short_description')
+    past_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__lte=datetime.now()).order_by('-start').values('start','end','event','event__name','event__short_description','team__name')
     events = Event.objects.filter(owner__exact=request.user)
     bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
