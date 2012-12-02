@@ -1,4 +1,8 @@
 {% extends "master_3_columns.djhtml" %}
+{% block left %}
+<h3>Statistics</h3>
+Total Hours: {{ hours }}
+{% endblock %}
 {% block right %}
 	{% if user_loggedin %}
 		<a href="/account/">My Account</a>
