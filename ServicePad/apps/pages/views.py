@@ -22,14 +22,17 @@ def index(request):
     # Total Service Hours
     #This will only work on our MySQL instance, not local SQLite
     try:
+        
         cursor = connection.cursor()
         cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
         row = cursor.fetchone()
         seconds = row[0]
+        if seconds == None:
+            raise Exception
         hours = float(float(seconds)/(60.0*60.0))
     except:
         #Dummy value for SQLite users
-        hours = 100.0
+        hours = 0
     
     
     show_account_link = False
