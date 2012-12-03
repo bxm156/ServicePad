@@ -86,19 +86,20 @@ def view(request,id):
                        {'event':event})
 
 def list(request):
+    event_cat = EventCategory.objects.all()
     if request.POST:
         data = request.POST.copy()
         category = int(data['category'])
+        print category
         if category > 0:
-            events = Event.objects.filter(category__exact = category)
+            events = Event.objects.filter(category_id=category)
         else:
-            print 'test?'
             events = Event.objects.all()
         return render(request, 'list_events.djhtml',
-                        {'events': events})
+                        {'events': events,
+                        'event_cat': event_cat})
     #this will only run if the if statement was not tripped
     events = Event.objects.all()
-    event_cat = EventCategory.objects.all()
     return render(request, 'list_events.djhtml',
                     {'events': events,
                     'event_cat': event_cat})
