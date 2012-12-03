@@ -26,7 +26,7 @@ def index(request):
     cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
     row = cursor.fetchone()
     seconds = row[0]
-    hours = float(seconds / (60.0*60.0))
+    hours = float(float(seconds)/(60.0*60.0))
     #except:
         #Dummy value for SQLite users
     #pashours = 100
