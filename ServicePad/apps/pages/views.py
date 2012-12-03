@@ -21,15 +21,15 @@ def index(request):
     
     # Total Service Hours
     #This will only work on our MySQL instance, not local SQLite
-    #try:
-    cursor = connection.cursor()
-    cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
-    row = cursor.fetchone()
-    seconds = row[0]
-    hours = float(float(seconds)/(60.0*60.0))
-    #except:
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
+        row = cursor.fetchone()
+        seconds = row[0]
+        hours = float(float(seconds)/(60.0*60.0))
+    except:
         #Dummy value for SQLite users
-    #pashours = 100
+        hours = 100.0
     
     
     show_account_link = False
