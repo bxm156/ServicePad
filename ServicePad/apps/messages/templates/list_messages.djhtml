@@ -1,0 +1,18 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<h3>{{ account.user.get_full_name }}</h3>
+<h4>Messages</h4>
+{% if messages %}
+	<ul>
+		{% for message in messages %}
+		<li>{{message.date_sent}} {{message.fromUser}} <a href= "{{ message.get_absolute_url }}"> {{ message.subject}}</a> </li>
+		{% endfor %}
+	</ul>
+{% else %}
+	No Messages
+{% endif %}
+{% endblock center %}

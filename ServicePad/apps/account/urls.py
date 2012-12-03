@@ -3,6 +3,7 @@ from django.views.generic.simple import redirect_to
 
 urlpatterns = patterns('ServicePad.apps.account.views',
     (r'^$', 'index'),
+    (r'^messages/', include('ServicePad.apps.messages.urls')),
     (r'^teams/$','teams'),
     (r'^profile/$','profile'),
     (r'^events/$','events'),

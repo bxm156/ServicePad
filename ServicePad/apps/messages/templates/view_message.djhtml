@@ -1,0 +1,15 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<h4>Message</h4>
+	<ul>
+		<li>From: {{from.get_full_name }}</li>
+		<li>To: {{to.get_full_name }}</li>
+		<li>Subject: {{subject}} </li>
+		<li>Date: {{date_sent}}</li>
+		<li>Message: {{message}}</li>
+	</ul>
+{% endblock center %}
