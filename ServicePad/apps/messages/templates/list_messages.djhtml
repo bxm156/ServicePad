@@ -15,4 +15,9 @@
 {% else %}
 	No Messages
 {% endif %}
+
+<h4>New Message</h4>
+	<ul>
+		<li><a href= "compose"> Compose</a> </li>
+	</ul>
 {% endblock center %}
