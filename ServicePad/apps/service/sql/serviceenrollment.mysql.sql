@@ -1,3 +1,4 @@
+delimiter |
 CREATE TRIGGER validate_enrollment_hours
 BEFORE INSERT ON service_serviceenrollment
 FOR EACH ROW
@@ -10,3 +11,4 @@ BEGIN
 		SET MESSAGE_TEXT = 'Invalid Start/End Time', MYSQL_ERRNO = 1001;
 	END IF;
 END;
+|
