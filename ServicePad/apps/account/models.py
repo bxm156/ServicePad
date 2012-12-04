@@ -63,6 +63,9 @@ class HasInterest(models.Model):
     user = models.ForeignKey(User)
     interest = models.ForeignKey(Interest)
     level = models.PositiveSmallIntegerField()
+    
+    class Meta:
+        unique_together = (("user", "interest"))
 
 class Availability(models.Model):
     user = models.ForeignKey(User)
