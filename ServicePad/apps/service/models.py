@@ -14,6 +14,9 @@ class ServiceRecord(models.Model):
     review = models.TextField()
     attended = models.BooleanField()
     
+    class Meta:
+        unique_together = (("user", "event", "start", "end"))
+    
 class ServiceEnrollment(models.Model):
     user = models.ForeignKey(User)
     team = models.ForeignKey(Team, null=True,blank=True)
@@ -22,3 +25,6 @@ class ServiceEnrollment(models.Model):
     end = models.DateTimeField(null=False,blank=False)
     enrollment_time = models.DateTimeField(auto_now=True)
     approved = models.BooleanField()
+    
+    class Meta:
+        unique_together = (("user", "event", "start", "end"))

@@ -49,15 +49,18 @@ class UserProfile(models.Model):
     organization_phone = models.CharField(max_length=30, blank=True, null=True)
     
 class Skill(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,unique=True)
 
 class HasSkill(models.Model):
     user = models.ForeignKey(User)
     skill = models.ForeignKey(Skill)
     proficiency_level = models.PositiveSmallIntegerField()
+    
+    class Meta:
+        unique_together = (("user", "skill"))
 
 class Interest(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30,unique=True)
     
 class HasInterest(models.Model):
     user = models.ForeignKey(User)
@@ -71,3 +74,6 @@ class Availability(models.Model):
     user = models.ForeignKey(User)
     start = models.TimeField()
     end = models.TimeField()
+    
+    class Meta:
+        unique_together = (("user", "start", "end"))

@@ -9,3 +9,6 @@ class Bookmark(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('ServicePad.apps.events.views.view', [str(self.event.id)])
+    
+    class Meta:
+        unique_together = (("user", "event"))

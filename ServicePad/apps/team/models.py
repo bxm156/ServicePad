@@ -29,3 +29,6 @@ class TeamMembership(models.Model):
     team = models.ForeignKey(Team)
     join_date = models.DateTimeField(auto_now_add=True)
     invite = models.BooleanField(default=True) # True if pending invite, user must accept to join
+    
+    class Meta:
+        unique_together = (("member", "team"))
