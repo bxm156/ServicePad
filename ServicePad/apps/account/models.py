@@ -50,11 +50,20 @@ class UserProfile(models.Model):
     
 class Skill(models.Model):
     name = models.CharField(max_length=30,unique=True)
+    
+    def __unicode__(self):
+        return self.name
+
+PROFICIENCY = (
+              (0, 'Beginner'),
+              (1, 'Advanced'),
+              (2, 'Expert'),
+)
 
 class HasSkill(models.Model):
     user = models.ForeignKey(User)
     skill = models.ForeignKey(Skill)
-    proficiency_level = models.PositiveSmallIntegerField()
+    proficiency_level = models.PositiveSmallIntegerField(choices=PROFICIENCY,default=0)
     
     class Meta:
         unique_together = (("user", "skill"))
@@ -62,10 +71,13 @@ class HasSkill(models.Model):
 class Interest(models.Model):
     name = models.CharField(max_length=30,unique=True)
     
+    def __unicode__(self):
+        return self.name
+    
 class HasInterest(models.Model):
     user = models.ForeignKey(User)
     interest = models.ForeignKey(Interest)
-    level = models.PositiveSmallIntegerField()
+    level = models.PositiveSmallIntegerField(choices=PROFICIENCY,default=0)
     
     class Meta:
         unique_together = (("user", "interest"))

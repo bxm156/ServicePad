@@ -1,0 +1,36 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load static %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<div class="column span-20">
+<h3><span class="alt">User Skills</span></h3>
+{% if added %}
+<div class="success">Skill Added Successfully!</div>
+{% endif %}
+{% if error %}
+<div class="error">There was an error adding your skill. Error: {{ error_message }}</div>
+{% endif %}
+<p>
+	{% if skills %}
+	<ul>
+		{% for s in skills %}
+			<li>{{ s.skill__name }} ({{ levels|at:s.proficiency_level }}) <a href="/account/skills/remove/{{ s.id }}"><img src="{% get_static_prefix %}css/blueprint/plugins/buttons/icons/cross.png" width="10px" height="10px"></a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		You have no skills listed!
+	{% endif %}
+</p>
+<hr/>
+<h3><span class="alt">Add Skill</span></h3>
+<form action="" method="post">{% csrf_token %}
+{{ form.as_p }}
+<p>
+<input type="submit" value="Add" />
+</p>
+</form>
+</div>
+{% endblock center %}

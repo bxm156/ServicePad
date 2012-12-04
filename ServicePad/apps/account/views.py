@@ -1,14 +1,15 @@
 # Create your views here.
 from django.shortcuts import redirect, render, get_object_or_404
 from ServicePad.apps.events.models import Event
-from ServicePad.apps.account.models import UserProfile, Availability
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, PROFICIENCY
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
-from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm
+from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm, AddSkillForm
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.bookmarks.models import Bookmark
 from ServicePad.apps.service.models import ServiceEnrollment
 from datetime import datetime
+from django.db import IntegrityError
 
 @login_required
 def index(request):
@@ -73,8 +74,12 @@ def availability(request):
     if request.method == 'POST':
         form = AvailabilityForm(request.POST.copy(),instance=Availability(user=request.user))
         if form.is_valid():
-            form.save()
-            context.update({'added':True})
+            try:
+                form.save()
+                context.update({'added':True})
+                form = AvailabilityForm()
+            except IntegrityError, e:
+                context.update({'error':True,'error_message':e[0]})
         else:
             context.update({'error':True})        
     else:
@@ -87,7 +92,36 @@ def availability(request):
 def availability_remove(request,a_id):
     avail = get_object_or_404(Availability,pk=a_id,user=request.user)
     avail.delete()
-    return availability(request)
+    return redirect("/account/availability/")
+    
+@login_required
+def skills(request):
+    context = {}
+    if request.method == 'POST':
+        hs = HasSkill(user=request.user)
+        form = AddSkillForm(request.POST.copy(),instance=hs)
+        if form.is_valid():
+            try:
+                form.save()
+                context.update({'added':True})
+                form = AddSkillForm()
+            except IntegrityError, e:
+                context.update({'error':True,'error_message':e[0]})
+    else:
+        form = AddSkillForm()
+    my_skills = HasSkill.objects.filter(user=request.user).values('id','proficiency_level','skill__name').order_by('skill__name')
+    context.update({
+               'skills':my_skills,
+               'levels':PROFICIENCY, 
+               'form':form
+               })
+    
+    return render(request,'account_skills.djhtml',context)
+
+def skill_remove(request,s_id):
+    skill = get_object_or_404(HasSkill,pk=s_id,user=request.user)
+    skill.delete()
+    return redirect("/account/skills")
     
 def logout(request):
     if request.user.is_authenticated():

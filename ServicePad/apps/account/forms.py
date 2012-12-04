@@ -1,5 +1,5 @@
 from django import forms
-from ServicePad.apps.account.models import UserProfile, Availability
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, Skill
 
 class VolunteerProfileForm(forms.ModelForm):
     
@@ -19,4 +19,10 @@ class AvailabilityForm(forms.ModelForm):
     
     class Meta:
         model = Availability
+        exclude = ('user')
+        
+class AddSkillForm(forms.ModelForm):
+    #forms.ModelChoiceField(queryset = EventCategory.objects.all(), empty_label=None)
+    class Meta:
+        model = HasSkill
         exclude = ('user')
