@@ -4,20 +4,17 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
-<h3>{{ account.user.get_full_name }}</h3>
-<h4>Messages</h4>
-{% if messages %}
-	<ul>
-		{% for message in messages %}
-		<li>{{message.date_sent}} {{message.fromUser}} <a href= "{{ message.get_absolute_url }}"> {{ message.subject}}</a> </li>
-		{% endfor %}
-	</ul>
-{% else %}
-	No Messages
-{% endif %}
+<h3><span class="alt">Messages</span></h3>
+<a href= "/account/messages/compose">Compose New Message</a></li>
 
-<h4>New Message</h4>
-	<ul>
-		<li><a href= "compose"> Compose</a> </li>
-	</ul>
+<table border="1">
+	<tr><th>From</th><th>Subject</th><th>Date</th></tr>
+	{% if messages %}
+		{% for message in messages %}
+			<td>{{message.fromUser}}</td><td> <a href= "{{ message.get_absolute_url }}">{{ message.subject}}</a></td><td>{{message.date_sent}}</td>
+		{% endfor %}
+	{% else %}
+	<tr><td colspan="3">No Messages</td></tr>
+	{% endif %}
+</table>
 {% endblock center %}
