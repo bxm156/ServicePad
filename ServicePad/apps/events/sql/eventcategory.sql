@@ -1,3 +1,4 @@
+/* create the different possible categories for events */
 INSERT INTO events_eventcategory (id,name) VALUES (1,'Animal');
 INSERT INTO events_eventcategory (id,name) VALUES (2,'Counseling');
 INSERT INTO events_eventcategory (id,name) VALUES (3,'Food');
