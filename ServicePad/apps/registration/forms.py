@@ -106,12 +106,17 @@ class OrganizationRegistrationForm(forms.Form):
         hash_salt = hashlib.sha224(salt).hexdigest()
         activation_key = hashlib.sha224(hash_salt + new_user.username).hexdigest()[:32]
         key_expires = datetime.datetime.today() + datetime.timedelta(days=1)
+        
+        key_obj = ActivationKey(user=new_user,activation_key=activation_key,key_expires=key_expires)
+        key_obj.save()
+
         new_profile = UserProfile(user=new_user,
                                   account_type=UserProfile.ACCOUNT_ORGANIZATION,
-                                  business_name=self.cleaned_data['business_name']
+                                  organization_name=self.cleaned_data['business_name']
                         )
             
         new_profile.save()
+        print new_profile
         
         return new_user
 
