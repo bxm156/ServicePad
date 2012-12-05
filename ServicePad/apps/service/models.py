@@ -4,7 +4,7 @@ from ServicePad.apps.team.models import Team
 from ServicePad.apps.events.models import Event
 
 class ServiceRecord(models.Model):
-    user = models.ForeignKey(User, related_name='volunteer', null = True, blank = True)
+    user = models.ForeignKey(User, related_name='volunteer', null=False, blank=False)
     team = models.ForeignKey(Team, related_name='team', null=True, blank=True)
     event = models.ForeignKey(Event, null=False,blank=False)
     start = models.DateTimeField()
