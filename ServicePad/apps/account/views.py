@@ -17,6 +17,9 @@ def index(request):
         upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
         context = {'upcoming_enrollments':upcoming_enrolled}
         #Get a list of stuff to show on the page
+        
+        #Get recommended events
+        print Event.get_recommend(request.user.id,1)
         return render(request,'account_index.djhtml',context)
     return redirect("/")
 
@@ -39,6 +42,7 @@ def teams(request):
 
 @login_required
 def profile(request):
+    context = {}
     profile = request.user.get_profile()
     if request.method == 'POST':
         if profile.account_type == UserProfile.ACCOUNT_VOLUNTEER:
@@ -47,13 +51,14 @@ def profile(request):
             profile_form = OrganizationProfileForm(request.POST,instance=profile)
         if profile_form.is_valid():
             profile_form.save()
-        return render(request,'profile.djhtml', {'profile_form':profile_form})
+            context.update({'success':True})
     else:
         if profile.account_type == UserProfile.ACCOUNT_VOLUNTEER:
             profile_form = VolunteerProfileForm(instance=profile)
         if profile.account_type == UserProfile.ACCOUNT_ORGANIZATION:
             profile_form = OrganizationProfileForm(instance=profile)
-        return render(request, 'profile.djhtml', {'profile_form':profile_form})
+    context.update({'profile_form':profile_form})
+    return render(request, 'profile.djhtml', context)
 
 @login_required    
 def events(request):

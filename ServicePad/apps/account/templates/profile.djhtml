@@ -5,6 +5,10 @@
 {% endblock left %}
 {% block center %}
 <h3><span class="alt">User Profile</span></h3>
+{% if success %}
+<div class="success">Profile Updated Successfully!</div>
+<hr class="space">
+{% endif %}
 <form action="" method="post">{% csrf_token %}
 {{ profile_form.as_p }}
 <p>

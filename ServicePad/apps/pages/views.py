@@ -1,11 +1,13 @@
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from ServicePad.apps.events.models import Event
-from ServicePad.apps.team.models import Team
+from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.service.models import ServiceEnrollment
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest
 from datetime import datetime
 from django.db.models import Count
 from django.db import connection
+from django.contrib.auth.models import User
 
 def index(request):
     #5 Upcoming events
@@ -26,6 +28,7 @@ def index(request):
         cursor = connection.cursor()
         cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
         row = cursor.fetchone()
+        cursor.close()
         seconds = row[0]
         if seconds == None:
             raise Exception
@@ -40,3 +43,25 @@ def index(request):
         show_account_link = True
     context = {'user_loggedin': show_account_link, 'upcoming_events':upcoming_events,'hours':hours}
     return render(request,'index.djhtml',context)
+
+def public_profile(request,user_id):
+    user = get_object_or_404(User,pk=user_id)
+    profile = get_object_or_404(UserProfile,pk=user_id)
+    availability = Availability.objects.filter(user=request.user)
+    skills = HasSkill.objects.filter(user=request.user)
+    interests = HasInterest.objects.filter(user=request.user)
+    past_events = ServiceEnrollment.objects.filter(user=request.user,end__lte=datetime.now())
+    teams = Team.objects.filter(members=request.user).values('id','name','teammembership__join_date')
+    context = {
+               'name':user.get_full_name(),
+               'profile':profile,
+               'availability':availability,
+               'skills':skills,
+               'interests':interests,
+               'events':past_events,
+               'teams':teams
+               }
+    return render(request,'public_profile.djhtml',context)
+    
+    
+    

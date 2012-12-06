@@ -1,6 +1,7 @@
-from django.db import models
+from django.db import models, connection
 from django.contrib.auth.models import User
 from ServicePad.apps.account.models import Skill
+
 
 CATEGORY_NONE = 0
 CATEGORY_INDOOR = 1
@@ -42,6 +43,19 @@ class Event(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('ServicePad.apps.events.views.view', [str(self.id)])
+    
+    @staticmethod
+    def get_recommend(user_id,threshold=1):
+        """
+        Returns a list of recommended events based on users enrollment
+        """
+        #Get recommendations based on Stored Procedure
+        #Market Basket Problem in class
+        cursor = connection.cursor()
+        cursor.callproc("recommend_events", (user_id, threshold))# calls PROCEDURE named recommend_events
+        results = cursor.fetchall()
+        cursor.close()
+        return [ int(i[0]) for i in results ]
     
 class NeedsSkill(models.Model):
     event = models.ForeignKey(Event)
