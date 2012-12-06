@@ -10,7 +10,7 @@ from ServicePad.apps.bookmarks.models import Bookmark
 from ServicePad.apps.service.models import ServiceEnrollment
 from datetime import datetime
 from django.db import IntegrityError
-
+from random import choice
 @login_required
 def index(request):
     if request.user.is_authenticated():
@@ -19,7 +19,14 @@ def index(request):
         #Get a list of stuff to show on the page
         
         #Get recommended events
-        print Event.get_recommend(request.user.id,1)
+        recommended_events = Event.get_recommend(request.user.id,1)
+        if recommended_events:
+            try:
+                event_id = choice(recommended_events)
+                event = Event.objects.get(pk=event_id)
+                context.update({'recommendation':event,'name':request.user.get_full_name()})
+            except:
+                pass
         return render(request,'account_index.djhtml',context)
     return redirect("/")
 

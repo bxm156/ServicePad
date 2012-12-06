@@ -4,6 +4,15 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
+{% if recommendation %}
+<div class="notice">
+	<h4>May We Recommend...</h4>
+	<p>Dear {{ name }}, <br/>Based on your current and past service events, we think you might enjoy this oppurtunity.</p>
+	<h4><a href="{{ recommendation.get_absolute_url }}">{{ recommendation.name }}</a></h4>
+	<blockquote>{{ recommendation.short_description }}</blockquote>
+</div>
+<hr class="space">
+{% endif %}
 <h3><span class="alt">Upcoming Enrolled Events</span></h3>
 	{% if upcoming_enrollments %}
 			{% for entry in upcoming_enrollments %}
