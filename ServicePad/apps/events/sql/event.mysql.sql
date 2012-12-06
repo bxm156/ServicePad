@@ -54,3 +54,48 @@ DROP TABLE related;--
 DROP TABLE user_event_list;--
 
 END;
+
+CREATE PROCEDURE recommend_events_nested(IN a_user_id INT, IN threshold INT)
+BEGIN
+
+SELECT event_id as recommended_event_id FROM (
+	(SELECT event1 AS event_id FROM (SELECT tempP.event1 FROM (
+SELECT r1.event AS event1, r2.event AS event2
+FROM (SELECT user_id AS user, event_id AS event
+FROM service_serviceenrollment WHERE event_id IN (
+	SELECT event_id FROM service_serviceenrollment GROUP BY event_id HAVING COUNT(*) >= threshold
+)) AS r1, (SELECT user_id AS user, event_id AS event
+FROM service_serviceenrollment WHERE event_id IN (
+	SELECT event_id FROM service_serviceenrollment GROUP BY event_id HAVING COUNT(*) >= threshold
+)) AS r2
+WHERE r1.user = r2.user
+AND r1.event < r2.event
+GROUP BY r1.event, r2.event
+HAVING COUNT(*) >= threshold) AS tempP
+JOIN service_serviceenrollment ON (service_serviceenrollment.event_id = tempP.event1 OR service_serviceenrollment.event_id = tempP.event2 )
+WHERE service_serviceenrollment.user_id = a_user_id) AS list1 WHERE
+	event1 NOT IN (
+		SELECT event_id FROM service_serviceenrollment WHERE user_id = a_user_id
+	))
+	union
+	(SELECT event2 AS event_id FROM (SELECT tempP.event2 FROM (
+SELECT r1.event AS event1, r2.event AS event2
+FROM (SELECT user_id AS user, event_id AS event
+FROM service_serviceenrollment WHERE event_id IN (
+	SELECT event_id FROM service_serviceenrollment GROUP BY event_id HAVING COUNT(*) >= threshold
+)) AS r1, (SELECT user_id AS user, event_id AS event
+FROM service_serviceenrollment WHERE event_id IN (
+	SELECT event_id FROM service_serviceenrollment GROUP BY event_id HAVING COUNT(*) >= threshold
+)) AS r2
+WHERE r1.user = r2.user
+AND r1.event < r2.event
+GROUP BY r1.event, r2.event
+HAVING COUNT(*) >= threshold) AS tempP
+JOIN service_serviceenrollment ON (service_serviceenrollment.event_id = tempP.event1 OR service_serviceenrollment.event_id = tempP.event2 )
+WHERE service_serviceenrollment.user_id = a_user_id) AS list2 WHERE
+	event2 NOT IN (
+		SELECT event_id FROM service_serviceenrollment WHERE user_id = a_user_id
+	))
+) AS final;--
+
+END;
