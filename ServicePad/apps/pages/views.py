@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from ServicePad.apps.events.models import Event
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.service.models import ServiceEnrollment
-from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
 from datetime import datetime
 from django.db.models import Count
 from django.db import connection
@@ -48,9 +48,9 @@ def public_profile(request,user_id):
     user = get_object_or_404(User,pk=user_id)
     profile = get_object_or_404(UserProfile,pk=user_id)
     availability = Availability.objects.filter(user=request.user)
-    skills = HasSkill.objects.filter(user=request.user)
-    interests = HasInterest.objects.filter(user=request.user)
-    past_events = ServiceEnrollment.objects.filter(user=request.user,end__lte=datetime.now())
+    skills = HasSkill.objects.filter(user=request.user).values('skill__name')
+    interests = HasInterest.objects.filter(user=request.user).values('interest__name','level')
+    past_events = ServiceEnrollment.objects.filter(user=request.user,end__lte=datetime.now()).values('id','event__name')
     teams = Team.objects.filter(members=request.user).values('id','name','teammembership__join_date')
     context = {
                'name':user.get_full_name(),
@@ -59,7 +59,8 @@ def public_profile(request,user_id):
                'skills':skills,
                'interests':interests,
                'events':past_events,
-               'teams':teams
+               'teams':teams,
+               'levels':PROFICIENCY
                }
     return render(request,'public_profile.djhtml',context)
     

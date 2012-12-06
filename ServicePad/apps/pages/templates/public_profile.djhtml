@@ -1,0 +1,47 @@
+{% extends "master.djhtml" %}
+{% load account_tags %}
+{% block content %}
+<div class="column span-16">
+	<div align="center">
+		<h2 style="margin-bottom:0em;">{{ name }}</h2>
+		<span class="quiet large">{% for s in skills %}&nbsp;&nbsp;&nbsp;{{ s.skill__name }}&nbsp;&nbsp;&nbsp;{% endfor %}</span>
+	</div>
+</div>
+<div class="column precolborder span-7 last">
+	<h3>Profile</h3>
+	<table>
+		<tr><td width="28%">Location:</td><td align="left">{% if profile.city and profile.state %} {{ profile.city }}, {{ profile.state }} {% else %} Unknown {% endif %}</td></tr>
+		<tr><td>Ethnictiy:</td><td align="left">White</td></tr>
+		<tr><td>Gender:</td><td>Male</td></tr>
+		<tr><td>Class:</td><td>{% if profile.graduating_class %}'{{ profile.graduating_class }}{% else %}Unknown{% endif %}</td></tr>
+		<tr><td>Major</td><td>{% if profile.major %}{{ profile.major }}{% else %}Unknown{% endif %}</td></tr>
+		<tr><td>User Since:</td><td>{{ user.date_joined }}</td></tr>
+	</table>
+</div>
+<hr class="space">
+<hr />
+<div class="column span-7">
+<h3>Teams</h3>
+	<table>
+		{% for team in teams %}
+			<tr><td>{{ ""|linenumbers }}<a href="/teams/{{team.id}}/">{{ team.name }}</a></td><td><span class="quiet">Since {{ team.teammembership__join_date }}</span></td></tr>
+		{% endfor %}
+	</table>	
+</div>
+<div class="column precolborder span-8">
+	<h3>Recent Events</h3>
+	<table>
+		{% for e in events %}
+			<tr><td>{{ e.event__name }}</td></tr>
+		{% endfor %}
+	</table>
+</div>
+<div class="column precolborder span-7 last">
+	<h3>Interest</h3>
+	<table>
+		{% for e in interests %}
+			<tr><td>{{ e.interest__name }} ({{ levels|at:e.level }})</td></tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock content %}
