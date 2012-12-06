@@ -52,11 +52,11 @@ def public_profile(request,user_id):
     skills = HasSkill.objects.filter(user=user_id).values('skill__name')
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
     past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name','hours','review')
-    records_with_reviews = [ (e) for e in past_events if len(e['review']) > 5]
-    random_review = choice(records_with_reviews)
-    print random_review
+    review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','event__owner__userprofile__organization_name').order_by('?')[:1]
+    if review:
+        review = review[0]
     teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')
-
+    print review
     context = {
                'name':user.get_full_name(),
                'profile':profile,
@@ -65,7 +65,8 @@ def public_profile(request,user_id):
                'interests':interests,
                'events':past_events,
                'teams':teams,
-               'levels':PROFICIENCY
+               'levels':PROFICIENCY,
+               'review':review
                }
     return render(request,'public_profile.djhtml',context)
     

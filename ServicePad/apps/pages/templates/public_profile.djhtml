@@ -6,6 +6,14 @@
 		<h2 style="margin-bottom:0em;">{{ name }}</h2>
 		<span class="quiet large">{% for s in skills %}&nbsp;&nbsp;&nbsp;{{ s.skill__name }}&nbsp;&nbsp;&nbsp;{% endfor %}</span>
 	</div>
+		{% if review %}
+		<blockquote style="">
+			{{ review.review }}
+		<cite>
+			<a href="/users/{{ review.event__owner }}/">{{ review.event__owner__userprofile__organization_name}}</a>
+		</cite>
+		</blockquote>
+		{% endif %}
 </div>
 <div class="column precolborder span-7 last">
 	<h3>Profile</h3>
