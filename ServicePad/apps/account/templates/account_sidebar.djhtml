@@ -5,6 +5,7 @@
 <li><a href="/account/events/">Events</a></li>
 <li><a href="/account/messages">Mail</a></li>
 <li><a href="/account/teams/">Teams</a></li>
+<li><a href="/account/interests/">Interests</a></li>
 <li><a href="/account/skills/">Skills</a></li>
 <li><a href="/account/availability/">Availability</a></li>
 <li><a href="/account/logout/">Logout</a></li>

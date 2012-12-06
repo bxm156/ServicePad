@@ -1,10 +1,10 @@
 # Create your views here.
 from django.shortcuts import redirect, render, get_object_or_404
 from ServicePad.apps.events.models import Event
-from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, PROFICIENCY
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as djangoLogout
-from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm, AddSkillForm
+from ServicePad.apps.account.forms import VolunteerProfileForm, OrganizationProfileForm, AvailabilityForm, AddSkillForm, AddInterestForm
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.bookmarks.models import Bookmark
 from ServicePad.apps.service.models import ServiceEnrollment
@@ -123,10 +123,41 @@ def skills(request):
     
     return render(request,'account_skills.djhtml',context)
 
+@login_required
 def skill_remove(request,s_id):
     skill = get_object_or_404(HasSkill,pk=s_id,user=request.user)
     skill.delete()
     return redirect("/account/skills")
+
+@login_required
+def interest(request):
+    context = {}
+    if request.method == 'POST':
+        hs = HasInterest(user=request.user)
+        form = AddInterestForm(request.POST.copy(),instance=hs)
+        if form.is_valid():
+            try:
+                form.save()
+                context.update({'added':True})
+                form = AddInterestForm()
+            except IntegrityError, e:
+                context.update({'error':True,'error_message':e[0]})
+    else:
+        form = AddInterestForm()
+    my_interests = HasInterest.objects.filter(user=request.user).values('id','level','interest__name').order_by('interest__name')
+    context.update({
+               'interests':my_interests,
+               'levels':PROFICIENCY, 
+               'form':form
+               })
+    
+    return render(request,'account_interests.djhtml',context)
+
+@login_required
+def interest_remove(request,i_id):
+    interest = get_object_or_404(HasInterest,pk=i_id,user=request.user)
+    interest.delete()
+    return redirect("/account/interests")
     
 def logout(request):
     if request.user.is_authenticated():
