@@ -1,5 +1,7 @@
 /* create different events at the server start, these events are just for testing */
 /* for the time being all the events are owned by the first user */
+
+/* NOTE THESE EVENTS ARE ONLY ADDED TO SQLITE3! THEY ARE NOT ADDED TO PRODUCTION SERVER! SEE event.mysql.sql */
 INSERT INTO events_event (id, name, short_description, long_description, address, city, state, postalzip, public, category_id, start_time, end_time, list_date, owner_id)
     VALUES (1,
         "HORSE",
