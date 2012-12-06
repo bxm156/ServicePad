@@ -12,7 +12,7 @@ INSERT INTO events_event (id, name, short_description, long_description, address
         "True",
         1,
         '11-11-2012',
-        '11-11-2012',
+        '11-13-2012',
         '11-11-2012',
         0);
 INSERT INTO events_event (id, name, short_description, long_description, address, city, state, postalzip, public, category_id, start_time, end_time, list_date, owner_id)
@@ -27,7 +27,7 @@ INSERT INTO events_event (id, name, short_description, long_description, address
         "True",
         1,
         "1-05-2013",
-        "1-05-2013",
+        "1-08-2013",
         "1-05-2013",
         0); 
 INSERT INTO events_event (id, name, short_description, long_description, address, city, state, postalzip, public, category_id, start_time, end_time, list_date, owner_id)
@@ -42,6 +42,6 @@ INSERT INTO events_event (id, name, short_description, long_description, address
         "True",
         1,
         "1-20-2013",
-        "1-20-2013",
+        "1-23-2013",
         "1-20-2013",
         0);
