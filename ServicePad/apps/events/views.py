@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from models import Event
 from models import EventCategory
 from ServicePad.apps.service.forms import ServiceEnrollmentForm, TeamForm
-from ServicePad.apps.service.models import ServiceEnrollment
+from ServicePad.apps.service.models import ServiceEnrollment, ServiceRecord
 from ServicePad.apps.team.models import Team
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 @login_required
 def create(request):
@@ -83,10 +83,13 @@ def join(request,event_id,team_id=None,*args,**kwargs):
     
 def view(request,id):
     event = get_object_or_404(Event.objects.select_related('category'), pk=id)
-    top_users = ServiceEnrollment.objects.values('user').filter(event=event).values('user_id','user__first_name','user__last_name').annotate(count=Count('id')).order_by('-count')[:5]
+    #top_users = ServiceEnrollment.objects.values('user').filter(event=event).values('user_id','user__first_name','user__last_name').annotate(count=Count('id')).order_by('-count')[:5]
+    top_users = ServiceRecord.objects.values('user').filter(event=event,attended=True).values('user_id','user__first_name','user__last_name',).annotate(hours=Sum('hours')).order_by('-hours')[:5]
+    total_hours = ServiceRecord.objects.filter(event=event,attended=True).aggregate(Sum('hours'))
+    context = {'event':event,'top_users':top_users}
+    context.update(total_hours)
     print top_users.query.__str__()
-    return render(request,'view_event.djhtml',
-                       {'event':event,'top_users':top_users})
+    return render(request,'view_event.djhtml',context)
 
 def list(request):
     event_cat = EventCategory.objects.all()

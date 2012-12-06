@@ -24,7 +24,7 @@
 <h3>Teams</h3>
 	<table>
 		{% for team in teams %}
-			<tr><td>{{ ""|linenumbers }}<a href="/teams/{{team.id}}/">{{ team.name }}</a></td><td><span class="quiet">Since {{ team.teammembership__join_date }}</span></td></tr>
+			<tr><td>{{ forloop.counter }}. <a href="/teams/{{team.id}}/">{{ team.name }}</a></td><td><span class="quiet">Since {{ team.teammembership__join_date }}</span></td></tr>
 		{% endfor %}
 	</table>	
 </div>
@@ -32,7 +32,7 @@
 	<h3>Recent Events</h3>
 	<table>
 		{% for e in events %}
-			<tr><td>{{ e.event__name }}</td></tr>
+			<tr><td>{{ forloop.counter }}. {{ e.event__name }}</td></tr>
 		{% endfor %}
 	</table>
 </div>
@@ -40,7 +40,7 @@
 	<h3>Interest</h3>
 	<table>
 		{% for e in interests %}
-			<tr><td>{{ e.interest__name }} ({{ levels|at:e.level }})</td></tr>
+			<tr><td>{{ forloop.counter }}. {{ e.interest__name }} ({{ levels|at:e.level }})</td></tr>
 		{% endfor %}
 	</table>
 </div>

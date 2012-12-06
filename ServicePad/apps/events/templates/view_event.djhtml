@@ -26,15 +26,21 @@
 	<a href="/account/messages/compose?to={{ event.owner.id }}">Message Organizer</a><br/>
 </div>
 <div class="column span-7">
+	<div align="center">
 	<h3>Most Active Participants</h3>
 	<table>
+		<tr><th>User</th><th>Total Hours</th></tr>
 		{% for u in top_users %}
-		<tr><td><a href="/users/{{u.user_id }}">{{u.user__first_name}} {{u.user__last_name}}</a></td></tr>
+		<tr><td>{{ forloop.counter }}. <a href="/users/{{u.user_id }}">{{u.user__first_name}} {{u.user__last_name}}</a></td><td>{{ u.hours }}</td></tr>
 		{% endfor %}
 	</table>
+	</div>
 </div>
 <div class="column precolborder span-8">
-	
+	<div align="center">
+		<h3>Total Hours Counted</h3>
+		<h1>{{ hours__sum }}</h1>
+	</div>
 </div>
 <div class="column precolborder span-7 last">
 	
