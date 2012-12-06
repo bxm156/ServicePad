@@ -13,6 +13,7 @@
 	<div class="column span-3 last">&nbsp;</div>
 </div>
 <div class="column precolborder span-7 last">
+	<h3>Information</h3>
 	<table>
 		<tr><td width="25%">Street:</td><td align="left">{{ event.address }}</td></tr>
 		<tr><td>City:</td><td align="left">{{ event.city }}</td></tr>
@@ -28,12 +29,16 @@
 <div class="column span-7">
 	<div align="center">
 	<h3>Most Active Participants</h3>
-	<table>
-		<tr><th>User</th><th>Total Hours</th></tr>
-		{% for u in top_users %}
-		<tr><td>{{ forloop.counter }}. <a href="/users/{{u.user_id }}">{{u.user__first_name}} {{u.user__last_name}}</a></td><td>{{ u.hours }}</td></tr>
-		{% endfor %}
-	</table>
+	{% if top_users %}
+		<table>
+			<tr><th>User</th><th>Total Hours</th></tr>
+			{% for u in top_users %}
+			<tr><td>{{ forloop.counter }}. <a href="/users/{{u.user_id }}">{{u.user__first_name}} {{u.user__last_name}}</a></td><td>{{ u.hours }}</td></tr>
+			{% endfor %}
+		</table>
+	{% else %}
+	<div class="error"><h1 style="margin-bottom:0em">None</h1></div>
+	{% endif %}
 	</div>
 </div>
 <div class="column precolborder span-8">
