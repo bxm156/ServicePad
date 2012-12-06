@@ -31,8 +31,9 @@
 <div class="column precolborder span-8">
 	<h3>Recent Events</h3>
 	<table>
+		<tr><th width="70%">Event</th><th align="left">Hours</th></tr>
 		{% for e in events %}
-			<tr><td>{{ forloop.counter }}. {{ e.event__name }}</td></tr>
+			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.event__name }}</a></td><td>{{e.hours}}</td></tr>
 		{% endfor %}
 	</table>
 </div>

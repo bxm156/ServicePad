@@ -2,12 +2,13 @@
 from django.shortcuts import render, get_object_or_404
 from ServicePad.apps.events.models import Event
 from ServicePad.apps.team.models import Team, TeamMembership
-from ServicePad.apps.service.models import ServiceEnrollment
+from ServicePad.apps.service.models import ServiceRecord, ServiceEnrollment
 from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
 from datetime import datetime
 from django.db.models import Count
 from django.db import connection
 from django.contrib.auth.models import User
+from random import choice
 
 def index(request):
     #5 Upcoming events
@@ -50,7 +51,10 @@ def public_profile(request,user_id):
     availability = Availability.objects.filter(user=user_id)
     skills = HasSkill.objects.filter(user=user_id).values('skill__name')
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
-    past_events = ServiceEnrollment.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name')
+    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name','hours','review')
+    records_with_reviews = [ (e) for e in past_events if len(e['review']) > 5]
+    random_review = choice(records_with_reviews)
+    print random_review
     teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')
 
     context = {
