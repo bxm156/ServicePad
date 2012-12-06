@@ -39,7 +39,9 @@
 <div class="column precolborder span-8">
 	<div align="center">
 		<h3>Total Hours Counted</h3>
-		<h1>{{ hours__sum }}</h1>
+		<div class="{% if hours__sum %}success{% else %}error{% endif %}">
+			<h1 style="margin-bottom:0em">{{ hours__sum }}</h1>
+		</div>
 	</div>
 </div>
 <div class="column precolborder span-7 last">
