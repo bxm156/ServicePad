@@ -47,11 +47,12 @@ def index(request):
 def public_profile(request,user_id):
     user = get_object_or_404(User,pk=user_id)
     profile = get_object_or_404(UserProfile,pk=user_id)
-    availability = Availability.objects.filter(user=request.user)
-    skills = HasSkill.objects.filter(user=request.user).values('skill__name')
-    interests = HasInterest.objects.filter(user=request.user).values('interest__name','level')
-    past_events = ServiceEnrollment.objects.filter(user=request.user,end__lte=datetime.now()).values('id','event__name')
-    teams = Team.objects.filter(members=request.user).values('id','name','teammembership__join_date')
+    availability = Availability.objects.filter(user=user_id)
+    skills = HasSkill.objects.filter(user=user_id).values('skill__name')
+    interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
+    past_events = ServiceEnrollment.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name')
+    teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')
+
     context = {
                'name':user.get_full_name(),
                'profile':profile,

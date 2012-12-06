@@ -1,7 +1,42 @@
 {% extends "master.djhtml" %}
 {% block title %} ServicePad - {{ event.name }} {% endblock title %}
 {% block content %}
-<h1>{{ event.name}}</h1>
-<h2><span class="quiet">{{ event.short_description}}</span></h2>
-{{ event.long_description }}
+<div class="column span-16">
+	<div align="center">
+		<h2 style="margin-bottom:0em">{{ event.name}}</h2>
+		<span class="quiet large">{{ event.category.name }}</span>
+	</div>
+	<div class="column span-3">&nbsp;</div>
+	<div class="column span-10">
+		<p>{{ event.long_description}}</p>
+	</div>
+	<div class="column span-3 last">&nbsp;</div>
+</div>
+<div class="column precolborder span-7 last">
+	<table>
+		<tr><td width="25%">Street:</td><td align="left">{{ event.address }}</td></tr>
+		<tr><td>City:</td><td align="left">{{ event.city }}</td></tr>
+		<tr><td>State:</td><td align="left">{{ event.state }}</td></tr>
+		<tr><td>Zipcode:</td><td align="left">{{ event.postalzip }}</td></tr>
+		<tr><td>From:</td><td align="left">{{ event.start_time }}</td></tr>
+		<tr><td>Till:</td><td align="left">{{ event.end_time }}</td></tr>
+	</table>
+	Click to Enroll<br />
+	<a href="/bookmark/{{ event.id }}">Bookmark</a><br/>
+	<a href="/account/messages/compose?to={{ event.owner.id }}">Message Organizer</a><br/>
+</div>
+<div class="column span-7">
+	<h3>Most Active Participants</h3>
+	<table>
+		{% for u in top_users %}
+		<tr><td><a href="/users/{{u.user_id }}">{{u.user__first_name}} {{u.user__last_name}}</a></td></tr>
+		{% endfor %}
+	</table>
+</div>
+<div class="column precolborder span-8">
+	
+</div>
+<div class="column precolborder span-7 last">
+	
+</div>
 {% endblock content %}

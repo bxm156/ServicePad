@@ -7,6 +7,7 @@ from models import EventCategory
 from ServicePad.apps.service.forms import ServiceEnrollmentForm, TeamForm
 from ServicePad.apps.service.models import ServiceEnrollment
 from ServicePad.apps.team.models import Team
+from django.db.models import Count
 
 @login_required
 def create(request):
@@ -81,9 +82,11 @@ def join(request,event_id,team_id=None,*args,**kwargs):
 
     
 def view(request,id):
-    event = get_object_or_404(Event, pk=id)
+    event = get_object_or_404(Event.objects.select_related('category'), pk=id)
+    top_users = ServiceEnrollment.objects.values('user').filter(event=event).values('user_id','user__first_name','user__last_name').annotate(count=Count('id')).order_by('-count')[:5]
+    print top_users.query.__str__()
     return render(request,'view_event.djhtml',
-                       {'event':event})
+                       {'event':event,'top_users':top_users})
 
 def list(request):
     event_cat = EventCategory.objects.all()
