@@ -11,5 +11,7 @@ urlpatterns = patterns('ServicePad.apps.account.views',
     (r'availability/$','availability'),
     (r'skills/remove/(?P<s_id>[0-9]+)$','skill_remove'),
     (r'skills/$','skills'),
+    (r'interests/remove/(?P<i_id>[0-9]+)$','interest_remove'),
+    (r'interests/$','interest'),
     (r'^logout/$','logout')
 )
