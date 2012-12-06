@@ -4,7 +4,14 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
-<h3><span class="alt">User Profile</span></h3>
+<div class="notice">
+	<h3>Your Profile Is Public!</h3>
+	Dear {{ name }},
+	<p>Don't forget that some of your profile is public and can be viewed here:</p>
+	<a href="/users/{{ id }}/">View Public Profile</a>
+	
+</div>
+<hr class="space">
 {% if success %}
 <div class="success">Profile Updated Successfully!</div>
 <hr class="space">

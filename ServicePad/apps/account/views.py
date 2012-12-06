@@ -49,7 +49,7 @@ def teams(request):
 
 @login_required
 def profile(request):
-    context = {}
+    context = {'name':request.user.get_full_name(),'id':request.user.id}
     profile = request.user.get_profile()
     if request.method == 'POST':
         if profile.account_type == UserProfile.ACCOUNT_VOLUNTEER:
