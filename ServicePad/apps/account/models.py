@@ -84,8 +84,8 @@ class HasInterest(models.Model):
 
 class Availability(models.Model):
     user = models.ForeignKey(User)
-    start = models.TimeField()
-    end = models.TimeField()
+    start = models.TimeField(help_text="ex: 11:30")
+    end = models.TimeField(help_text="ex: 13:30")
     
     class Meta:
         unique_together = (("user", "start", "end"))

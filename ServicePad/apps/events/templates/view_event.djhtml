@@ -8,7 +8,7 @@
 		<span class="quiet large">{{ event.category.name }}</span>
 	</div>
 
-		<p>{{ event.long_description}}</p>
+		<p>{{ event.long_description|safe}}</p>
 </div>
 <div class="column precolborder span-7 last">
 	<h3>Information</h3>
