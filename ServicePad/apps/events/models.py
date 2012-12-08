@@ -61,3 +61,6 @@ class NeedsSkill(models.Model):
     event = models.ForeignKey(Event)
     skill = models.ForeignKey(Skill)
     min_proficiency_level = models.PositiveSmallIntegerField()
+    
+    class Meta:
+        unique_together = ("event", "skill")
