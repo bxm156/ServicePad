@@ -58,7 +58,7 @@ def public_profile(request,user_id):
     teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')
     print review
     context = {
-               'name':user.get_full_name(),
+               'user':user,
                'profile':profile,
                'availability':availability,
                'skills':skills,
