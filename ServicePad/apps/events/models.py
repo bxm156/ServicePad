@@ -33,8 +33,8 @@ class Event(models.Model):
     postalzip = models.CharField(max_length=11)
     public = models.BooleanField(default=True)
     category = models.ForeignKey(EventCategory)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
+    end_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     list_date = models.DateTimeField(auto_now_add=True,editable=False)
     owner = models.ForeignKey(User,editable=False)
     #rating = models.PositiveSmallIntegerField()
@@ -51,11 +51,14 @@ class Event(models.Model):
         """
         #Get recommendations based on Stored Procedure
         #Market Basket Problem in class
-        cursor = connection.cursor()
-        cursor.callproc("recommend_events", (user_id, threshold))# calls PROCEDURE named recommend_events
-        results = cursor.fetchall()
-        cursor.close()
-        return [ int(i[0]) for i in results ]
+        try:
+            cursor = connection.cursor()
+            cursor.callproc("recommend_events", (user_id, threshold))# calls PROCEDURE named recommend_events
+            results = cursor.fetchall()
+            cursor.close()
+            return [ int(i[0]) for i in results ]
+        except:
+            return None
     
 class NeedsSkill(models.Model):
     event = models.ForeignKey(Event)
