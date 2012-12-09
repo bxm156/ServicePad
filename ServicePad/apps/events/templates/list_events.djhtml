@@ -1,5 +1,6 @@
-{% extends "master.djhtml" %}
-{% block content %}
+{% extends "master_left_sidebar.djhtml" %}
+{% block left %}
+<h3>Search Events<h3>
 <form action="/events/" method="post">
     {% csrf_token %}
     <select name="category">
@@ -10,12 +11,16 @@
     </select>
     <input type="submit" value="Submit">
 </form>
+{% endblock %}
+{% block center %}
+<hr class="space">
+<h3>Events</h3>
 {% for event in events %}
     <div>
-        <h2><a href="{{event.get_absolute_url}}">{{ event.name}}</a></h2>
+        <h4><a href="{{event.get_absolute_url}}">{{ event.name}}</a></h4>
         {{ event.short_description}}
         <hr class="space">
         <hr>
     </div>
 {% endfor %}
-{% endblock content %}
+{% endblock %}
