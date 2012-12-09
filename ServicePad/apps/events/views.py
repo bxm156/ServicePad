@@ -120,8 +120,10 @@ def admin(request,event_id):
     pending_approval = ServiceEnrollment.objects.filter(start__gt=datetime.now(),approved=False).values('id','event_id','user__first_name',
                     'user__first_name','user__last_name','user_id','team_id','team__name','start','end')
     approved = ServiceEnrollment.objects.filter(end__gt=datetime.now(),approved=True).values('user__first_name','user__last_name','team_id','team__name','start','end')
+    to_review = ServiceEnrollment.objects.filter(end__lt=datetime.now(),approved=True).values('id','user__first_name','user__last_name','team_id','team__name','start','end')
     context = {'pending_approval':pending_approval,
-               'approved':approved
+               'approved':approved,
+               'to_review':to_review,
     }
     if request.method == "POST":
         if "edit_event" in request.POST:

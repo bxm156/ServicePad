@@ -14,7 +14,7 @@ from random import choice
 @login_required
 def index(request):
     if request.user.is_authenticated():
-        upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
+        upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=True).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
         context = {'upcoming_enrollments':upcoming_enrolled}
         #Get a list of stuff to show on the page
         
@@ -70,15 +70,18 @@ def profile(request):
 @login_required    
 def events(request):
     print datetime.now()
-    upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now()).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
+    upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=True).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
     print upcoming_enrolled.query.__str__()
-    past_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__lte=datetime.now()).order_by('-start').values('start','end','event','event__name','event__short_description','team__name')
+    past_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__lte=datetime.now(),approved=True).order_by('-start').values('start','end','event','event__name','event__short_description','team__name')
+    upcoming_pending = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=False).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
+ 
     events = Event.objects.filter(owner__exact=request.user)
     bookmarks = Bookmark.objects.filter(user=request.user)
     return render(request,'account_events.djhtml',
                                {'events':events, 'bookmarks':bookmarks,
                                 'upcoming_enrollments':upcoming_enrolled,
-                                'past_enrollments':past_enrolled})
+                                'past_enrollments':past_enrolled,
+                                'pending_enrollments':upcoming_pending})
     
 @login_required
 def availability(request):

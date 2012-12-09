@@ -28,6 +28,18 @@
 	<hr class="space">
 	<hr />
 	{% endif %}
+	{% if to_review %}
+	<h3><span class="alt">Review</span></h3>
+	<table>
+		<tr><th>Name</th><th>Team</th><th>Start</th><th>End</th><th>Action</th></tr>
+		{% for e in to_review %}
+		<tr><td>{{ e.user__first_name }} {{ e.user__last_name }}</td><td> {{ e.team__name }}</td><td> {{e.start}}</td>
+			<td>{{ e.end }}</td><td>Review</td></tr>
+		{% endfor %}
+	</table>
+	<hr class="space">
+	<hr />
+	{% endif %}
 	<h3><span class="alt">Information</span></h3>
 	<form action="" method="post">{% csrf_token %}
 		{{ edit_event_form.as_p }}
