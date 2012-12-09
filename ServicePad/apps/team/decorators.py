@@ -11,12 +11,9 @@ def team_admin_required(function=None,redirect_to="/account/"):
     def _decorated(view_func):
         def _view(request, *args, **kwargs):
             if 'team_id' in kwargs:
-                try:
-                    team = Team.objects.get(pk=kwargs['team_id'])
-                    if team.admin == request.user:
-                        return view_func(request,*args,**kwargs)
-                except:
-                    pass
+                team = Team.objects.get(pk=kwargs['team_id'])
+                if team.admin == request.user:
+                    return view_func(request,*args,**kwargs)
             return redirect(redirect_to)
         _view.__name__ = view_func.__name__
         _view.__dict__ = view_func.__dict__

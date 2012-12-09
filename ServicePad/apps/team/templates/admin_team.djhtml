@@ -21,7 +21,7 @@
 {% if members %}
 	<ol>
 		{% for u in members %}
-			<li>{{ u.username }} ({{ u.get_full_name }})</li>
+			<li>{{ u.member__username }} ({{ u.member__first_name }} {{ u.member__last_name}}){% if u.invite %} - Pending {% endif %}</li>
 		{% endfor %}
 	</ol>
 {% else %}
