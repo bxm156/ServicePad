@@ -4,6 +4,7 @@
 	{% account_sidebar %}
 {% endblock left %}
 {% block center %}
+	<h2>{{ event.name }}</h2>
 	{% if pending_approval %}
 	<h3><span class="alt">Pending Approval</span></h3>
 	<table>

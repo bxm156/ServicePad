@@ -141,7 +141,7 @@ def admin(request,event_id):
         edit_event_form = CreateEventForm(instance=event,prefix='event')
         needs_skill_form = NeedsSkillForm(prefix='skill')
     needed_skills = NeedsSkill.objects.filter(event=event)
-    context.update({'edit_event_form':edit_event_form,
+    context.update({'event':event,'edit_event_form':edit_event_form,
                     'needs_skill_form':needs_skill_form,
                     'needed_skills':needed_skills,
                     'proficiency':PROFICIENCY})
