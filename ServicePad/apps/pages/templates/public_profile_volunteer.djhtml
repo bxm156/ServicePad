@@ -43,7 +43,7 @@
 	<table>
 		<tr><th width="70%">Event</th><th align="left">Hours</th></tr>
 		{% for e in events %}
-			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.event__name }}</a></td><td>{{e.hours}}</td></tr>
+			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.event_id}}/">{{ e.event__name }}</a></td><td>{{e.hours}}</td></tr>
 		{% endfor %}
 	</table>
 	{% endif %}
