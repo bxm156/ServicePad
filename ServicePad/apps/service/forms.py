@@ -1,5 +1,5 @@
 from django import forms
-from models import ServiceEnrollment
+from models import ServiceEnrollment, ServiceRecord
     
 class ServiceEnrollmentForm(forms.ModelForm):
 
@@ -35,3 +35,8 @@ class TeamForm(forms.Form):
         for name, value in self.cleaned_data.items():
             if name.startswith('member_') and value == True:
                 yield name[7:]
+                
+class ServiceReviewForm(forms.ModelForm):
+    class Meta:
+        model = ServiceRecord
+        exclude = ('user','team','event','hours')

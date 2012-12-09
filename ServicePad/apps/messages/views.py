@@ -38,7 +38,9 @@ def compose(request):
             message_form.save()
             return redirect("/account/messages/")
     else:
-        message_form = ComposeMessageForm()
+        to = request.GET.get('to',None)
+        msg = Message(toUser_id=to)
+        message_form = ComposeMessageForm(instance=msg)
     return render(request,'compose_message.djhtml',
                                 {'form':message_form})
     

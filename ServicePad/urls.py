@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     (r'', include('ServicePad.apps.pages.urls')),
     (r'^events/', include('ServicePad.apps.events.urls')),
+    (r'^service/', include('ServicePad.apps.service.urls')),
     (r'^account/', include('ServicePad.apps.account.urls')),
     (r'^teams/', include('ServicePad.apps.team.urls')),
     (r'^bookmark/', include('ServicePad.apps.bookmarks.urls')),
