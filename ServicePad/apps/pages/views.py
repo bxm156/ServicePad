@@ -13,6 +13,8 @@ from random import choice
 def index(request):
     #5 Upcoming events
     upcoming_events = Event.objects.filter(start_time__gt=datetime.now()).values('id','name').order_by('-start_time')[:5]
+    #out of all events, order them randomly, narrow queryset to 1, and get that value from the queryset
+    random_event = Event.objects.all().order_by('?')[:1][0]
     
     #Top 5 teams with the most enrollments in service
     top_5_teams = ServiceEnrollment.objects.values('team__id').filter(team__isnull=False).annotate(count=Count('id')).order_by('-count').values('team__name','team__id','count')[:5]
@@ -42,7 +44,7 @@ def index(request):
     show_account_link = False
     if request.user.is_authenticated():
         show_account_link = True
-    context = {'user_loggedin': show_account_link, 'upcoming_events':upcoming_events,'hours':hours}
+    context = {'user_loggedin': show_account_link, 'upcoming_events':upcoming_events,'hours':hours, 'random': random_event, 'upcoming': upcoming_events}
     return render(request,'index.djhtml',context)
 
 def public_profile(request,user_id):
