@@ -8,12 +8,11 @@
     Total Hours: {{ hours }}
 {% endblock %}
 {% block center %}
-    this is only a test
-    <!--
+    <h3>Upcoming Events</h3>
     {% for event in upcoming %}
-        <a href={{ event.get_absolute_url }}> {{ event.name }} </a>
+        <a href= "/events/{{ event.id }}"> {{ event.name }} </a>
+        <hr class="space">
     {% endfor %}
-    -->
 {% endblock %}
 {% block right %}
 	{% if user_loggedin %}

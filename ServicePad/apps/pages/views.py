@@ -13,8 +13,8 @@ from random import choice
 def index(request):
     #5 Upcoming events
     upcoming_events = Event.objects.filter(start_time__gt=datetime.now()).values('id','name').order_by('-start_time')[:5]
-    random_event = Event.objects.all()
-    random_event = choice(random_event)
+    #out of all events, order them randomly, narrow queryset to 1, and get that value from the queryset
+    random_event = Event.objects.all().order_by('?')[:1][0]
     
     #Top 5 teams with the most enrollments in service
     top_5_teams = ServiceEnrollment.objects.values('team__id').filter(team__isnull=False).annotate(count=Count('id')).order_by('-count').values('team__name','team__id','count')[:5]
