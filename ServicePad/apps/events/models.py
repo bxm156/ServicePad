@@ -1,6 +1,7 @@
 from django.db import models, connection
 from django.contrib.auth.models import User
 from ServicePad.apps.account.models import Skill
+from ServicePad.apps.account.models import PROFICIENCY
 
 
 CATEGORY_NONE = 0
@@ -63,7 +64,7 @@ class Event(models.Model):
 class NeedsSkill(models.Model):
     event = models.ForeignKey(Event)
     skill = models.ForeignKey(Skill)
-    min_proficiency_level = models.PositiveSmallIntegerField()
+    min_proficiency_level = models.PositiveSmallIntegerField(choices=PROFICIENCY,default=0)
     
     class Meta:
         unique_together = ("event", "skill")

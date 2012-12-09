@@ -1,13 +1,15 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from forms import CreateEventForm
+from ServicePad.apps.events.forms import CreateEventForm, NeedsSkillForm
 from django.contrib.auth.decorators import login_required
-from models import Event
-from models import EventCategory
+from ServicePad.apps.events.models import Event, NeedsSkill, EventCategory
 from ServicePad.apps.service.forms import ServiceEnrollmentForm, TeamForm
 from ServicePad.apps.service.models import ServiceEnrollment, ServiceRecord
 from ServicePad.apps.team.models import Team
-from django.db.models import Count, Sum
+from django.db.models import Sum
+from ServicePad.apps.events.decorators import event_admin
+from datetime import datetime
+from ServicePad.apps.account.models import PROFICIENCY
 
 @login_required
 def create(request):
@@ -83,10 +85,11 @@ def join(request,event_id,team_id=None,*args,**kwargs):
     
 def view(request,id):
     event = get_object_or_404(Event.objects.select_related('category'), pk=id)
+    is_admin = (event.owner_id == request.user.id)
     #top_users = ServiceEnrollment.objects.values('user').filter(event=event).values('user_id','user__first_name','user__last_name').annotate(count=Count('id')).order_by('-count')[:5]
     top_users = ServiceRecord.objects.values('user').filter(event=event,attended=True).values('user_id','user__first_name','user__last_name',).annotate(hours=Sum('hours')).order_by('-hours')[:5]
     total_hours = ServiceRecord.objects.filter(event=event,attended=True).aggregate(Sum('hours'))
-    context = {'event':event,'top_users':top_users}
+    context = {'event':event,'top_users':top_users,'is_admin':is_admin}
     context.update(total_hours)
     print top_users.query.__str__()
     return render(request,'view_event.djhtml',context)
@@ -109,3 +112,33 @@ def list(request):
     return render(request, 'list_events.djhtml',
                     {'events': events,
                     'event_cat': event_cat})
+
+@event_admin
+def admin(request,event_id):
+    event = get_object_or_404(Event,pk=event_id)
+    pending_approval = ServiceEnrollment.objects.filter(start__gt=datetime.now(),approved=False)
+    approved = ServiceEnrollment.objects.filter(end__gt=datetime.now(),approved=True)
+    context = {'pending_approval':pending_approval,
+               'approved':approved
+    }
+    if request.method == "POST":
+        if "edit_event" in request.POST:
+            edit_event_form = CreateEventForm(request.POST.copy(),instance=event,prefix='event')
+            if edit_event_form.is_valid():
+                edit_event_form.save()
+        else:
+            edit_event_form = CreateEventForm(instance=event,prefix='event')
+        if "add_skill" in request.POST:
+            needs_skill_form = NeedsSkillForm(request.POST.copy(),instance=NeedsSkill(event=event),prefix='skill')
+            if needs_skill_form.is_valid():
+                needs_skill_form.save()
+        needs_skill_form = NeedsSkillForm(prefix='skill')
+    else:
+        edit_event_form = CreateEventForm(instance=event,prefix='event')
+        needs_skill_form = NeedsSkillForm(prefix='skill')
+    needed_skills = NeedsSkill.objects.filter(event=event)
+    context.update({'edit_event_form':edit_event_form,
+                    'needs_skill_form':needs_skill_form,
+                    'needed_skills':needed_skills,
+                    'proficiency':PROFICIENCY})
+    return render(request,'admin_event.djhtml',context)

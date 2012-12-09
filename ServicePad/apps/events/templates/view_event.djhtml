@@ -20,9 +20,10 @@
 		<tr><td>From:</td><td align="left">{{ event.start_time }}</td></tr>
 		<tr><td>Till:</td><td align="left">{{ event.end_time }}</td></tr>
 	</table>
-	Click to Enroll<br />
+	<a href="/events/{{event.id}}/join/">Click to Enroll</a><br />
 	<a href="/bookmark/{{ event.id }}">Bookmark</a><br/>
 	<a href="/account/messages/compose?to={{ event.owner.id }}">Message Organizer</a><br/>
+	{% if is_admin %}<a href="/events/{{ event.id }}/admin/">Admin</a>{% endif %}
 </div>
 </div>
 <div class="block">
