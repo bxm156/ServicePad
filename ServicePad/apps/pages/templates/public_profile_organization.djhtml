@@ -1,0 +1,53 @@
+{% extends "master.djhtml" %}
+{% load account_tags %}
+{% block content %}
+<div class="column span-16">
+	<div align="center">
+		<h2 style="margin-bottom:0em;">{{ profile.organization_name }}</h2>
+	</div>
+	{% if current_events %}
+	<h3>Current Events</h3>
+	<table>
+		<tr><th>Event</th><th align="left">Time</th></tr>
+		{% for e in current_events %}
+			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.name }}</a></td><td>{{e.start_time}} - {{ e.end_time}}</td></tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+<div class="column precolborder span-7 last">
+	<h3>Profile</h3>
+	<table>
+		<tr><td width="28%">Address:</td><td align="left">{{ profile.organization_address }}</td></tr>
+		<tr><td width="28%">City:</td><td align="left">{{ profile.organization_city }}</td></tr>
+		<tr><td width="28%">State:</td><td align="left">{{ profile.organization_state }}</td></tr>
+		<tr><td width="28%">Zip:</td><td align="left">{{ profile.organization_postalzip }}</td></tr>
+		<tr><td>User Since:</td><td>{{ user.date_joined }}</td></tr>
+		<tr><td>Last Login:</td><td>{{ user.last_login }}</td></tr>
+	</table>
+</div>
+<hr class="space">
+<hr />
+<div class="column span-12">
+	<h3>Upcoming Events</h3>
+	{% if upcoming_events %}
+	<table>
+		<tr><th>Event</th><th align="left">Time</th></tr>
+		{% for e in upcoming_events %}
+			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.name }}</a></td><td>{{e.start_time}} - {{ e.end_time}}</td></tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+<div class="column precolborder span-11 last">
+	<h3>Past Events</h3>
+	{% if past_events %}
+	<table>
+		<tr><th>Event</th><th align="left">Time</th></tr>
+		{% for e in past_events %}
+			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.name }}</a></td><td>{{e.start_time}} - {{ e.end_time}}</td></tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+{% endblock content %}
