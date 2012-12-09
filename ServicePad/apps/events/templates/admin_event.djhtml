@@ -34,7 +34,7 @@
 		<tr><th>Name</th><th>Team</th><th>Start</th><th>End</th><th>Action</th></tr>
 		{% for e in to_review %}
 		<tr><td>{{ e.user__first_name }} {{ e.user__last_name }}</td><td> {{ e.team__name }}</td><td> {{e.start}}</td>
-			<td>{{ e.end }}</td><td>Review</td></tr>
+			<td>{{ e.end }}</td><td><a href="/service/review/{{e.id}}/">Review</a></td></tr>
 		{% endfor %}
 	</table>
 	<hr class="space">
