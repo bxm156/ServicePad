@@ -1,0 +1,28 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+	<h3><span class="alt">Information</span></h3>
+	<form action="" method="post">{% csrf_token %}
+		{{ edit_event_form.as_p }}
+		<input type="submit" value="Save" name="edit_event" />
+	</form>
+	<hr class="space">
+	<hr />
+	<div class="block">
+		<div class="column span-10">
+			<h3><span class="alt">Needed Skills</span></h3>
+			<form action="" method="post">{% csrf_token %}
+				{{ needs_skill_form.as_p }}
+			<input type="submit" value="Add" name="add_skill" />
+			</form>
+		</div>
+		<div class="column precolborder span-9 last">
+			{% for skill in needed_skills %}
+				{{ skill.skill }} ({{ proficiency|at:skill.min_proficiency_level }}) <br />
+			{% endfor %}
+		</div>
+	</div>
+{% endblock center %}

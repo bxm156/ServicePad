@@ -29,8 +29,8 @@ class UserProfile(models.Model):
 			(ETHNICITY_OTHER, 'Other'),
 			)
     account_type = models.PositiveSmallIntegerField(choices=ACCOUNT_TYPE, default=ACCOUNT_VOLUNTEER,editable=False)
-    gender = models.CharField(max_length=2, choices=GENDER, default=GENDER_NOT_SPECIFIED)
-    ethnicity = models.CharField(max_length=3, choices=ETHNICITY, default=ETHNICITY_WHITE)
+    gender = models.CharField(max_length=2, choices=GENDER, default=GENDER_NOT_SPECIFIED, null=True)
+    ethnicity = models.CharField(max_length=3, choices=ETHNICITY, default=ETHNICITY_WHITE, null=True)
     major = models.CharField(max_length=20, blank=True, null=True)
     graduating_class = models.CharField(max_length=2, blank=True, null=True)
     address = models.CharField(max_length=60)
@@ -84,8 +84,8 @@ class HasInterest(models.Model):
 
 class Availability(models.Model):
     user = models.ForeignKey(User)
-    start = models.TimeField()
-    end = models.TimeField()
+    start = models.TimeField(help_text="ex: 11:30")
+    end = models.TimeField(help_text="ex: 13:30")
     
     class Meta:
         unique_together = (("user", "start", "end"))

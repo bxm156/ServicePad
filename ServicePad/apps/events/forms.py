@@ -1,6 +1,6 @@
 from django import forms
 from models import Event
-from ServicePad.apps.events.models import EventCategory
+from ServicePad.apps.events.models import EventCategory, NeedsSkill
 
 class CreateEventForm(forms.ModelForm):
     
@@ -22,3 +22,8 @@ class CreateEventForm(forms.ModelForm):
             "js/jquery-1.7.1.js",
             "js/jquery-ui-1.8.16.custom.min.js"
             )
+class NeedsSkillForm(forms.ModelForm):
+    
+    class Meta:
+        model = NeedsSkill
+        exclude = ('event')

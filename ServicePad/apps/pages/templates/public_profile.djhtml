@@ -3,9 +3,17 @@
 {% block content %}
 <div class="column span-16">
 	<div align="center">
-		<h2 style="margin-bottom:0em;">{{ name }}</h2>
+		<h2 style="margin-bottom:0em;">{{ user.get_full_name }}</h2>
 		<span class="quiet large">{% for s in skills %}&nbsp;&nbsp;&nbsp;{{ s.skill__name }}&nbsp;&nbsp;&nbsp;{% endfor %}</span>
 	</div>
+		{% if review %}
+		<blockquote style="">
+			{{ review.review }}
+		<cite>
+			<a href="/users/{{ review.event__owner }}/">{{ review.event__owner__userprofile__organization_name}}</a>
+		</cite>
+		</blockquote>
+		{% endif %}
 </div>
 <div class="column precolborder span-7 last">
 	<h3>Profile</h3>
@@ -16,6 +24,7 @@
 		<tr><td>Class:</td><td>{% if profile.graduating_class %}'{{ profile.graduating_class }}{% else %}Unknown{% endif %}</td></tr>
 		<tr><td>Major</td><td>{% if profile.major %}{{ profile.major }}{% else %}Unknown{% endif %}</td></tr>
 		<tr><td>User Since:</td><td>{{ user.date_joined }}</td></tr>
+		<tr><td>Last Login:</td><td>{{ user.last_login }}</td></tr>
 	</table>
 </div>
 <hr class="space">

@@ -1,16 +1,14 @@
 {% extends "master.djhtml" %}
 {% block title %} ServicePad - {{ event.name }} {% endblock title %}
 {% block content %}
+<div class="block">
 <div class="column span-16">
 	<div align="center">
 		<h2 style="margin-bottom:0em">{{ event.name}}</h2>
 		<span class="quiet large">{{ event.category.name }}</span>
 	</div>
-	<div class="column span-3">&nbsp;</div>
-	<div class="column span-10">
-		<p>{{ event.long_description}}</p>
-	</div>
-	<div class="column span-3 last">&nbsp;</div>
+
+		<p>{{ event.long_description|safe}}</p>
 </div>
 <div class="column precolborder span-7 last">
 	<h3>Information</h3>
@@ -22,11 +20,14 @@
 		<tr><td>From:</td><td align="left">{{ event.start_time }}</td></tr>
 		<tr><td>Till:</td><td align="left">{{ event.end_time }}</td></tr>
 	</table>
-	Click to Enroll<br />
+	<a href="/events/{{event.id}}/join/">Click to Enroll</a><br />
 	<a href="/bookmark/{{ event.id }}">Bookmark</a><br/>
 	<a href="/account/messages/compose?to={{ event.owner.id }}">Message Organizer</a><br/>
+	{% if is_admin %}<a href="/events/{{ event.id }}/admin/">Admin</a>{% endif %}
 </div>
-<div class="column span-7">
+</div>
+<div class="block">
+	<div class="column span-7">
 	<div align="center">
 	<h3>Most Active Participants</h3>
 	{% if top_users %}
@@ -51,5 +52,6 @@
 </div>
 <div class="column precolborder span-7 last">
 	
+</div>
 </div>
 {% endblock content %}

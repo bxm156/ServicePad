@@ -5,6 +5,7 @@ urlpatterns = patterns('ServicePad.apps.events.views',
     (r'^(?P<event_id>[0-9]+)/join/?$', 'join'),
     (r'^(?P<event_id>[0-9]+)/join/team/?$', 'join', {'show_teams':True}),
     (r'^(?P<event_id>[0-9]+)/join/team/(?P<team_id>[0-9]+)/?$', 'join', {'show_teams':True}),
+    (r'^(?P<event_id>[0-9]+)/admin/?$','admin'),
     (r'^create/?$','create'),
 	(r'^', 'list')
 )
