@@ -1,7 +1,19 @@
 {% extends "master_3_columns.djhtml" %}
 {% block left %}
-<h3>Statistics</h3>
-Total Hours: {{ hours }}
+    <h3>Random Event</h3>
+    <a href="{{ random.get_absolute_url }}"> {{random.name}} </a>
+    <hr class="space">
+    <hr>
+    <h3>Statistics</h3>
+    Total Hours: {{ hours }}
+{% endblock %}
+{% block center %}
+    this is only a test
+    <!--
+    {% for event in upcoming %}
+        <a href={{ event.get_absolute_url }}> {{ event.name }} </a>
+    {% endfor %}
+    -->
 {% endblock %}
 {% block right %}
 	{% if user_loggedin %}
