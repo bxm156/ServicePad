@@ -3,6 +3,14 @@ from django.contrib.auth.models import User
 from ServicePad.apps.team.models import Team
 from ServicePad.apps.events.models import Event
 
+RATING = (
+              (1, 'Terrible'),
+              (2, 'Bad'),
+              (3, 'Neutral'),
+              (4, 'Good'),
+              (5, 'Excellent'),
+)
+
 class ServiceRecord(models.Model):
     user = models.ForeignKey(User, related_name='volunteer', null=False, blank=False)
     team = models.ForeignKey(Team, related_name='team', null=True, blank=True)
@@ -10,7 +18,7 @@ class ServiceRecord(models.Model):
     start = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     end = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     hours = models.DecimalField(max_digits = 5, decimal_places=2)
-    rating = models.PositiveIntegerField()
+    rating = models.PositiveIntegerField(choices=RATING,default=3)
     review = models.TextField()
     attended = models.BooleanField()
     
