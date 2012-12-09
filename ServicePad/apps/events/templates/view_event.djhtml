@@ -32,10 +32,10 @@
 		<tr><td>From:</td><td align="left">{{ event.start_time }}</td></tr>
 		<tr><td>Till:</td><td align="left">{{ event.end_time }}</td></tr>
 	</table>
-	<a href="/events/{{event.id}}/join/">Click to Enroll</a><br />
-	<a href="/bookmark/{{ event.id }}">Bookmark</a><br/>
-	<a href="/account/messages/compose?to={{ event.owner.id }}">Message Organizer</a><br/>
-	{% if is_admin %}<a href="/events/{{ event.id }}/admin/">Admin</a>{% endif %}
+	<a href="/events/{{event.id}}/join/"><img src="{{ STATIC_URL }}images/enroll.jpg" /></a><br />
+	<a href="/bookmark/{{ event.id }}"><img src="{{ STATIC_URL }}images/bookmark.jpg" /></a><br/>
+	<a href="/account/messages/compose?to={{ event.owner.id }}"><img src="{{ STATIC_URL }}images/contact.jpg" /></a><br/>
+	{% if is_admin %}<a href="/events/{{ event.id }}/admin/"><img src="{{ STATIC_URL }}images/admin.jpg" /></a>{% endif %}
 </div>
 </div>
 <div class="block">
