@@ -44,6 +44,17 @@
 		{% else %}
 			No upcoming events
 		{% endif %}
+		{% if pending_enrollments %}
+			<div class="column span-20 last">
+			<h3><span class="alt">Pending Enrollment</span></h3>
+				{% for entry in pending_enrollments %}
+					<h4>{{entry.event__name }}</h4>
+					{{ entry.event__short_description }}<br />
+					{% if entry.team__name %} Team: {{ entry.team__name }} {% endif %}
+					<p>Date/Time: {{ entry.start }} - {{ entry.end}}
+					</p>
+				{% endfor %}
+		{% endif %}
 		{% if past_enrollments %}
 			<div class="column span-20 last">
 			<h3><span class="alt">Past Events</span></h3>
