@@ -1,5 +1,6 @@
 {% extends "master_left_sidebar.djhtml" %}
 {% load account_tags %}
+{% load static %}
 {% block left %}
 	{% account_sidebar %}
 {% endblock left %}
@@ -21,7 +22,7 @@
 {% if members %}
 	<ol>
 		{% for u in members %}
-			<li>{{ u.member__username }} ({{ u.member__first_name }} {{ u.member__last_name}}){% if u.invite %} - Pending {% endif %}</li>
+			<li>{{ u.member__username }} ({{ u.member__first_name }} {{ u.member__last_name}}){% if u.invite %} - Pending {% endif %}<a href="/teams/{{team.id}}/admin/remove/{{u.member__id}}/"><img src="{% get_static_prefix %}css/blueprint/plugins/buttons/icons/cross.png" width="10px" height="10px</a></li>
 		{% endfor %}
 	</ol>
 {% else %}
