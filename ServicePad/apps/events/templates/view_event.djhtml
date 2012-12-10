@@ -31,10 +31,10 @@
 		<tr><td>From:</td><td align="left">{{ event.start_time }}</td></tr>
 		<tr><td>Till:</td><td align="left">{{ event.end_time }}</td></tr>
 	</table>
-	{% if can_enroll %}<a href="/events/{{event.id}}/join/"><img src="{{ STATIC_URL }}images/enroll.jpg" width="80px" height="28px"/></a>{% endif %}
-	<a href="/bookmark/{{ event.id }}"><img src="{{ STATIC_URL }}images/bookmark.jpg" width="80px" height="28px" /></a><br/>
-	<a href="/account/messages/compose?to={{ event.owner.id }}"><img src="{{ STATIC_URL }}images/contact.jpg" width="80px" height="28px"/></a><br/>
-	{% if is_admin %}<a href="/events/{{ event.id }}/admin/"><img src="{{ STATIC_URL }}images/admin.jpg" width="80px" height="28px"/></a>{% endif %}
+	{% if can_enroll %}<a href="/events/{{event.id}}/join/"><img src="{{ STATIC_URL }}images/enroll.jpg" width="120px" height="48px"/></a>{% endif %}
+	<a href="/bookmark/{{ event.id }}"><img src="{{ STATIC_URL }}images/bookmark.jpg" width="120px" height="48px" /></a><br/>
+	<a href="/account/messages/compose?to={{ event.owner.id }}"><img src="{{ STATIC_URL }}images/contact.jpg" width="120px" height="48px"/></a><br/>
+	{% if is_admin %}<a href="/events/{{ event.id }}/admin/"><img src="{{ STATIC_URL }}images/admin.jpg" width="120px" height="48px"/></a>{% endif %}
 </div>
 </div>
 <div class="block">

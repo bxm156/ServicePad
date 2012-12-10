@@ -5,7 +5,7 @@
 {% endblock left %}
 {% block center %}
 <h3><span class="alt">Mail</span></h3>
-<a href= "/account/messages/compose"><img src="{{ STATIC_URL }}images/compose.jpg" width="80px" height="28px"/></a>
+<a href= "/account/messages/compose"><img src="{{ STATIC_URL }}images/compose.jpg" width="120px" height="48px"/></a>
 
 <h3><span class="alt">Inbox</span></h3>
 <table border="1">
