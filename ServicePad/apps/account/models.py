@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     graduating_class = models.CharField(max_length=2, blank=True, null=True)
     address = models.CharField(max_length=60,verbose_name="Personal Address")
     city = models.CharField(max_length=60,verbose_name="Personal City")
-    state = models.CharField(max_length=2,verbose_name="Personal Stae")
+    state = models.CharField(max_length=2,verbose_name="Personal State")
     postalzip = models.CharField(max_length=11,verbose_name="Personal Zip")
     authentication = models.PositiveSmallIntegerField(choices=AUTHENTICATION, default=AUTH_MANUAL,editable=False)
     user = models.OneToOneField(User, primary_key=True, parent_link=True,editable=False)

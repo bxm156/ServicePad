@@ -11,7 +11,7 @@
 		{% if events %}
 			<ul>
 			{% for event in events %}
-				<li><a href="{{event.get_absolute_url }}">{{ event.name }}</a> (<a href="/events/{{ event.id }}/admin">Edit</a>)</li>
+				<li><a href="/events/{{event.id }}/">{{ event.name }}</a> (<a href="/events/{{ event.id }}/admin">Manage</a>)</li>
 			{% endfor %}
 			</ul>
 		{% else %}
@@ -31,7 +31,7 @@
 	<hr class="space" />
 	<hr />
 	<div class="column span-20 last">
-		<a href="/events/create">Create Event</a>
+		<a href="/events/create"><img src="{% get_static_prefix %}images/createevent.jpg"></a>
 	</div>
 </ul>
 {% endblock center %}

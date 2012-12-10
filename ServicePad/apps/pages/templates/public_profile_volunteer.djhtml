@@ -27,8 +27,8 @@
 	<h3>Profile</h3>
 	<table>
 		<tr><td width="28%">Location:</td><td align="left">{% if profile.city and profile.state %} {{ profile.city }}, {{ profile.state }} {% else %} Unknown {% endif %}</td></tr>
-		<tr><td>Ethnictiy:</td><td align="left">White</td></tr>
-		<tr><td>Gender:</td><td>Male</td></tr>
+		<tr><td>Ethnictiy:</td><td align="left">{% if profile.ethnicity == "w" %}While{%else%}Other{%endif%}</td></tr>
+		<tr><td>Gender:</td><td>{% if profile.gender == "m" %}Male{% else %}Female{% endif %}</td></tr>
 		<tr><td>Class:</td><td>{% if profile.graduating_class %}'{{ profile.graduating_class }}{% else %}Unknown{% endif %}</td></tr>
 		<tr><td>Major</td><td>{% if profile.major %}{{ profile.major }}{% else %}Unknown{% endif %}</td></tr>
 		<tr><td>User Since:</td><td>{{ user.date_joined }}</td></tr>
@@ -39,11 +39,15 @@
 <hr />
 <div class="column span-7">
 <h3>Teams</h3>
+{% if teams %}
 	<table>
 		{% for team in teams %}
 			<tr><td>{{ forloop.counter }}. <a href="/teams/{{team.id}}/">{{ team.name }}</a></td><td><span class="quiet">Since {{ team.teammembership__join_date }}</span></td></tr>
 		{% endfor %}
 	</table>	
+	{% else %}
+	None
+	{% endif %}
 </div>
 <div class="column precolborder span-8">
 	<h3>Recent Events</h3>
@@ -54,14 +58,29 @@
 			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.event_id}}/">{{ e.event__name }}</a></td><td>{{e.hours}}</td></tr>
 		{% endfor %}
 	</table>
+	{% else %}
+	None
 	{% endif %}
 </div>
 <div class="column precolborder span-7 last">
+	<h3>Availabilities</h3>
+		{% if not availability %}
+			None
+		{% endif %}
+		{% for avail in availability %}
+			<li><span class="quiet">{{ avail.start}} - {{ avail.end}}</span></li>
+		{% endfor %}
+	<hr class="space">
+	<hr/>
 	<h3>Interest</h3>
+	{% if interests %}
 	<table>
 		{% for e in interests %}
 			<tr><td>{{ forloop.counter }}. {{ e.interest__name }} ({{ levels|at:e.level }})</td></tr>
 		{% endfor %}
 	</table>
+	{%else%}
+	None
+	{% endif %}
 </div>
 {% endblock content %}
