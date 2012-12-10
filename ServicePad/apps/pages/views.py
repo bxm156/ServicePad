@@ -47,7 +47,7 @@ def volunteer_profile(request,user_id,user,profile):
     skills = HasSkill.objects.filter(user=user_id).values('skill__name')
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
     past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('event_id','event__name','hours','review')
-    review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','event__owner__userprofile__organization_name').order_by('?')[:1]
+    review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','rating','event__owner__userprofile__organization_name').order_by('?')[:1]
     if review:
         review = review[0]
     teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')

@@ -32,7 +32,7 @@ class Event(models.Model):
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=2)
     postalzip = models.CharField(max_length=11)
-    public = models.BooleanField(default=True)
+    public = models.BooleanField(default=True,editable=False)
     category = models.ForeignKey(EventCategory)
     start_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     end_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
