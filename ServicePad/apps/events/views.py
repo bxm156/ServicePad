@@ -84,13 +84,17 @@ def join(request,event_id,team_id=None,*args,**kwargs):
 
     
 def view(request,id):
+    if request.user.is_authenticated() and request.user.get_profile().account_type == 1:
+        can_enroll = False
+    else:
+        can_enroll = True
     event = get_object_or_404(Event.objects.select_related('category'), pk=id)
     is_admin = (event.owner_id == request.user.id)
     #top_users = ServiceEnrollment.objects.values('user').filter(event=event).values('user_id','user__first_name','user__last_name').annotate(count=Count('id')).order_by('-count')[:5]
     top_users = ServiceRecord.objects.values('user').filter(event=event,attended=True).values('user_id','user__first_name','user__last_name',).annotate(hours=Sum('hours')).order_by('-hours')[:5]
     total_hours = ServiceRecord.objects.filter(event=event,attended=True).aggregate(Sum('hours'))
     needed_skills = NeedsSkill.objects.filter(event=event)
-    context = {'event':event,'top_users':top_users,'is_admin':is_admin,'needed_skills':needed_skills,'proficiency':PROFICIENCY}
+    context = {'event':event,'top_users':top_users,'is_admin':is_admin,'needed_skills':needed_skills,'proficiency':PROFICIENCY,'can_enroll':can_enroll}
     context.update(total_hours)
     print top_users.query.__str__()
     return render(request,'view_event.djhtml',context)

@@ -1,0 +1,36 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% load account_tags %}
+{% block left %}
+	{% account_sidebar %}
+{% endblock left %}
+{% block center %}
+<ul>
+	<div class="column span-10">
+		<h3><span class="alt">My Events</span></h3>
+		{% if events %}
+			<ul>
+			{% for event in events %}
+				<li><a href="{{event.get_absolute_url }}">{{ event.name }}</a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			You haven't created any events
+		{% endif %}
+	</div>
+	<div class="column precolborder span-9 last">
+		<h3><span class="alt">Bookmarked Events</span></h3>
+		{% if bookmarks %}
+			{% for bookmark in bookmarks %}
+				<li><a href="{{ bookmark.event.get_absolute_url }}">{{ bookmark.event.name }}</a></li>
+			{% endfor %}
+		{% else %}
+			You have no bookmarked events
+		{% endif %}
+	</div>
+	<hr class="space" />
+	<hr />
+	<div class="column span-20 last">
+		<a href="/events/create">Create Event</a>
+	</div>
+</ul>
+{% endblock center %}

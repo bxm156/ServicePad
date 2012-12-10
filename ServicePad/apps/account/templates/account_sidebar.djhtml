@@ -1,12 +1,15 @@
 <h3><span class="alt">{{ name }}</span><br/></h3>
 <ul>
 <li><a href="/account/">Overview</a></li>
+<li><a href="/events">Browse Events</a></li>
 <li><a href="/account/profile/">Profile</a></li>
-<li><a href="/account/events/">Events</a></li>
 <li><a href="/account/messages">Mail</a></li>
+{% if account_type == 0 %}
+<li><a href="/account/events/">Events</a></li>
 <li><a href="/account/teams/">Teams</a></li>
 <li><a href="/account/interests/">Interests</a></li>
 <li><a href="/account/skills/">Skills</a></li>
 <li><a href="/account/availability/">Availability</a></li>
+{% endif %}
 <li><a href="/account/logout/">Logout</a></li>
 </ul>

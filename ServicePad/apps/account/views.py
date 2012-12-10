@@ -11,25 +11,27 @@ from ServicePad.apps.service.models import ServiceEnrollment
 from datetime import datetime
 from django.db import IntegrityError
 from random import choice
+
 @login_required
 def index(request):
-    if request.user.is_authenticated():
-        upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=True).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
-        context = {'upcoming_enrollments':upcoming_enrolled}
-        #Get a list of stuff to show on the page
-        
-        #Get recommended events
-        recommended_events = Event.get_recommend(request.user.id,1)
-        if recommended_events:
-            try:
-                event_id = choice(recommended_events)
-                event = Event.objects.get(pk=event_id)
-                context.update({'recommendation':event,'name':request.user.get_full_name()})
-            except:
-                pass
-        return render(request,'account_index.djhtml',context)
-    return redirect("/")
-
+    if request.user.get_profile().account_type == 1:
+        return events_organization(request)
+    upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=True).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
+    context = {'upcoming_enrollments':upcoming_enrolled}
+    #Get a list of stuff to show on the page
+    
+    #Get recommended events
+    recommended_events = Event.get_recommend(request.user.id,1)
+    if recommended_events:
+        try:
+            event_id = choice(recommended_events)
+            event = Event.objects.get(pk=event_id)
+            context.update({'recommendation':event,'name':request.user.get_full_name()})
+        except:
+            pass
+    return render(request,'account_index.djhtml',context)
+    
+    
 @login_required
 def teams(request):
     #Teams the user is a member in
@@ -69,7 +71,8 @@ def profile(request):
 
 @login_required    
 def events(request):
-    print datetime.now()
+    if request.user.get_profile().account_type == 1:
+        return events_organization(request)
     upcoming_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__gt=datetime.now(),approved=True).order_by('start').values('start','end','event','event__name','event__short_description','team__name')
     print upcoming_enrolled.query.__str__()
     past_enrolled = ServiceEnrollment.objects.select_related('event','team').filter(user=request.user,end__lte=datetime.now(),approved=True).order_by('-start').values('start','end','event','event__name','event__short_description','team__name')
@@ -82,6 +85,12 @@ def events(request):
                                 'upcoming_enrollments':upcoming_enrolled,
                                 'past_enrollments':past_enrolled,
                                 'pending_enrollments':upcoming_pending})
+    
+def events_organization(request):
+    events = Event.objects.filter(owner__exact=request.user)
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    return render(request,'account_events_organization.djhtml',
+                           {'events':events, 'bookmarks':bookmarks})
     
 @login_required
 def availability(request):
