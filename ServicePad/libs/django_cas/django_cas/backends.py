@@ -144,7 +144,7 @@ class CASBackend(object):
         """Retrieve the user's entry in the User model if it exists"""
 
         try:
-            return User.objects.get(pk=user_id)
+            return User.objects.get(pk=user_id,is_active=True)
         except User.DoesNotExist:
             return None
 
