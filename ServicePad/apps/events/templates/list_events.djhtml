@@ -1,26 +1,29 @@
 {% extends "master_left_sidebar.djhtml" %}
 {% block left %}
-<h3>Search Events<h3>
+<h3>Search Events</h3>
 <form action="/events/" method="post">
     {% csrf_token %}
-    <select name="category">
-        <option value="0">All</option>
-    {% for cat in event_cat %}
-        <option value="{{cat.id}}">{{cat.name}}</option>
-    {% endfor %}
-    </select>
+    {{ form.as_p }}
     <input type="submit" value="Submit">
+</form>
+<hr class="space">
+<form action="/events/" method="post">
+    {% csrf_token %}
+    <input type="submit" name="show_all" value="Show All Events">
 </form>
 {% endblock %}
 {% block center %}
-<hr class="space">
 <h3>Events</h3>
-{% for event in events %}
-    <div>
-        <h4><a href="{{event.get_absolute_url}}">{{ event.name}}</a></h4>
-        {{ event.short_description}}
-        <hr class="space">
-        <hr>
-    </div>
-{% endfor %}
+{% if events|length > 0 %}
+    {% for event in events %}
+        <div>
+            <h4><a href="/events/{{event.id}}">{{ event.name}}</a></h4>
+            {{ event.short_description}}
+            <hr class="space">
+            <hr>
+        </div>
+    {% endfor %}
+{% else %}
+    No events :(
+{% endif %}
 {% endblock %}
