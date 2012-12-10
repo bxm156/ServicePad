@@ -37,10 +37,16 @@ def index(request):
 def public_profile(request,user_id):
     user = get_object_or_404(User,pk=user_id)
     profile = get_object_or_404(UserProfile,pk=user_id)
+    if profile.account_type == 0:
+        return volunteer_profile(request,user_id,user,profile)
+    if profile.account_type == 1:
+        return organization_profile(request,user_id,user,profile)
+
+def volunteer_profile(request,user_id,user,profile):
     availability = Availability.objects.filter(user=user_id)
     skills = HasSkill.objects.filter(user=user_id).values('skill__name')
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
-    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name','hours','review')
+    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('event_id','event__name','hours','review')
     review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','event__owner__userprofile__organization_name').order_by('?')[:1]
     if review:
         review = review[0]
@@ -57,7 +63,16 @@ def public_profile(request,user_id):
                'levels':PROFICIENCY,
                'review':review
                }
-    return render(request,'public_profile.djhtml',context)
-    
+    return render(request,'public_profile_volunteer.djhtml',context)
+
+def organization_profile(request,user_id,user,profile):
+    upcoming_events = Event.objects.filter(owner=user_id,start_time__gt=datetime.now()).values('id','name','start_time','end_time')
+    current_events = Event.objects.filter(owner=user_id,start_time__lte=datetime.now(),end_time__gt=datetime.now()).values('id','name','start_time','end_time')
+    past_events = Event.objects.filter(owner=user_id,end_time__lte=datetime.now()).values('id','name','start_time','end_time')
+    print upcoming_events
+    print current_events
+    print past_events
+    context = {'profile':profile,'user':user,'upcoming_events':upcoming_events,'current_events':current_events,'past_events':past_events}
+    return render(request,'public_profile_organization.djhtml',context)
     
     

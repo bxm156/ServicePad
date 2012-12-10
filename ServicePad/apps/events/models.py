@@ -37,8 +37,9 @@ class Event(models.Model):
     start_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     end_time = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     list_date = models.DateTimeField(auto_now_add=True,editable=False)
-    owner = models.ForeignKey(User,editable=False)
-    #rating = models.PositiveSmallIntegerField()
+    owner = models.ForeignKey(User, editable=False)
+
+    skills = models.ManyToManyField(Skill, through='NeedsSkill', editable=False)
     #TODO: Support event pictures
     
     @models.permalink
