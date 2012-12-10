@@ -44,6 +44,8 @@
 		{% else %}
 			No upcoming events
 		{% endif %}
+		<hr class="space">
+		<hr>
 		{% if pending_enrollments %}
 			<div class="column span-20 last">
 			<h3><span class="alt">Pending Enrollment</span></h3>
