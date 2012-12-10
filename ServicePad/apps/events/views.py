@@ -143,10 +143,10 @@ def list(request):
 @event_admin
 def admin(request,event_id):
     event = get_object_or_404(Event,pk=event_id)
-    pending_approval = ServiceEnrollment.objects.filter(start__gt=datetime.now(),approved=False).values('id','event_id','user__first_name',
+    pending_approval = ServiceEnrollment.objects.filter(start__gt=datetime.now(),approved=0).values('id','event_id','user__first_name',
                     'user__first_name','user__last_name','user_id','team_id','team__name','start','end')
-    approved = ServiceEnrollment.objects.filter(end__gt=datetime.now(),approved=True).values('event__owner_id','user__first_name','user__last_name','team_id','team__name','start','end')
-    to_review = ServiceEnrollment.objects.filter(end__lt=datetime.now(),approved=True).values('id','user__first_name','user__last_name','team_id','team__name','start','end')
+    approved = ServiceEnrollment.objects.filter(end__gt=datetime.now(),approved=1).values('event__owner_id','user__first_name','user__last_name','team_id','team__name','start','end')
+    to_review = ServiceEnrollment.objects.filter(end__lt=datetime.now(),approved=1).values('id','user__first_name','user__last_name','team_id','team__name','start','end')
     context = {'pending_approval':pending_approval,
                'approved':approved,
                'to_review':to_review,
@@ -167,7 +167,7 @@ def admin(request,event_id):
         edit_event_form = CreateEventForm(instance=event,prefix='event')
         needs_skill_form = NeedsSkillForm(prefix='skill')
     needed_skills = NeedsSkill.objects.filter(event=event)
-    context.update({'edit_event_form':edit_event_form,
+    context.update({'event':event,'edit_event_form':edit_event_form,
                     'needs_skill_form':needs_skill_form,
                     'needed_skills':needed_skills,
                     'proficiency':PROFICIENCY})
@@ -176,6 +176,6 @@ def admin(request,event_id):
 @event_admin
 def approve_enrollment(request,event_id,enrollment_id):
     se = get_object_or_404(ServiceEnrollment,pk=enrollment_id,event_id=event_id)
-    se.approved = True
+    se.approved = 1
     se.save()
     return redirect("/events/{}/admin/".format(se.event_id))

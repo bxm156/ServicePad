@@ -6,7 +6,10 @@ VALUES
 	(2, 'kwr17', 'Kevin', 'Rossoll', 'kevin.rossoll@case.edu', '!', 0, 1, 0, '2012-12-08 21:34:01', '2012-12-08 21:33:59');
 INSERT INTO `auth_user` (`id`, `username`, `first_name`, `last_name`, `email`, `password`, `is_staff`, `is_active`, `is_superuser`, `last_login`, `date_joined`)
 VALUES
-	(7, 'oab7', 'Owen', 'Bell', 'owen.bell@case.edu', '!', 0, 1, 0, '2012-12-09 13:41:08', '2012-12-09 13:41:06');
+	(3, 'oab7', 'Owen', 'Bell', 'owen.bell@case.edu', '!', 0, 1, 0, '2012-12-09 13:41:08', '2012-12-09 13:41:06');
+INSERT INTO `auth_user` (`id`, `username`, `first_name`, `last_name`, `email`, `password`, `is_staff`, `is_active`, `is_superuser`, `last_login`, `date_joined`)
+VALUES
+	(4, 'mal135', 'Mikala', 'Little', 'mikala.little@case.edu', '!', 0, 1, 0, '2012-12-09 16:57:25', '2012-12-09 16:57:25');
 INSERT INTO `account_userprofile` (`account_type`, `gender`, `ethnicity`, `major`, `graduating_class`, `address`, `city`, `state`, `postalzip`, `authentication`, `user_id`, `organization_name`, `organization_address`, `organization_city`, `organization_state`, `organization_postalzip`, `organization_phone`)
 VALUES
 	(0, 'm', 'w', 'Computer Engineering', '12', '4917 Pine Ridge Dr.', 'Wootser', 'OH', '44691', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -15,7 +18,10 @@ VALUES
 	(0, 'm', 'w', 'English', '13', 'Carlton Rd.', 'Cleveland Heights', 'Oh', '44106', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `account_userprofile` (`account_type`, `gender`, `ethnicity`, `major`, `graduating_class`, `address`, `city`, `state`, `postalzip`, `authentication`, `user_id`, `organization_name`, `organization_address`, `organization_city`, `organization_state`, `organization_postalzip`, `organization_phone`)
 VALUES
-	(0, 'm', 'w', 'English, CS', '13', '11909 Carlton Rd', 'Cleveland', 'OH', '44106', 1, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+	(0, 'm', 'w', 'English, CS', '13', '11909 Carlton Rd', 'Cleveland', 'OH', '44106', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);i
+INSERT INTO `account_userprofile` (`account_type`, `gender`, `ethnicity`, `major`, `graduating_class`, `address`, `city`, `state`, `postalzip`, `authentication`, `user_id`, `organization_name`, `organization_address`, `organization_city`, `organization_state`, `organization_postalzip`, `organization_phone`)
+VALUES
+	(0, 'm', 'w', 'Computer Science', '13', '844 NW 193rd St', 'Shoreline', 'Wa', '98177', 1, 4, NULL, NULL, NULL, NULL, NULL, NULL);
 CREATE PROCEDURE delete_user(IN user_id INT)
 BEGIN
 	UPDATE auth_user SET is_active='0' WHERE id = user_id; --

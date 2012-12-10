@@ -5,7 +5,7 @@ from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.service.models import ServiceRecord, ServiceEnrollment
 from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
 from datetime import datetime
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.db import connection
 from django.contrib.auth.models import User
 from random import choice
@@ -24,36 +24,29 @@ def index(request):
     top_5_users = ServiceEnrollment.objects.values('user').annotate(count=Count('id')).order_by('-count').values('user__id','user__first_name','user__last_name','count')[:5]
     print top_5_users.query.__str__()
     
-    # Total Service Hours
-    #This will only work on our MySQL instance, not local SQLite
-    try:
-        
-        cursor = connection.cursor()
-        cursor.execute("SELECT SUM(`seconds`) AS total_seconds FROM  (SELECT TIMESTAMPDIFF(SECOND,`service_serviceenrollment`.`start`,`service_serviceenrollment`.`end`) AS seconds FROM `service_serviceenrollment`) AS TEMP")
-        row = cursor.fetchone()
-        cursor.close()
-        seconds = row[0]
-        if seconds == None:
-            raise Exception
-        hours = float(float(seconds)/(60.0*60.0))
-    except:
-        #Dummy value for SQLite users
-        hours = 0
+    total_hours = ServiceRecord.objects.filter(attended=True).aggregate(hours=Sum('hours'))
     
     
     show_account_link = False
     if request.user.is_authenticated():
         show_account_link = True
-    context = {'user_loggedin': show_account_link, 'upcoming_events':upcoming_events,'hours':hours, 'random': random_event, 'upcoming': upcoming_events}
+    context = {'user_loggedin': show_account_link, 'upcoming_events':upcoming_events, 'random': random_event, 'upcoming': upcoming_events}
+    context.update(total_hours)
     return render(request,'index.djhtml',context)
 
 def public_profile(request,user_id):
     user = get_object_or_404(User,pk=user_id)
     profile = get_object_or_404(UserProfile,pk=user_id)
+    if profile.account_type == 0:
+        return volunteer_profile(request,user_id,user,profile)
+    if profile.account_type == 1:
+        return organization_profile(request,user_id,user,profile)
+
+def volunteer_profile(request,user_id,user,profile):
     availability = Availability.objects.filter(user=user_id)
     skills = HasSkill.objects.filter(user=user_id).values('skill__name')
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
-    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('id','event__name','hours','review')
+    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('event_id','event__name','hours','review')
     review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','event__owner__userprofile__organization_name').order_by('?')[:1]
     if review:
         review = review[0]
@@ -70,7 +63,16 @@ def public_profile(request,user_id):
                'levels':PROFICIENCY,
                'review':review
                }
-    return render(request,'public_profile.djhtml',context)
-    
+    return render(request,'public_profile_volunteer.djhtml',context)
+
+def organization_profile(request,user_id,user,profile):
+    upcoming_events = Event.objects.filter(owner=user_id,start_time__gt=datetime.now()).values('id','name','start_time','end_time')
+    current_events = Event.objects.filter(owner=user_id,start_time__lte=datetime.now(),end_time__gt=datetime.now()).values('id','name','start_time','end_time')
+    past_events = Event.objects.filter(owner=user_id,end_time__lte=datetime.now()).values('id','name','start_time','end_time')
+    print upcoming_events
+    print current_events
+    print past_events
+    context = {'profile':profile,'user':user,'upcoming_events':upcoming_events,'current_events':current_events,'past_events':past_events}
+    return render(request,'public_profile_organization.djhtml',context)
     
     

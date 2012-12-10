@@ -17,7 +17,7 @@ class ServiceRecord(models.Model):
     event = models.ForeignKey(Event, null=False,blank=False)
     start = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
     end = models.DateTimeField(help_text="ex: YYYY-MM-DD HH:MM:SS")
-    hours = models.DecimalField(max_digits = 5, decimal_places=2)
+    hours = models.DecimalField(max_digits = 5, decimal_places=2,null=True)
     rating = models.PositiveIntegerField(choices=RATING,default=3)
     review = models.TextField()
     attended = models.BooleanField()
@@ -32,7 +32,7 @@ class ServiceEnrollment(models.Model):
     start = models.DateTimeField(null=False,blank=False,help_text="ex: YYYY-MM-DD HH:MM:SS")
     end = models.DateTimeField(null=False,blank=False,help_text="ex: YYYY-MM-DD HH:MM:SS")
     enrollment_time = models.DateTimeField(auto_now=True)
-    approved = models.BooleanField()
+    approved = models.PositiveIntegerField(default=0)
     
     class Meta:
         unique_together = (("user", "event", "start", "end"))

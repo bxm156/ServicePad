@@ -15,7 +15,7 @@ def create(request):
             team = Team(admin=request.user)
             new_team_form = NewTeamForm(new_data,instance=team)
             new_team = new_team_form.save()
-            return redirect(new_team)
+            return redirect(new_team.get_admin_url())
         return render(request,'create_team.djhtml',{'form': team_form})
     else:
         form = NewTeamForm()
@@ -23,7 +23,7 @@ def create(request):
     
 def view(request,id):
     team = get_object_or_404(Team, pk=id)
-    members = team.members.all()
+    members = team.members.filter(teammembership__invite=False)
     in_team = False
     if request.user in members:
         in_team = True
@@ -59,12 +59,14 @@ def admin(request,team_id):
     team = get_object_or_404(Team, pk=team_id)
     if request.method == 'POST':
         data = request.POST.copy()
+        new_member_id = data.get('member',None)
         try:
-            m = TeamMembership.objects.get(team=team,member=request.user)
+            m = TeamMembership.objects.get(team=team,member_id=new_member_id)
+            new_member = get_object_or_404(User,pk=new_member_id)
             if m.invite == True:
-                context.update({'pending_invite':request.user.username})
+                context.update({'pending_invite':new_member.username})
             else:
-                context.update({'already_member':request.user.username})
+                context.update({'already_member':new_member.username})
         except TeamMembership.DoesNotExist:
             membership = TeamMembership(team=team)
             invite_form = InviteMember(data,instance=membership)
@@ -72,7 +74,7 @@ def admin(request,team_id):
                 invite_form.save()
                 context.update({'invited':invite_form.cleaned_data['member']})
     #Get Members
-    members = User.objects.filter(team=team)
+    members = TeamMembership.objects.filter(team=team).values('member__username','member__first_name','member__last_name','invite')
     invite_form = InviteMember() 
     context.update({
                     'team': team,
