@@ -19,6 +19,9 @@
 		{% endfor %}
 		</blockquote>
 		{% endif %}
+		<div align="center" class="{% if total_hours %}success{% else %}notice{% endif %}">
+			Total Service Hours: {{ total_hours }}
+		</div>
 </div>
 <div class="column precolborder span-7 last">
 	<h3>Profile</h3>

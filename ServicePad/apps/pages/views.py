@@ -48,6 +48,8 @@ def volunteer_profile(request,user_id,user,profile):
     interests = HasInterest.objects.filter(user=user_id).values('interest__name','level')
     past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('event_id','event__name','hours','review')
     review = ServiceRecord.objects.filter(user=user_id).extra(where=['LENGTH(review) >= 5']).values('event__owner','review','rating','event__owner__userprofile__organization_name').order_by('?')[:1]
+    total_hours = ServiceRecord.objects.filter(user=user_id).aggregate(total_hours=Sum('hours'))
+    print total_hours
     if review:
         review = review[0]
     teams = Team.objects.filter(members=user_id).values('id','name','teammembership__join_date')
@@ -63,6 +65,7 @@ def volunteer_profile(request,user_id,user,profile):
                'levels':PROFICIENCY,
                'review':review
                }
+    context.update(total_hours)
     return render(request,'public_profile_volunteer.djhtml',context)
 
 def organization_profile(request,user_id,user,profile):
