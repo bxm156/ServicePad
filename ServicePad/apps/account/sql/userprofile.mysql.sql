@@ -46,7 +46,7 @@ VALUES
 	(0, 'm', 'w', 'English', '13', 'Carlton Rd.', 'Cleveland Heights', 'Oh', '44106', 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `account_userprofile` (`account_type`, `gender`, `ethnicity`, `major`, `graduating_class`, `address`, `city`, `state`, `postalzip`, `authentication`, `user_id`, `organization_name`, `organization_address`, `organization_city`, `organization_state`, `organization_postalzip`, `organization_phone`)
 VALUES
-	(0, 'm', 'w', 'English, CS', '13', '11909 Carlton Rd', 'Cleveland', 'OH', '44106', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);i
+	(0, 'm', 'w', 'English, CS', '13', '11909 Carlton Rd', 'Cleveland', 'OH', '44106', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `account_userprofile` (`account_type`, `gender`, `ethnicity`, `major`, `graduating_class`, `address`, `city`, `state`, `postalzip`, `authentication`, `user_id`, `organization_name`, `organization_address`, `organization_city`, `organization_state`, `organization_postalzip`, `organization_phone`)
 VALUES
 	(0, 'm', 'w', 'Computer Science', '13', '844 NW 193rd St', 'Shoreline', 'Wa', '98177', 1, 4, NULL, NULL, NULL, NULL, NULL, NULL);
