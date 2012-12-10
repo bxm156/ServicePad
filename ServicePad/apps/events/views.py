@@ -203,8 +203,8 @@ def list(request):
     """
     events = Event.objects.all().values('id', 'name', 'short_description').order_by('name')
     print events.query.__str__()
-    context = {'events': event, 'form': form, 'event_cat': event_cat}
-    return render(request, 'list_events.djhtml', context}
+    context = {'events': events, 'form': form, 'event_cat': event_cat}
+    return render(request, 'list_events.djhtml', context)
 
 @event_admin
 def admin(request,event_id):
