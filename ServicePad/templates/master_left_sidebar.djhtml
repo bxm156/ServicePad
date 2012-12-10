@@ -2,7 +2,7 @@
 {% block content %}
 <div id="left" class="column span-4">
 	{% block left %}
-	Left
+	&nbsp;
 	{% endblock left %}
 </div>
 <div id="center" class="column precolborder span-19 last">
