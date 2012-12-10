@@ -160,6 +160,7 @@ def admin(request,event_id):
             edit_event_form = CreateEventForm(request.POST.copy(),instance=event,prefix='event')
             if edit_event_form.is_valid():
                 edit_event_form.save()
+                context.update({'event_update_success':True})
         else:
             edit_event_form = CreateEventForm(instance=event,prefix='event')
         if "add_skill" in request.POST:
