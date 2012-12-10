@@ -1,29 +1,62 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
 from ServicePad.apps.events.models import Event
-from ServicePad.apps.team.models import Team, TeamMembership
+from ServicePad.apps.team.models import Team
 from ServicePad.apps.service.models import ServiceRecord, ServiceEnrollment
 from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
 from datetime import datetime
 from django.db.models import Count, Sum
-from django.db import connection
 from django.contrib.auth.models import User
-from random import choice
 
 def index(request):
     #5 Upcoming events
+    """
+    SELECT `events_event`.`id`, `events_event`.`name` FROM `events_event`
+    WHERE `events_event`.`start_time` > 2012-12-10 01:24:56 
+    ORDER BY `events_event`.`start_time` DESC LIMIT 5
+    """
     upcoming_events = Event.objects.filter(start_time__gt=datetime.now()).values('id','name').order_by('-start_time')[:5]
-    #out of all events, order them randomly, narrow queryset to 1, and get that value from the queryset
-    random_event = Event.objects.all().order_by('?')[:1][0]
+    print upcoming_events.query.__str__()
+    
+    
+    #Out of all events, order them randomly, narrow queryset to 1, and get that value from the queryset
+    """
+    SELECT `events_event`.`id`, `events_event`.`name`, `events_event`.`long_description`
+    FROM `events_event` ORDER BY RAND() LIMIT 1
+    """
+    random_event = Event.objects.all().order_by('?').values('id','name','long_description')[:1][0]
+    print Event.objects.all().order_by('?').values('id','name','long_description')[:1].query.__str__()
     
     #Top 5 teams with the most enrollments in service
+    """
+    SELECT `team_team`.`name`, `service_serviceenrollment`.`team_id`, COUNT(`service_serviceenrollment`.`id`) AS `count`
+    FROM `service_serviceenrollment`
+    LEFT OUTER JOIN `team_team` ON (`service_serviceenrollment`.`team_id` = `team_team`.`id`)
+    WHERE `team_team`.`id` IS NOT NULL
+    GROUP BY `service_serviceenrollment`.`team_id`, `team_team`.`name`
+    ORDER BY `count` DESC LIMIT 5
+
+    """
     top_5_teams = ServiceEnrollment.objects.values('team__id').filter(team__isnull=False).annotate(count=Count('id')).order_by('-count').values('team__name','team__id','count')[:5]
     print top_5_teams.query.__str__()
     
     # Top 5 Users in Service
+    """
+    SELECT `service_serviceenrollment`.`user_id`, `auth_user`.`first_name`, `auth_user`.`last_name`,
+    COUNT(`service_serviceenrollment`.`id`) AS `count` FROM `service_serviceenrollment`
+    INNER JOIN `auth_user` ON (`service_serviceenrollment`.`user_id` = `auth_user`.`id`)
+    GROUP BY `service_serviceenrollment`.`user_id`, `auth_user`.`first_name`, `auth_user`.`last_name`
+    ORDER BY `count` DESC LIMIT 5
+    """
     top_5_users = ServiceEnrollment.objects.values('user').annotate(count=Count('id')).order_by('-count').values('user__id','user__first_name','user__last_name','count')[:5]
     print top_5_users.query.__str__()
     
+    #Total Service hours performed
+    """
+    SELECT SUM(`service_servicerecord`.`hours`) AS `hours`
+    FROM `service_servicerecord`
+    WHERE `service_servicerecord`.`attended` = 1
+    """
     total_hours = ServiceRecord.objects.filter(attended=True).aggregate(hours=Sum('hours'))
     
     

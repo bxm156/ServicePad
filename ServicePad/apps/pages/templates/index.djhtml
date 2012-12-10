@@ -10,7 +10,7 @@
 </div>
 <div class="column precolborder span-15 last">
 	<h2>Featured Event</h2>
-    <h3><a href="{{ random.get_absolute_url }}"> {{random.name}} </a></h3>
+    <h3><a href="/events/{{ random.id }}/"> {{random.name}} </a></h3>
     <p> {{ random.long_description|safe }}</p>
 </div>
 <hr />
