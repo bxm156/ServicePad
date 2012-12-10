@@ -1,5 +1,6 @@
 {% extends "master_left_sidebar.djhtml" %}
 {% load account_tags %}
+{% load static %}
 {% block left %}
 	{% account_sidebar %}
 {% endblock left %}
@@ -21,7 +22,7 @@
 		<h3><span class="alt">Bookmarked Events</span></h3>
 		{% if bookmarks %}
 			{% for bookmark in bookmarks %}
-				<li><a href="{{ bookmark.event.get_absolute_url }}">{{ bookmark.event.name }}</a></li>
+				<li><a href="{{ bookmark.event.get_absolute_url }}">{{ bookmark.event.name }}</a> <a href="{{bookmark.get_remove_url}}"><img src="{% get_static_prefix %}css/blueprint/plugins/buttons/icons/cross.png" width="10px" height="10px"></a></li>
 			{% endfor %}
 		{% else %}
 			You have no bookmarked events
