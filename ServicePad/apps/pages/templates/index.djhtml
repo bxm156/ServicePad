@@ -2,7 +2,7 @@
 {% block main %}
 <div class="block">
 <div class="column span-8">
-	<h2>Five Upcoming Events</h2>
+	<h2>Upcoming Events</h2>
     {% for event in upcoming %}
         <a href= "/events/{{ event.id }}"> {{ event.name }} </a>
         <hr class="space">
