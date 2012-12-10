@@ -169,14 +169,17 @@ def organization_profile(request,user_id,user,profile):
 
     #Get all the organization's current events
     """
-    SELECT `events_event`.`id`, `events_event`.`name`, `events_event`.`start_time`, `events_event`.`end_time` FROM `events_event` WHERE (`events_event`.`owner_id` = 6  AND `events_event`.`start_time` <= 2012-12-10 02:01:12  AND `events_event`.`end_time` > 2012-12-10 02:01:12 )
+    SELECT `events_event`.`id`, `events_event`.`name`, `events_event`.`start_time`, `events_event`.`end_time`
+    FROM `events_event` WHERE (`events_event`.`owner_id` = 6  AND `events_event`.`start_time` <= 2012-12-10 02:01:12 
+    AND `events_event`.`end_time` > 2012-12-10 02:01:12 )
     """
     current_events = Event.objects.filter(owner=user_id,start_time__lte=datetime.now(),end_time__gt=datetime.now()).values('id','name','start_time','end_time')
     print current_events.query.__str__()
 
     #Get all the organization's past events
     """
-    SELECT `events_event`.`id`, `events_event`.`name`, `events_event`.`start_time`, `events_event`.`end_time` FROM `events_event` WHERE (`events_event`.`owner_id` = 6  AND `events_event`.`end_time` <= 2012-12-10 02:01:12 )
+    SELECT `events_event`.`id`, `events_event`.`name`, `events_event`.`start_time`, `events_event`.`end_time`
+    FROM `events_event` WHERE (`events_event`.`owner_id` = 6  AND `events_event`.`end_time` <= 2012-12-10 02:01:12 )
     """
     past_events = Event.objects.filter(owner=user_id,end_time__lte=datetime.now()).values('id','name','start_time','end_time')
     print past_events.query.__str__()
