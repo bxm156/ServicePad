@@ -32,7 +32,7 @@ def index(request):
     context = {'upcoming_enrollments':upcoming_enrolled}
     
     #Get recommended events
-    recommended_events = Event.get_recommend(request.user.id,1) #Uses stored procedure
+    recommended_events = Event.get_recommend(request.user.id,3) #Uses stored procedure
     if recommended_events:
         try:
             event_id = choice(recommended_events)
