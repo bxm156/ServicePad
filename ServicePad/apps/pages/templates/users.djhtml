@@ -1,0 +1,26 @@
+{% extends "master_left_sidebar.djhtml" %}
+{% block left %}
+<form action="/users" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<hr class="space">
+<form action="/users" method="post">
+    {% csrf_token %}
+    <input type="submit" name="show_all" value="Show All Users">
+</form>
+{% endblock %}
+{% block center %}
+{% if users|length > 0 %}
+    {% for user in users %}
+        <div>
+            <h4><a href="/users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a></h4>
+            <hr>
+        </div>
+    {% endfor %}
+{% else %}
+    no users :(
+{% endif %}
+{% endblock %}
+

@@ -6,6 +6,7 @@
 <li><a href="/account/messages">Mail</a></li>
 {% if account_type == 0 %}
 <li><a href="/account/events/">Events</a></li>
+<li><a href="/users">Browse Users</a></li>
 <li><a href="/account/teams/">Teams</a></li>
 <li><a href="/account/interests/">Interests</a></li>
 <li><a href="/account/skills/">Skills</a></li>

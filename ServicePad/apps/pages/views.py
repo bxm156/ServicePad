@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from ServicePad.apps.events.models import Event
 from ServicePad.apps.team.models import Team, TeamMembership
 from ServicePad.apps.service.models import ServiceRecord, ServiceEnrollment
-from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY
+from ServicePad.apps.account.models import UserProfile, Availability, HasSkill, HasInterest, PROFICIENCY, Skill
+from ServicePad.apps.pages.forms import SearchUsersForm
 from datetime import datetime
 from django.db.models import Count, Sum
 from django.db import connection
@@ -78,4 +79,48 @@ def organization_profile(request,user_id,user,profile):
     context = {'profile':profile,'user':user,'upcoming_events':upcoming_events,'current_events':current_events,'past_events':past_events}
     return render(request,'public_profile_organization.djhtml',context)
     
-    
+def users(request):
+    form = SearchUsersForm()
+    if request.POST:
+        data = request.POST.copy()
+        if data.get('show_all'):
+            users = User.objects.filter(userprofile__account_type=0)
+        else:
+            no_search = True
+            users = User.objects.filter(userprofile__account_type=0)
+            first_name = data['first_name']
+            last_name = data['last_name']
+            skill = data['skill']
+            interest = data['interest']
+            #check to see if an event has the name used
+            if first_name != '':
+               no_search = False
+               users = users.filter(first_name__icontains=first_name) 
+            if last_name != '':
+                no_search = False
+                users = users.filter(last_name__icontains=last_name)
+            if skill != '':
+                no_search = False
+                query_skill = HasSkill.objects.filter(skill_id=skill).values('user_id')
+                if query_skill.count() > 0:
+                    id_array = []
+                    for query in query_skill:
+                        id_array.append(query['user_id'])
+                    users = users.filter(id__in = id_array)
+            if interest != '':
+                no_search = False
+                query_interest = HasInterest.objects.filter(interest_id=interest).values('user_id')
+                if query_interest.count() > 0:
+                    id_array = []
+                    for query in query_interest:
+                        id_array.append(query['user_id'])
+                    users = users.filter(id__in = id_array)
+            if no_search:
+                users = users.all()
+        users = users.values('id', 'first_name', 'last_name').order_by('last_name')
+        context = {'users': users, 'form': form}
+        return render(request, 'users.djhtml', context)
+    #this will only run if there was no request 
+    users = User.objects.filter(userprofile__account_type=0)
+    context = {'users': users, 'form': form}
+    return render(request, 'users.djhtml', context)
