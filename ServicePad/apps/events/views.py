@@ -217,39 +217,43 @@ def admin(request,event_id):
     
     #Get ServiceEnrollments that have not yet been approved
     """
-    SELECT `service_serviceenrollment`.`id`, `service_serviceenrollment`.`event_id`, `auth_user`.`first_name`,
-    `auth_user`.`first_name`, `auth_user`.`last_name`, `service_serviceenrollment`.`user_id`,
-    `service_serviceenrollment`.`team_id`, `team_team`.`name`, `service_serviceenrollment`.`start`,
-    `service_serviceenrollment`.`end` FROM `service_serviceenrollment`
-    INNER JOIN `auth_user` ON (`service_serviceenrollment`.`user_id` = `auth_user`.`id`)
-    LEFT OUTER JOIN `team_team` ON (`service_serviceenrollment`.`team_id` = `team_team`.`id`)
-    WHERE (`service_serviceenrollment`.`start` > 2012-12-10 02:55:06  AND `service_serviceenrollment`.`approved` = 0 )
+   SELECT `service_serviceenrollment`.`id`, `service_serviceenrollment`.`event_id`, `auth_user`.`first_name`,
+   `auth_user`.`first_name`, `auth_user`.`last_name`, `service_serviceenrollment`.`user_id`,
+   `service_serviceenrollment`.`team_id`, `team_team`.`name`, `service_serviceenrollment`.`start`,
+   `service_serviceenrollment`.`end` FROM `service_serviceenrollment`
+   INNER JOIN `auth_user` ON (`service_serviceenrollment`.`user_id` = `auth_user`.`id`)
+   LEFT OUTER JOIN `team_team` ON (`service_serviceenrollment`.`team_id` = `team_team`.`id`)
+   WHERE (`service_serviceenrollment`.`start` > 2012-12-10 05:33:15  AND `service_serviceenrollment`.`event_id` = 1  
+   AND `service_serviceenrollment`.`approved` = 0 )
     """
-    pending_approval = ServiceEnrollment.objects.filter(start__gt=datetime.now(),approved=0).values('id','event_id','user__first_name',
+    pending_approval = ServiceEnrollment.objects.filter(event=event,start__gt=datetime.now(),approved=0).values('id','event_id','user__first_name',
                     'user__first_name','user__last_name','user_id','team_id','team__name','start','end')
     print pending_approval.query.__str__()
     
     #Get approved ServiceEnrollments that are not in the past
     """
-    SELECT `events_event`.`owner_id`, T4.`first_name`, T4.`last_name`, `service_serviceenrollment`.`team_id`, `team_team`.`name`,
-    `service_serviceenrollment`.`start`, `service_serviceenrollment`.`end` FROM `service_serviceenrollment`
-    INNER JOIN `events_event` ON (`service_serviceenrollment`.`event_id` = `events_event`.`id`)
+    SELECT `events_event`.`owner_id`, T4.`first_name`, T4.`last_name`, `service_serviceenrollment`.`team_id`,
+    `team_team`.`name`, `service_serviceenrollment`.`start`, `service_serviceenrollment`.`end`
+    FROM `service_serviceenrollment` INNER JOIN `events_event` ON (`service_serviceenrollment`.`event_id` = `events_event`.`id`)
     INNER JOIN `auth_user` T4 ON (`service_serviceenrollment`.`user_id` = T4.`id`)
     LEFT OUTER JOIN `team_team` ON (`service_serviceenrollment`.`team_id` = `team_team`.`id`)
-    WHERE (`service_serviceenrollment`.`approved` = 1  AND `service_serviceenrollment`.`end` > 2012-12-10 02:55:06 )
+    WHERE (`service_serviceenrollment`.`end` > 2012-12-10 05:33:15  AND `service_serviceenrollment`.`event_id` = 1 
+    AND `service_serviceenrollment`.`approved` = 1 )
     """
-    approved = ServiceEnrollment.objects.filter(end__gt=datetime.now(),approved=1).values('event__owner_id','user__first_name','user__last_name','team_id','team__name','start','end')
+    approved = ServiceEnrollment.objects.filter(event=event,end__gt=datetime.now(),approved=1).values('event__owner_id','user__first_name','user__last_name','team_id','team__name','start','end')
     print approved.query.__str__()
     
     #Get a list of past enrollments to review
     """
-    SELECT `service_serviceenrollment`.`id`, `auth_user`.`first_name`, `auth_user`.`last_name`,
-    `service_serviceenrollment`.`team_id`, `team_team`.`name`, `service_serviceenrollment`.`start`, `service_serviceenrollment`.`end`
-    FROM `service_serviceenrollment` INNER JOIN `auth_user` ON (`service_serviceenrollment`.`user_id` = `auth_user`.`id`) 
+    SELECT `service_serviceenrollment`.`id`, `auth_user`.`first_name`, `auth_user`.`last_name`, 
+    `service_serviceenrollment`.`team_id`, `team_team`.`name`, `service_serviceenrollment`.`start`, 
+    `service_serviceenrollment`.`end` FROM `service_serviceenrollment` 
+    INNER JOIN `auth_user` ON (`service_serviceenrollment`.`user_id` = `auth_user`.`id`) 
     LEFT OUTER JOIN `team_team` ON (`service_serviceenrollment`.`team_id` = `team_team`.`id`) 
-    WHERE (`service_serviceenrollment`.`approved` = 1  AND `service_serviceenrollment`.`end` < 2012-12-10 02:55:06 )
+    WHERE (`service_serviceenrollment`.`event_id` = 1  AND `service_serviceenrollment`.`end` < 2012-12-10 05:33:15  
+    AND `service_serviceenrollment`.`approved` = 1 )
     """
-    to_review = ServiceEnrollment.objects.filter(end__lt=datetime.now(),approved=1).values('id','user__first_name','user__last_name','team_id','team__name','start','end')
+    to_review = ServiceEnrollment.objects.filter(event=event,end__lt=datetime.now(),approved=1).values('id','user__first_name','user__last_name','team_id','team__name','start','end')
     print to_review.query.__str__()
     
     context = {'pending_approval':pending_approval,
