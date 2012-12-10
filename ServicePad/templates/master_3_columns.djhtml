@@ -1,15 +1,15 @@
 {% extends "master.djhtml" %}
 {% block content %}
 <div id="main" class="span-24 last">
-	Data
+	{% block main %}Data{% endblock main %}
 </div>
 <div id="left" class="column span-8">
 	{% block left %} Left {% endblock left %}
 </div>
-<div id="center" class="column precolborder span-7">
+<div id="center" class="column precolborder span-9">
 	{% block center %}Content{% endblock center %}
 </div>
-<div id="right" class="column precolborder span-7 last">
+<div id="right" class="column precolborder span-5 last">
 	{% block right %}Right{% endblock right %}
 </div>
 {% endblock content %}
