@@ -1,6 +1,7 @@
 from django import forms
 from models import Event
-from ServicePad.apps.events.models import EventCategory, NeedsSkill
+from ServicePad.apps.events.models import EventCategory, NeedsSkill, Skill
+from ServicePad.apps.account.models import Interest
 
 class CreateEventForm(forms.ModelForm):
     
@@ -27,3 +28,10 @@ class NeedsSkillForm(forms.ModelForm):
     class Meta:
         model = NeedsSkill
         exclude = ('event')
+
+class SearchEventsForm(forms.Form):
+    name = forms.CharField(required=False)
+    category = forms.ModelChoiceField(queryset = EventCategory.objects.all(), required=False)
+    skill = forms.ModelChoiceField(queryset = Skill.objects.all(), required=False)
+    start = forms.DateTimeField(required=False)
+    end = forms.DateTimeField(required=False)

@@ -1,6 +1,6 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from ServicePad.apps.events.forms import CreateEventForm, NeedsSkillForm
+from ServicePad.apps.events.forms import CreateEventForm, NeedsSkillForm, SearchEventsForm
 from django.contrib.auth.decorators import login_required
 from ServicePad.apps.events.models import Event, NeedsSkill, EventCategory
 from ServicePad.apps.service.forms import ServiceEnrollmentForm, TeamForm
@@ -97,21 +97,47 @@ def view(request,id):
 
 def list(request):
     event_cat = EventCategory.objects.all()
+    form = SearchEventsForm()
     if request.POST:
         data = request.POST.copy()
-        category = int(data['category'])
-        print category
-        if category > 0:
-            events = Event.objects.filter(category_id=category)
-        else:
+        if data.get('show_all'):
             events = Event.objects.all()
+        else:
+            no_search = True
+            events = Event.objects
+            category = data['category']
+            start = data['start']
+            end = data['end']
+            name = data['name']
+            skill = data['skill']
+            #check to see if an event has the name used
+            if name != '':
+               no_search = False
+               events = events.filter(name__icontains=name) 
+            #if the user searched by category
+            if category != '':
+                no_search = False
+                events = events.filter(category_id=int(category))
+            #if the user searched by time
+            if start != '' and end != '':
+                no_search = False
+                events = events.filter(start_time__gt=start, end_time__lt=end)
+            if skill != '':
+                no_search = False
+                events = events.select_related('needsskill').filter(skills = skill)
+            if no_search:
+                events = events.all()
+        events = events.values('id', 'name', 'short_description').order_by('name')
         return render(request, 'list_events.djhtml',
                         {'events': events,
+                        'form': form,
                         'event_cat': event_cat})
+         
     #this will only run if the if statement was not tripped
-    events = Event.objects.all()
+    events = Event.objects.all().values('id', 'name', 'short_description').order_by('name')
     return render(request, 'list_events.djhtml',
                     {'events': events,
+                    'form': form,
                     'event_cat': event_cat})
 
 @event_admin
