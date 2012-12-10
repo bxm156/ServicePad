@@ -56,6 +56,13 @@
 	</table>
 	{% endif %}
 </div>
+<div class="column precolborder span-7">
+	<h3>Availabilities</h3>
+		{% for avail in availability %}
+			<li><span class="quiet">{{ avail.start}} - {{ avail.end}}</span></li>
+		{% endfor %}
+		<br/>
+</div>
 <div class="column precolborder span-7 last">
 	<h3>Interest</h3>
 	<table>
