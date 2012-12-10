@@ -105,11 +105,14 @@ def volunteer_profile(request,user_id,user,profile):
     
     #Get past completed events
     """
-    SELECT `service_servicerecord`.`event_id`, `events_event`.`name`, `service_servicerecord`.`hours`, `service_servicerecord`.`review`
-    FROM `service_servicerecord` INNER JOIN `events_event` ON (`service_servicerecord`.`event_id` = `events_event`.`id`)
-    WHERE (`service_servicerecord`.`user_id` = 1  AND `service_servicerecord`.`end` <= 2012-12-10 01:56:02 )
+   SELECT `service_servicerecord`.`event_id`, `events_event`.`name`, `service_servicerecord`.`hours`,
+   `service_servicerecord`.`review` FROM `service_servicerecord`
+   INNER JOIN `events_event` ON (`service_servicerecord`.`event_id` = `events_event`.`id`)
+   WHERE (`service_servicerecord`.`attended` = True  AND `service_servicerecord`.`user_id` = 3 
+   AND `service_servicerecord`.`end` <= 2012-12-10 06:17:28 )
+
     """
-    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now()).values('event_id','event__name','hours','review')
+    past_events = ServiceRecord.objects.filter(user=user_id,end__lte=datetime.now(),attended=True).values('event_id','event__name','hours','review')
     print past_events.query.__str__()
     
     #Get a random review to show
@@ -129,9 +132,9 @@ def volunteer_profile(request,user_id,user,profile):
     #Get the total number of servie hours the user performed
     """
     SELECT SUM(`service_servicerecord`.`hours`) AS `total_hours`
-    FROM `service_servicerecord` WHERE `service_servicerecord`.`user_id` = 1
+    FROM `service_servicerecord` WHERE `service_servicerecord`.`user_id` = 1 AND `service_servicerecord`.`attended` = 1
     """
-    total_hours = ServiceRecord.objects.filter(user=user_id).aggregate(total_hours=Sum('hours'))
+    total_hours = ServiceRecord.objects.filter(user=user_id,attended=True).aggregate(total_hours=Sum('hours'))
     
 
     #Get the teams the user is involved in

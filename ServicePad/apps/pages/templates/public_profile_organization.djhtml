@@ -37,7 +37,10 @@
 			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.name }}</a></td><td>{{e.start_time}} - {{ e.end_time}}</td></tr>
 		{% endfor %}
 	</table>
+	{% else %}
+	None
 	{% endif %}
+	
 </div>
 <div class="column precolborder span-11 last">
 	<h3>Past Events</h3>
@@ -48,6 +51,8 @@
 			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.id}}/">{{ e.name }}</a></td><td>{{e.start_time}} - {{ e.end_time}}</td></tr>
 		{% endfor %}
 	</table>
+	{% else %}
+	None
 	{% endif %}
 </div>
 {% endblock content %}

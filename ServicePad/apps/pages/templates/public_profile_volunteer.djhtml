@@ -39,11 +39,15 @@
 <hr />
 <div class="column span-7">
 <h3>Teams</h3>
+{% if teams %}
 	<table>
 		{% for team in teams %}
 			<tr><td>{{ forloop.counter }}. <a href="/teams/{{team.id}}/">{{ team.name }}</a></td><td><span class="quiet">Since {{ team.teammembership__join_date }}</span></td></tr>
 		{% endfor %}
 	</table>	
+	{% else %}
+	None
+	{% endif %}
 </div>
 <div class="column precolborder span-8">
 	<h3>Recent Events</h3>
@@ -54,21 +58,29 @@
 			<tr><td>{{ forloop.counter }}. <a href="/events/{{e.event_id}}/">{{ e.event__name }}</a></td><td>{{e.hours}}</td></tr>
 		{% endfor %}
 	</table>
+	{% else %}
+	None
 	{% endif %}
 </div>
-<div class="column precolborder span-7">
+<div class="column precolborder span-7 last">
 	<h3>Availabilities</h3>
+		{% if not availability %}
+			None
+		{% endif %}
 		{% for avail in availability %}
 			<li><span class="quiet">{{ avail.start}} - {{ avail.end}}</span></li>
 		{% endfor %}
-		<br/>
-</div>
-<div class="column precolborder span-7 last">
+	<hr class="space">
+	<hr/>
 	<h3>Interest</h3>
+	{% if interests %}
 	<table>
 		{% for e in interests %}
 			<tr><td>{{ forloop.counter }}. {{ e.interest__name }} ({{ levels|at:e.level }})</td></tr>
 		{% endfor %}
 	</table>
+	{%else%}
+	None
+	{% endif %}
 </div>
 {% endblock content %}
