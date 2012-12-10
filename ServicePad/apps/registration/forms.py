@@ -64,11 +64,18 @@ class UserRegistrationForm(forms.Form):
         return new_user
 
 class OrganizationRegistrationForm(forms.Form):
-    business_name = forms.CharField(required=True,max_length=60)
     primary_contact_first_name = forms.CharField(required=True,max_length=30)
     primary_contact_last_name = forms.CharField(required=True,max_length=30)
     primary_contact_phone = forms.CharField(required=True,max_length=30)
     primary_contact_email = forms.EmailField(required=True,max_length=30)
+    business_name = forms.CharField(required=True,max_length=60)
+    business_address = forms.CharField(required=True,max_length=60)
+    business_city = forms.CharField(required=True,max_length=60)
+    business_state = forms.CharField(required=True,max_length=2)
+    business_zip = forms.CharField(required=True,max_length=11)
+    business_phone = forms.CharField(required=True,max_length=30)
+    
+    
     password = forms.CharField(widget=forms.PasswordInput,min_length=MIN_PASSWORD_LENGTH,max_length=MAX_PASSWORD_LENGTH)
     confirm_password = forms.CharField(widget=forms.PasswordInput,min_length=MIN_PASSWORD_LENGTH,max_length=MAX_PASSWORD_LENGTH)
     form_type = forms.CharField(widget=forms.HiddenInput(),initial=UserProfile.ACCOUNT_ORGANIZATION)
@@ -112,7 +119,12 @@ class OrganizationRegistrationForm(forms.Form):
 
         new_profile = UserProfile(user=new_user,
                                   account_type=UserProfile.ACCOUNT_ORGANIZATION,
-                                  organization_name=self.cleaned_data['business_name']
+                                  organization_name=self.cleaned_data['business_name'],
+                                  organization_address=self.cleaned_data['business_address'],
+                                  organization_city=self.cleaned_data['business_city'],
+                                  organization_state=self.cleaned_data['business_state'],
+                                  organization_postalzip=self.cleaned_data['business_zip'],
+                                  organization_phone=self.cleaned_data['business_phone']
                         )
             
         new_profile.save()
