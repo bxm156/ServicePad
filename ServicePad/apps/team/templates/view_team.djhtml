@@ -3,19 +3,44 @@
 {% block left %}
 	{% account_sidebar %}
 {% endblock left %}
+{% load account_tags %}
 {% block center %}
-<h3>{{ team.name }}</h3>
-{% if not in_team %}
-	Join Team
-{% endif %}
-<h4>Members</h4>
-{% if members %}
-	<ul>
+{% block title %} ServicePad - {{ team.name }} {% endblock title %}
+{% block content %}
+<div class="block">
+<div class="column span-16">
+	<div align="center">
+		<h2 style="margin-bottom:0em">{{ team.name}}</h2>
+	</div>
+	<h3>Members:</h3>
+	<ol>
 		{% for user in members %}
-		<li>{{ user.get_full_name }}</li>
+		<li><td> <a href= /users/{{user.id}}>{{user.get_full_name}} </a></td></li>
 		{% endfor %}
-	</ul>
-{% else %}
-	No Members
-{% endif %}
+	</ol>
+	<hr />
+
+</div>
+<div class="column precolborder span-7 last">
+	<h3>Admin</h3>
+	<table>
+		<tr><td align="left">{{ team.admin.get_full_name }}</td></tr>
+	</table>
+	{% if is_admin %}
+	<a href="/teams/{{ team.id }}/admin">Admin Page</a><br/>
+	{% endif %}
+	<a href="/account/messages/compose?to={{ team.admin_id }}">Message Admin</a><br/>
+</div>
+</div>
+<div class="block">
+<div class="column span-14">
+		<h3>Events Attended</h3>
+		<ol>
+			{% for event in events %}
+			<li><a href= /events/{{event.event_id}}> {{ event.event__name}}</a>: {{ event.hours}} Hours</li>
+			{% endfor %}
+		</ol>
+</div>	
+</div>
+{% endblock content %}
 {% endblock center %}

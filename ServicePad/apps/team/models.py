@@ -1,6 +1,6 @@
 from django.db import models
-
 from django.contrib.auth.models import User
+from ServicePad.apps.events.models import Event
 
 class Team(models.Model):
     name = models.CharField(max_length=30, blank=False)

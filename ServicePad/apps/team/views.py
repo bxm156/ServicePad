@@ -2,6 +2,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from ServicePad.apps.team.forms import NewTeamForm, InviteMember
 from ServicePad.apps.team.models import Team, TeamMembership
+from ServicePad.apps.service.models import ServiceRecord
+from django.db.models import Sum
 from ServicePad.apps.team.decorators import team_admin_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -23,14 +25,20 @@ def create(request):
     
 def view(request,id):
     team = get_object_or_404(Team, pk=id)
+    is_admin = (request.user.id == team.admin_id)
     members = team.members.filter(teammembership__invite=False)
     in_team = False
+    event_hours = ServiceRecord.objects.values('event_id').filter(team=team, attended=True).annotate(hours=Sum('hours')).order_by('-hours').values('event_id', 'event__name', 'hours')
+    print event_hours
+    print event_hours.query.__str__()
     if request.user in members:
         in_team = True
     context = {
         'team':team,
         'members':members,
-        'in_team':in_team
+        'in_team':in_team,
+        'events' :event_hours,
+        'is_admin' :is_admin
     }
     return render(request,'view_team.djhtml',context)
     
