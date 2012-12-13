@@ -13,7 +13,7 @@ class OrganizationProfileForm(forms.ModelForm):
     
     class Meta:
         model = UserProfile
-        exclude = ('major','graduating_class',)
+        exclude = ('gender','ethnicity','major','graduating_class',)
         
 class AvailabilityForm(forms.ModelForm):
     

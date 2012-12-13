@@ -60,6 +60,12 @@ def decline(request,team_id):
     membership = TeamMembership.objects.get(member=request.user, team=team)
     membership.delete()
     return redirect("/account/teams/")
+
+def remove (request, team_id, user_id):
+    TeamMembership.objects.get(team_id = team_id, member_id = user_id).delete()
+    return redirect("/teams/{}/admin/".format(team_id))
+    
+
     
 @team_admin_required
 def admin(request,team_id):
@@ -82,7 +88,7 @@ def admin(request,team_id):
                 invite_form.save()
                 context.update({'invited':invite_form.cleaned_data['member']})
     #Get Members
-    members = TeamMembership.objects.filter(team=team).values('member__username','member__first_name','member__last_name','invite')
+    members = TeamMembership.objects.filter(team=team).values('member__id','member__username','member__first_name','member__last_name','invite')
     invite_form = InviteMember() 
     context.update({
                     'team': team,

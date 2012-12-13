@@ -7,4 +7,5 @@ urlpatterns = patterns('ServicePad.apps.team.views',
     (r'^(?P<team_id>[0-9]+)/accept/$', 'accept'),
     (r'^(?P<team_id>[0-9]+)/decline/$', 'decline'),
     (r'^(?P<team_id>[0-9]+)/admin/$', 'admin'),
+    (r'^(?P<team_id>[0-9]+)/admin/remove/(?P<user_id>[0-9]+)/?$', 'remove'),
 )

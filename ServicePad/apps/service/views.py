@@ -16,8 +16,10 @@ def review(request,enrollment_id):
         review_form = ServiceReviewForm(request.POST.copy(),instance=record)
         if review_form.is_valid():
             review_form.save()
-            ServiceEnrollment.objects.get(pk=enrollment_id).delete()
-            return redirect("/events/{}/admin/".format(se['event_id']))
+            se = ServiceEnrollment.objects.get(pk=enrollment_id)
+            se.approved = 2
+            se.save()
+            return redirect("/events/{}/admin/".format(se.event_id))
     else:
         review_form = ServiceReviewForm(instance=record)
     context.update({'form':review_form})
